@@ -1,7 +1,7 @@
 <template lang="html">
   <el-container>
     <header class="header">
-      <div class="logo"><img src="/logo.svg"/></div>
+      <div class="logo"><img src="logo.svg"/></div>
       <div class="header-menu">
         <a class="info-link" href="#"> Buying </a>
         <a class="info-link" href="#"> Renting </a>
