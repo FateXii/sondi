@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="334" height="152" viewBox="0 0 334 152">
+  <g id="Logo" transform="translate(-181 -83)">
+    <g id="Tower">
+      <g id="Rectangle_15" data-name="Rectangle 15" transform="translate(261 114)" fill="none" stroke="#000" stroke-width="1">
+        <rect width="17" height="41" stroke="none"/>
+        <rect x="0.5" y="0.5" width="16" height="40" fill="none"/>
+      </g>
+      <g id="Rectangle_19" data-name="Rectangle 19" transform="translate(262 115)" fill="none" stroke="#777" stroke-width="1">
+        <rect width="15" height="39" stroke="none"/>
+        <rect x="0.5" y="0.5" width="14" height="38" fill="none"/>
+      </g>
+      <g id="Rectangle_16" data-name="Rectangle 16" transform="translate(255 128)" fill="none" stroke="#000" stroke-width="1">
+        <rect width="30" height="37" stroke="none"/>
+        <rect x="0.5" y="0.5" width="29" height="36" fill="none"/>
+      </g>
+      <g id="Rectangle_20" data-name="Rectangle 20" transform="translate(256 129)" fill="none" stroke="#777" stroke-width="1">
+        <rect width="28" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="27" height="34" fill="none"/>
+      </g>
+      <g id="Rectangle_17" data-name="Rectangle 17" transform="translate(248 140)" fill="none" stroke="#000" stroke-width="1">
+        <rect width="42" height="36" stroke="none"/>
+        <rect x="0.5" y="0.5" width="41" height="35" fill="none"/>
+      </g>
+      <g id="Rectangle_21" data-name="Rectangle 21" transform="translate(249 141)" fill="none" stroke="#777" stroke-width="1">
+        <rect width="40" height="34" stroke="none"/>
+        <rect x="0.5" y="0.5" width="39" height="33" fill="none"/>
+      </g>
+      <g id="Rectangle_18" data-name="Rectangle 18" transform="translate(242 150)" fill="none" stroke="#000" stroke-width="1">
+        <rect width="55" height="28" stroke="none"/>
+        <rect x="0.5" y="0.5" width="54" height="27" fill="none"/>
+      </g>
+      <g id="Rectangle_22" data-name="Rectangle 22" transform="translate(243 151)" fill="none" stroke="#777" stroke-width="1">
+        <rect width="53" height="26" stroke="none"/>
+        <rect x="0.5" y="0.5" width="52" height="25" fill="none"/>
+      </g>
+    </g>
+    <ellipse id="Mask" cx="36" cy="38.5" rx="36" ry="38.5" transform="translate(233 150)" fill="#fff"/>
+    <g id="Circles">
+      <g id="Ellipse_1" data-name="Ellipse 1" transform="translate(213 103)" fill="none" stroke="#f5e1bf" stroke-width="4">
+        <circle cx="56" cy="56" r="56" stroke="none"/>
+        <circle cx="56" cy="56" r="54" fill="none"/>
+      </g>
+      <g id="Ellipse_2" data-name="Ellipse 2" transform="translate(193 83)" fill="none" stroke="#f5e1bf" stroke-width="4">
+        <circle cx="76" cy="76" r="76" stroke="none"/>
+        <circle cx="76" cy="76" r="74" fill="none"/>
+      </g>
+    </g>
+    <g id="Text">
+      <text id="S" transform="translate(181 181)" font-size="65" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700"><tspan x="0" y="0">S</tspan></text>
+      <text id="D" transform="translate(400 182)" font-size="69" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700"><tspan x="0" y="0">D</tspan></text>
+      <text id="N" transform="translate(313 182)" font-size="69" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700"><tspan x="0" y="0">N</tspan></text>
+      <text id="I" transform="translate(487 182)" font-size="69" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700"><tspan x="0" y="0">I</tspan></text>
+    </g>
+    <text id="de_properties" data-name="de properties" transform="translate(368 210)" font-size="18" font-family="Arial-BoldMT, Arial" font-weight="700"><tspan x="0" y="0">DE PROPERTIES</tspan></text>
+  </g>
+</svg>
