@@ -42,7 +42,7 @@ export default defineComponent({
   text-decoration: none;
 }
 .hero {
-  background-image: url('/hero_background.jpg');
+  background-image: url('/sondi-frontend/hero_background.jpg');
   width:100%;
   height:50rem;
   background-position: -17.1rem 0;
