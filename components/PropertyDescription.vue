@@ -13,7 +13,7 @@
         <span class="property-description__details__specs__name">Farm House</span>
         <div class="property-description__details__specs__location">
           <img class="property-description__details__specs__location__icon"
-            src="/icons/location.svg"
+            src="/sondi-frontend/icons/location.svg"
             alt="location droppoint"/>
           <span class="property-description__details__specs__location__text">Centurion</span>
         </div>
@@ -36,10 +36,10 @@ export default defineComponent({
   setup() {
     return {
       imageList: [
-      "/images/pexels-curtis-adams-3288103.jpg",
-      "/images/pexels-curtis-adams-3288102.jpg",
-      "/images/pexels-curtis-adams-3288103.jpg",
-      "/images/pexels-curtis-adams-3288104.jpg",
+      "/sondi-frontend/images/pexels-curtis-adams-3288103.jpg",
+      "/sondi-frontend/images/pexels-curtis-adams-3288102.jpg",
+      "/sondi-frontend/images/pexels-curtis-adams-3288103.jpg",
+      "/sondi-frontend/images/pexels-curtis-adams-3288104.jpg",
       ],
       interested: false,
     }

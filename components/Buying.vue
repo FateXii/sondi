@@ -4,24 +4,24 @@
       <hr class="main-divider"/>
       <div class="buying__howto__icon_row">
         <Icon 
-          iconLocation="/icons/search.svg" 
+          iconLocation="/sondi-frontend/icons/search.svg" 
           altIconDescription="icon of newspaper search" 
           iconLabel="Look For A House"/>
         <Icon 
-          iconLocation="/icons/like.svg" 
+          iconLocation="/sondi-frontend/icons/like.svg" 
           altIconDescription="icon of thumbs up" 
           iconLabel="Find one you like"/>
         <Icon 
-          iconLocation="/icons/tick.svg" 
+          iconLocation="/sondi-frontend/icons/tick.svg" 
           altIconDescription="icon of a checkbox" 
           iconLabel="Mark It As Interesting"/>
         <Icon 
-          iconLocation="/icons/click.svg" 
+          iconLocation="/sondi-frontend/icons/click.svg" 
           altIconDescription="icon of a of finger clicking" 
           iconLabel="Click On It"/>
         <Icon 
-          iconLocation="/icons/mail.svg" 
-          altIconDescription="icon of an envelope" 
+          iconLocation="/sondi-frontend/icons/mail.svg"
+          altIconDescription="icon of an envelope"
           iconLabel="Request Viewings"/>
       </div>
       <hr class="main-divider"/>
@@ -33,7 +33,9 @@
         <PropertyDescription/>
       </div>
       <div class="properties__viewings">
-        <a class="properties__viewings__btn cta" href="/viewings">Reqeuest Viewings</a>
+        <NuxtLink to="/viewings" class="properties__viewings__btn cta">
+          Reqeuest Viewings
+        </NuxtLink>
       </div>
     </div>
   </div>
@@ -55,7 +57,9 @@ export default defineComponent({
   background-color: #F5E1BF;
   border-radius: 5rem;
 }
-
+.cta {
+  text-decoration: none;
+}
 .properties {
   display: flex;
   flex-flow: column nowrap;

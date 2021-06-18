@@ -1,13 +1,13 @@
 <template>
   <div class="card">
     <el-card :body-style="{ padding: '0px' }">
-      <img src="/images/pexels-pixabay-259588.jpg" class="card__image">
+      <img src="/sondi-frontend/images/pexels-pixabay-259588.jpg" class="card__image">
       <div class="card__description">
         <span class="card__description__price">R 3 259 999 </span>
         <span class="card__description__name">Farm House</span>
         <div class="card__description__location">
           <img class="card__description__location__icon" 
-            src="/icons/location.svg" 
+            src="/sondi-frontend/icons/location.svg" 
             alt="location droppoint"/>
           <span class="card__description__location__text">Centurion</span>
         </div>
@@ -15,13 +15,13 @@
           <div class="card__description__stats__container">
             <span class="card__description__stats__container__number">2</span>
             <img class="card__description__stats__container__icon" 
-              src="/icons/bed.svg" 
+              src="/sondi-frontend/icons/bed.svg" 
               alt="location droppoint"/>
           </div>
           <div class="card__description__stats__container">
             <span class="card__description__stats__container__number">2</span>
             <img class="card__description__stats__container__icon" 
-              src="/icons/bath.svg" 
+              src="/sondi-frontend/icons/bath.svg" 
               alt="location droppoint"/>
           </div>
         </div>
