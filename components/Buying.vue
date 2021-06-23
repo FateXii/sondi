@@ -1,5 +1,5 @@
 <template>
-  <div class="buying">
+  <div class="buying" :id="id" >
     <div class="buying__howto">
       <hr class="main-divider"/>
       <div class="buying__howto__icon_row">
@@ -27,10 +27,10 @@
       <hr class="main-divider"/>
     </div>
     <div class="properties">
-      <h1 class="properties__heading">Properties <span>For Sale</span></h1>
+      <h1 class="properties__heading">Properties <span>{{ isBuying? 'For Sale': 'For Rent' }}</span></h1>
       <div class="properties__showings">
-        <PropertyCarousel/>
-        <PropertyDescription/>
+        <PropertyCarousel @currentlyViewing="getProperty"/>
+        <PropertyDescription :showInterest="true" :property="property"/>
       </div>
       <div class="properties__viewings">
         <NuxtLink to="/viewings" class="properties__viewings__btn cta">
@@ -42,9 +42,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent  } from '@vue/composition-api'
+import { onMounted, watch, computed, defineComponent, ref  } from '@vue/composition-api'
+import { Property } from '../types'
 export default defineComponent({
-  setup() {
+  setup(_, ctx) {
+    const store = ctx.root.$store;
+    const property =ref(null)
+    onMounted(() => {
+      const initialProperty = computed(()=> store.getters['properties/getCurrentViewingProperty'])
+      if (initialProperty.value) {
+
+        property.value = initialProperty.value;
+      }
+    })
+    function getProperty(propertyIn:Property) {
+      property.value = propertyIn;
+    }
+    const isBuying = computed(() => store.state.properties.buying);
+    const id = ref('renting');
+    watch(isBuying, (buying) => {
+      console.log(`buying = ${buying}`)
+      id.value = buying ? 'buying' : 'renting'
+    })
+    return {
+      getProperty,
+      property,
+      id,
+      isBuying
+    }
   }
 })
 </script>

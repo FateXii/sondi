@@ -22,15 +22,6 @@ export default defineComponent({
       type: String,
       required: true,
     },
-
-  },
-  setup(props) {
-    const {iconLocation, altIconDescription, iconLabel} = props;
-    return {
-      iconLocation,
-      altIconDescription,
-      iconLabel,
-    }
   },
 })
 </script>

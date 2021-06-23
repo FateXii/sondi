@@ -1,11 +1,13 @@
 <template lang="html">
   <el-container>
     <header class="header">
-      <div class="logo"><img src="/sondi-frontend/logo.svg"/></div>
+      <NuxtLink to="/">
+        <div class="logo"><img src="/sondi-frontend/logo.svg"/></div>
+    </NuxtLink>
       <div class="header-menu">
-        <a class="info-link" href="#"> Buying </a>
-        <a class="info-link" href="#"> Renting </a>
-        <a class="cta" href="#"> Contact </a>
+        <NuxtLink class="info-link" to="/"> Buying </NuxtLink>
+        <NuxtLink class="info-link" to="/"> Renting </NuxtLink>
+        <NuxtLink class="cta" to="/"> Contact </NuxtLink>
       </div>
     </header>
   </el-container>

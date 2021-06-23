@@ -1,27 +1,33 @@
 <template>
   <div class="card">
     <el-card :body-style="{ padding: '0px' }">
-      <img src="/sondi-frontend/images/pexels-pixabay-259588.jpg" class="card__image">
+      <img :src='property.imageList.coverImage' class="card__image">
       <div class="card__description">
-        <span class="card__description__price">R 3 259 999 </span>
-        <span class="card__description__name">Farm House</span>
+        <span class="card__description__price">R {{ property.price}} </span>
+        <span class="card__description__name">{{property.name}}</span>
         <div class="card__description__location">
           <img class="card__description__location__icon" 
             src="/sondi-frontend/icons/location.svg" 
             alt="location droppoint"/>
-          <span class="card__description__location__text">Centurion</span>
+          <span class="card__description__location__text">{{property.location}}</span>
         </div>
-        <div class="card__description__stats">
+        <div class="card__description__stats" v-if="property.beds > 0">
           <div class="card__description__stats__container">
-            <span class="card__description__stats__container__number">2</span>
+            <span class="card__description__stats__container__number">{{property.beds}}</span>
             <img class="card__description__stats__container__icon" 
               src="/sondi-frontend/icons/bed.svg" 
               alt="location droppoint"/>
           </div>
-          <div class="card__description__stats__container">
-            <span class="card__description__stats__container__number">2</span>
+          <div class="card__description__stats__container" :v-if="property.baths > 0">
+            <span class="card__description__stats__container__number">{{property.baths}}</span>
             <img class="card__description__stats__container__icon" 
               src="/sondi-frontend/icons/bath.svg" 
+              alt="location droppoint"/>
+          </div>
+          <div class="card__description__stats__container" :v-if="property.garages > 0">
+            <span class="card__description__stats__container__number">{{property.garages}}</span>
+            <img class="card__description__stats__container__icon" 
+              src="/sondi-frontend/icons/gar.svg" 
               alt="location droppoint"/>
           </div>
         </div>
@@ -30,8 +36,23 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api'
+import { Property } from '../types'
+
+export default defineComponent({
+  props: {
+    property :{
+      type: Property,
+      required: true,
+    }
+  },
+  setup() {
+    
+  },
+})
 </script>
+
 
 <style<style lang="scss" scoped>
 

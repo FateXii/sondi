@@ -8,12 +8,16 @@
       <div class="hero__cta">
         <span class="hero__cta__label">Find out more about</span>
         <div class="hero__cta__buttons">
-          <a class="cta hero__cta__buttons__buying" href="#">
-            Buying
-          </a>
-          <a class="cta hero__cta__buttons__renting" href="#">
-            Renting
-          </a>
+          <NuxtLink to="#buying">
+            <span class="cta hero__cta__buttons__buying" 
+            v-on:click="setBuyingFlag(true)" >
+            Buying</span>
+          </NuxtLink>
+          <NuxtLink to="#renting">
+            <span class="cta hero__cta__buttons__renting" 
+            v-on:click="setBuyingFlag(false)" >
+            Renting </span>
+          </NuxtLink>
         </div>
       </div>
     </div>
@@ -22,10 +26,17 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
+import { SET_BUYING_FLAG } from '../store/mutation-types'
 
 export default defineComponent({
-  setup() {
-    
+  setup(_, ctx) {
+    const store = ctx.root.$store;
+    const setBuyingFlag = (flag:boolean) => {
+      store.commit(`properties/${SET_BUYING_FLAG}`, flag)
+    }
+    return {
+      setBuyingFlag
+    }
   },
 })
 </script>
@@ -90,6 +101,12 @@ export default defineComponent({
   line-height: 1em;
   border-radius: 6rem;
   padding:1.5rem 5.5rem;
+  text-decoration: none;
+}
+</style>
+
+<style>
+a {
   text-decoration: none;
 }
 </style>
