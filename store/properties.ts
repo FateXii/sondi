@@ -56,15 +56,14 @@ export const getters = {
 }
 
  export const actions = {
-  async [LOAD_PROPERTIES]({commit, state}) {
-    commit('clear');
-    const data = await fetch('/data.json');
+  async [LOAD_PROPERTIES](ctx: any) {
+    ctx.commit('clear');
+    const data = await fetch('data.json');
     data.json().then(jsonData => {
-      jsonData.properties.forEach(( property:Property ) => commit(ADD_PROPERTY, property));
+      jsonData.properties.forEach(( property:Property ) => ctx.commit(ADD_PROPERTY, property));
     }).finally(() => {
-      if (state.list.length > 0) {
-        console.log(state.list.length)
-        commit(SET_VIEWING, state.list[0].id)
+      if (ctx.state.list.length > 0) {
+        ctx.commit(SET_VIEWING, ctx.state.list[0].id)
       }
     })
     }

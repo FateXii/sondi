@@ -36,16 +36,16 @@
 </template>
 
 <script lang="ts">
-import { watch, toRefs, defineComponent, ref  } from '@vue/composition-api'
-import { Property } from '../types'
+import { watch, toRefs, defineComponent, PropType, ref  } from '@vue/composition-api'
 import { TOGGLE_INTERESTED } from '../store/mutation-types'
+import { Property } from '../types/index'
 export default defineComponent({
   props: {
     showInterest: Boolean,
     property: {
-      type: Property,
-      required:true
-    },
+        type: Object as PropType<Property>,
+        required: true
+    }
   },
   setup(props, ctx) {
     const store = ctx.root.$store;

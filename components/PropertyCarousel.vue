@@ -1,9 +1,9 @@
 <template>
   <el-carousel :autoplay="false" type="card" 
+      ref="currentlyViewing"
   >
     <el-carousel-item v-for="property in properties" :key="property.id" 
       :name="`${property.id}`"
-      ref="currentlyViewing"
     >
       <PropertyCard 
         :property="property"
@@ -13,10 +13,10 @@
 </template>
 
 <script lang="ts">
-import { watchEffect, defineComponent, ref, onMounted, computed } from '@vue/composition-api'
+import { watchEffect, defineComponent, ref, onMounted, computed  } from '@vue/composition-api'
 import {LOAD_PROPERTIES} from '../store/action-types'
-import { SET_VIEWING } from '../store/mutation-types'
-import { Property } from '../types'
+import { Carousel } from  'element-ui'
+/* import { Property } from '../types/index' */
 export default defineComponent({
   emits:['currentlyViewing'],
   setup(_, ctx) {
@@ -25,18 +25,17 @@ export default defineComponent({
     onMounted(()=> {
       getProperties()
     })
-    const properties = computed<Property[]>(()=> store.getters['properties/getProperties']);
-    const currentlyViewing = ref(null);
+    const properties = computed(()=> store.getters['properties/getProperties']);
+    const currentlyViewing = ref<InstanceType<typeof Carousel>>();
     watchEffect(() => {
       const current = currentlyViewing.value;
       if ( current ) {
-        const currentActive = current.find((card:any) => card.active);
+        const currentActive = current?.$data.items.find((card:any) => card.active);
         if (currentActive) {
-          console.log(`name: ${ currentActive.name }`)
           ctx.emit('currentlyViewing', properties
               .value
               .find(
-                (property:Property) => property.id === Number(currentActive.name)
+                (property: any) => property.id === Number(currentActive.name)
               ))
         }
       }

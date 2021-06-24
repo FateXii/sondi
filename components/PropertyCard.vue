@@ -37,13 +37,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api'
-import { Property } from '../types'
+import { defineComponent, PropType } from '@vue/composition-api'
+import { Property } from '../types/index'
 
 export default defineComponent({
   props: {
-    property :{
-      type: Property,
+    property: {
+      type: Object as PropType<Property>,
       required: true,
     }
   },

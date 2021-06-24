@@ -1,10 +1,10 @@
 
-export interface PropertyImage {
+ interface PropertyImage {
   coverImage: string,
   allImages?: string[],
 }
 
-export interface Property  {
+ interface Property  {
   id: number,
   location: string,
   description: string,
@@ -18,9 +18,15 @@ export interface Property  {
   interested: boolean
 }
 
-export interface State {
+ interface State {
   list: Property[],
   viewing: number,
   buying: boolean,
   interested: number[]
+}
+
+export {
+  Property,
+  State,
+  PropertyImage
 }

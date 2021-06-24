@@ -49,7 +49,7 @@ import { Property } from '../types'
 export default defineComponent({
   setup(_, ctx) {
     const store = ctx.root.$store;
-    const property =ref(null)
+    const property =ref<Property|null>(null)
     onMounted(() => {
       const initialProperty = computed(()=> store.getters['properties/getCurrentViewingProperty'])
       if (initialProperty.value) {
