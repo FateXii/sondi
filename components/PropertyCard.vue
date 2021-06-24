@@ -24,12 +24,12 @@
               src="/sondi-frontend/icons/bath.svg" 
               alt="location droppoint"/>
           </div>
-          <div class="card__description__stats__container" :v-if="property.garages > 0">
+          <!--          <div class="card__description__stats__container" :v-if="property.garages > 0">
             <span class="card__description__stats__container__number">{{property.garages}}</span>
             <img class="card__description__stats__container__icon" 
               src="/sondi-frontend/icons/gar.svg" 
               alt="location droppoint"/>
-          </div>
+          </div> -->
         </div>
       </div>
     </el-card>
