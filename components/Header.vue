@@ -5,8 +5,8 @@
         <div class="logo"><img src="/sondi-frontend/logo.svg"/></div>
     </NuxtLink>
       <div class="header-menu">
-        <NuxtLink class="info-link" to="/"> Buying </NuxtLink>
-        <NuxtLink class="info-link" to="/"> Renting </NuxtLink>
+        <a @click="toggleBuying" class="info-link" href="#buying"> Buying </a>
+        <a @click="toggleBuying" class="info-link" href="#renting"> Renting </a>
         <NuxtLink class="cta" to="/"> Contact </NuxtLink>
       </div>
     </header>
@@ -14,11 +14,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent, computed } from '@vue/composition-api'
+import { SET_BUYING_FLAG } from '../store/mutation-types'
 
 export default defineComponent({
-  setup() {
-    
+  setup(_, ctx) {
+    const store = ctx.root.$store;
+    const router = ctx.root.$router;
+    const isBuying = computed(() => store.state.properties.buying);
+    const toggleBuying =  () => {
+      console.log("PPPPPPP")
+      store.commit(`properties/${SET_BUYING_FLAG}`, !isBuying.value)
+    };
+    return {
+      toggleBuying
+    }
   },
 })
 </script>

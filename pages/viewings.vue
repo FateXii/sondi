@@ -15,7 +15,7 @@
             class="viewings__property-list__description"/>
         </div>
         <div class="viewings__form">
-          <el-form ref="form" :model="viewingForm" label-width="7.5rem" size="mini">
+          <el-form ref="form" :model="viewingForm" label-width="7.5rem" size="medium">
             <el-form-item label="Name">
               <el-col :span="11">
                 <el-input placeholder="First Name" v-model="viewingForm.name"></el-input>
@@ -31,6 +31,9 @@
             <el-form-item label="Please note:">
               <el-input v-model="viewingForm.note"></el-input>
             </el-form-item>
+            <el-form-item>
+              <el-button type="warning">Request Viewing</el-button>
+            </el-form-item>
           </el-form>
         </div>
       </div>
@@ -44,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, watch } from '@vue/composition-api'
+import { defineComponent, computed, reactive, ref, watch } from '@vue/composition-api'
 import { Property } from '../types'
 export default defineComponent({
   setup(_, ctx) {
@@ -56,12 +59,12 @@ export default defineComponent({
       .list
       .filter((property:Property) => property.interested)
     );
-    let viewingForm = {
+    const viewingForm = reactive({
       name:"",
       surname:"",
       email:"",
       notes:"",
-    }
+    })
     return {
       properties,
       viewingForm
@@ -88,7 +91,15 @@ export default defineComponent({
     }
   }
   &__form {
-    width: 40rem;
+    display: flex;
+    flex-flow: row nowrap;
+    padding:2rem 0;
+    align-items: center;
+    justify-content: center;
+    .el-form {
+      width: 40rem;
+    }
+
   }
 }
 </style>

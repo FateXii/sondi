@@ -28,6 +28,7 @@
     </div>
     <div class="properties">
       <h1 class="properties__heading">Properties <span>{{ isBuying? 'For Sale': 'For Rent' }}</span></h1>
+      <el-button @click="toggleBuying" type="warning">Go to {{isBuying ? 'rentals' : 'sales'}}</el-button>
       <div class="properties__showings">
         <PropertyCarousel @currentlyViewing="getProperty"/>
         <PropertyDescription :showInterest="true" :property="property"/>
@@ -43,6 +44,7 @@
 
 <script lang="ts">
 import { onMounted, watch, computed, defineComponent, ref  } from '@vue/composition-api'
+import { SET_BUYING_FLAG } from '../store/mutation-types'
 import { Property } from '../types'
 export default defineComponent({
   setup(_, ctx) {
@@ -61,14 +63,19 @@ export default defineComponent({
     const isBuying = computed(() => store.state.properties.buying);
     const id = ref('renting');
     watch(isBuying, (buying) => {
-      console.log(`buying = ${buying}`)
       id.value = buying ? 'buying' : 'renting'
     })
+    
+    const toggleBuying =  () => {
+      store.commit(`properties/${SET_BUYING_FLAG}`, !isBuying.value)
+      ctx.root.$router.push(`#${!isBuying.value? 'renting' : 'buying'}`)
+    };
     return {
       getProperty,
       property,
       id,
-      isBuying
+      isBuying,
+      toggleBuying
     }
   }
 })
@@ -92,6 +99,7 @@ export default defineComponent({
   margin-top: 5rem;
   &__heading {
     font-weight: 400;
+    margin-bottom: 1rem;
     span{
       font-weight: 600;
       position: relative;
