@@ -4,27 +4,27 @@
       <hr class="main-divider" />
       <div class="buying__howto__icon_row">
         <Icon
-          icon-location="/icons/search.svg"
+          :icon-location="require('../assets/icons/search.svg')"
           alt-icon-description="icon of newspaper search"
           icon-label="Look For A House"
         />
         <Icon
-          icon-location="/icons/like.svg"
+          :icon-location="require('../assets/icons/like.svg')"
           alt-icon-description="icon of thumbs up"
           icon-label="Find one you like"
         />
         <Icon
-          icon-location="/icons/tick.svg"
+          :icon-location="require('../assets/icons/tick.svg')"
           alt-icon-description="icon of a checkbox"
           icon-label="Mark It As Interesting"
         />
         <Icon
-          icon-location="/icons/click.svg"
+          :icon-location="require('../assets/icons/click.svg')"
           alt-icon-description="icon of a of finger clicking"
           icon-label="Click On It"
         />
         <Icon
-          icon-location="/icons/mail.svg"
+          :icon-location="require('../assets/icons/mail.svg')"
           alt-icon-description="icon of an envelope"
           icon-label="Request Viewings"
         />
@@ -98,6 +98,7 @@ export default defineComponent({
       id,
       isBuying,
       toggleBuying,
+      publicPath: computed(() => process.env.BASE_URL),
     };
   },
 });

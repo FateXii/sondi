@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
   <div class="property-description" v-if="property && property !== undefined">
     <el-carousel
       class="property-description__images"
@@ -26,7 +26,7 @@
         <div class="property-description__details__specs__location">
           <img
             class="property-description__details__specs__location__icon"
-            src="/icons/location.svg"
+            :src="require('../assets/icons/location.svg')"
             alt="location droppoint"
           />
           <span class="property-description__details__specs__location__text">{{

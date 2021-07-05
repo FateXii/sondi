@@ -2,14 +2,18 @@
   <el-container>
     <header class="header">
       <router-link to="/">
-        <img class="logo" src="/logo.svg" />
+        <img class="logo" :src="require(`../assets/logo.svg`)" />
       </router-link>
       <div class="header-menu">
         <span class="header-menu__icon" @click="drawer = true">
-          <img src="/icons/menu-icon.svg" alt="Hamburger Icon" />
+          <img
+            :src="require('../assets/icons/menu-icon.svg')"
+            alt="Hamburger Icon"
+          />
         </span>
         <el-drawer v-model="drawer" size="90%">
           <div class="header-menu__items drawer">
+            <router-link class="info-link" to="/admin"> admin </router-link>
             <a @click="setBuying(true)" class="info-link" href="#buying">
               Buying
             </a>
@@ -20,6 +24,7 @@
           </div>
         </el-drawer>
         <div class="header-menu__items lg">
+          <router-link class="info-link" to="/admin"> admin </router-link>
           <a @click="setBuying(true)" class="info-link" href="#buying">
             Buying
           </a>
@@ -34,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { useStore } from "vuex";
 import { OPEN_MODAL, SET_BUYING_FLAG } from "../store/mutation-types";
 
@@ -46,10 +51,12 @@ export default defineComponent({
       drawer.value = false;
       store.commit(SET_BUYING_FLAG, buying);
     };
+    const publicPath = computed(() => process.env.BASE_URL);
     return {
       setBuying,
       drawer,
       openDialog: () => store.commit(OPEN_MODAL),
+      publicPath,
     };
   },
 });

@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
   <div class="card">
     <el-card shadow="never" :body-style="{ padding: '0px' }">
       <img
@@ -10,8 +10,8 @@
         <span class="card__description__name">{{ property.name }}</span>
         <div class="card__description__location">
           <img
+            :src="require('../assets/icons/location.svg')"
             class="card__description__location__icon"
-            src="/icons/location.svg"
             alt="location droppoint"
           />
           <span class="card__description__location__text">{{
@@ -24,8 +24,8 @@
               property.beds
             }}</span>
             <img
+              :src="require('../assets/icons/bed.svg')"
               class="card__description__stats__container__icon"
-              src="/icons/bed.svg"
               alt="location droppoint"
             />
           </div>
@@ -37,8 +37,8 @@
               property.baths
             }}</span>
             <img
+              :src="require('../assets/icons/bath.svg')"
               class="card__description__stats__container__icon"
-              src="/icons/bath.svg"
               alt="location droppoint"
             />
           </div>
@@ -50,8 +50,8 @@
               property.garages
             }}</span>
             <img
+              :src="require('../assets/icons/gar.svg')"
               class="card__description__stats__container__icon"
-              src="/icons/gar.svg"
               alt="location droppoint"
             />
           </div>
@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, computed, PropType } from "vue";
 import { Property } from "@/interfaces";
 
 export default defineComponent({
@@ -73,7 +73,10 @@ export default defineComponent({
     },
   },
   setup() {
-    return {};
+    const publicPath = computed(() => process.env.BASE_URL);
+    return {
+      publicPath,
+    };
   },
 });
 </script>
