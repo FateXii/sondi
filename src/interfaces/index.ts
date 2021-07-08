@@ -1,6 +1,6 @@
 interface PropertyImage {
   coverImage: string;
-  allImages?: string[];
+  allImages: Array<string>;
 }
 
 interface Property {
@@ -23,6 +23,7 @@ interface State {
   buying: boolean;
   interested: number[];
   formModal: boolean;
+  propertyModal: boolean;
   authenticated: boolean;
 }
 

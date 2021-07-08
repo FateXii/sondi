@@ -96,8 +96,3 @@ export default defineComponent({
   }
 }
 </style>
-<style lang="scss" scoped>
-.el-dialog {
-  width: 100%;
-}
-</style>
