@@ -70,15 +70,11 @@
 </template>
 
 <script lang="ts">
-import {
-  watchEffect,
-  PropType,
-  defineComponent,
-  ref,
-  reactive,
-  toRef,
-} from "vue";
+import { watchEffect, defineComponent, ref, toRef, PropType } from "vue";
 import { Property } from "@/interfaces";
+import { UploadFile } from "@/types";
+
+import managePropertyModal from "@/composables/managePropertyModal";
 
 export default defineComponent({
   props: {
@@ -88,46 +84,20 @@ export default defineComponent({
   },
   setup(props) {
     const property = toRef(props, "property");
-    const current = reactive({
-      id: property.value?.id || Number(),
-      location: property.value?.location || "",
-      description: property.value?.description || "",
-      beds: property.value?.beds || Number(),
-      baths: property.value?.baths || Number(),
-      garages: property.value?.garages || Number(),
-      buying: property.value?.buying || Boolean(),
-      imageList: property.value?.imageList || {
-        coverImage: "",
-        allImages: Array<string>(),
-      },
-      price: property.value?.price || Number(),
-      name: property.value?.name || "",
-      interested: property.value?.interested || Boolean(),
-    });
-
+    const { makeProperty } = managePropertyModal();
+    const current = ref(makeProperty(property));
     watchEffect(() => {
-      current.id = property.value?.id || Number();
-      current.location = property.value?.location || "";
-      current.description = property.value?.description || "";
-      current.beds = property.value?.beds || Number();
-      current.baths = property.value?.baths || Number();
-      current.garages = property.value?.garages || Number();
-      current.buying = property.value?.buying || Boolean();
-      current.imageList.coverImage = property.value?.imageList.coverImage || "";
-      current.imageList.allImages = property.value?.imageList.allImages || [];
-      current.price = property.value?.price || Number();
-      current.name = property.value?.name || "";
-      current.interested = property.value?.interested || Boolean();
+      current.value = makeProperty(property);
       console.log(current);
     });
-    const handleRemove = (file: any) => {
+    const handleRemove = (file: UploadFile) => {
       console.log(file);
     };
-    const handlePictureCardPreview = (file: any) => {
-      dialogImageUrl.value = file.url;
+    const handlePictureCardPreview = (file: UploadFile) => {
+      dialogImageUrl.value = file.url || "";
       dialogVisible.value = true;
     };
-    const handleDownload = (file: any) => {
+    const handleDownload = (file: UploadFile) => {
       console.log(file);
     };
     const dialogImageUrl = ref("");
@@ -145,6 +115,7 @@ export default defineComponent({
   },
 });
 </script>
+
 <style lang="scss" scoped>
 .el-form {
   height: 70vh;

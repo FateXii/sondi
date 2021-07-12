@@ -36,9 +36,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from "vue";
-import PropertyManagement from "@/components/auth/PropertyManagement.vue";
-import PropertyModal from "@/components/auth/PropertyModal.vue";
+import { defineComponent, ref } from "vue";
+import PropertyManagement from "./PropertyManagement.vue";
+import PropertyModal from "./PropertyModal.vue";
 import managePropertyModal from "@/composables/managePropertyModal";
 import { Property } from "@/interfaces";
 
@@ -48,54 +48,20 @@ export default defineComponent({
     PropertyModal,
   },
   setup() {
+    const {
+      propertyModal,
+      openPropertyModal,
+      closePropertyModal,
+      makeProperty,
+    } = managePropertyModal();
+
     const openPropertyManagement = ref(false);
-    const property = reactive({
-      id: Number(),
-      location: "",
-      description: "",
-      beds: Number(),
-      baths: Number(),
-      garages: Number(),
-      buying: Boolean(),
-      imageList: {
-        coverImage: "",
-        allImages: Array<string>(),
-      },
-      price: Number(),
-      name: "",
-      interested: Boolean(),
-    });
-    const { propertyModal, openPropertyModal, closePropertyModal } =
-      managePropertyModal();
+    const property = ref(makeProperty(ref(undefined)));
     const addProperty = () => {
       openPropertyModal();
     };
     const updateProperty = (_property: Property) => {
-      const {
-        id,
-        name,
-        location,
-        description,
-        beds,
-        baths,
-        garages,
-        buying,
-        imageList,
-        price,
-        interested,
-      } = _property;
-      property.id = id;
-      property.name = name;
-      property.location = location;
-      property.description = description;
-      property.beds = beds;
-      property.baths = baths;
-      property.garages = garages;
-      property.buying = buying;
-      property.imageList.coverImage = imageList.coverImage;
-      property.imageList.allImages = imageList.allImages;
-      property.price = price;
-      property.interested = interested;
+      property.value = makeProperty(ref(_property));
       openPropertyModal();
     };
     return {

@@ -11,7 +11,7 @@
         :key="index"
       >
         <div class="property-description__images__image">
-          <img :src="require(`../assets/${image}`)" alt="image of house ____" />
+          <img :src="require(`@/assets/${image}`)" alt="image of house ____" />
         </div>
       </el-carousel-item>
     </el-carousel>
@@ -26,7 +26,7 @@
         <div class="property-description__details__specs__location">
           <img
             class="property-description__details__specs__location__icon"
-            :src="require('../assets/icons/location.svg')"
+            :src="require('@/assets/icons/location.svg')"
             alt="location droppoint"
           />
           <span class="property-description__details__specs__location__text">{{

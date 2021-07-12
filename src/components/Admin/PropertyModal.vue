@@ -8,8 +8,8 @@
       <PropertyManagementForm :property="property" />
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false"
+          <el-button @click="closePropertyModal()">Cancel</el-button>
+          <el-button type="primary" @click="closePropertyModal()"
             >Confirm</el-button
           >
         </span>

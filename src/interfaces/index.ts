@@ -1,3 +1,5 @@
+import { ElFile } from "./element-plus.d";
+
 interface PropertyImage {
   coverImage: string;
   allImages: Array<string>;
@@ -23,8 +25,7 @@ interface State {
   buying: boolean;
   interested: number[];
   formModal: boolean;
-  propertyModal: boolean;
   authenticated: boolean;
 }
 
-export { Property, State, PropertyImage };
+export { Property, State, PropertyImage, ElFile };

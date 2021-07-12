@@ -11,8 +11,6 @@ import {
   OPEN_MODAL,
   CLOSE_MODAL,
   SET_AUTH,
-  OPEN_PROPERTY_MODAL,
-  CLOSE_PROPERTY_MODAL,
 } from "./mutation-types";
 
 function timeout(ms: number) {
@@ -26,7 +24,6 @@ export default createStore({
     buying: true,
     formModal: false,
     authenticated: false,
-    propertyModal: false,
   }),
   mutations: {
     [ADD_PROPERTY](state: State, property: Property) {
@@ -57,12 +54,6 @@ export default createStore({
     },
     [OPEN_MODAL](state: State) {
       state.formModal = true;
-    },
-    [OPEN_PROPERTY_MODAL](state: State) {
-      state.propertyModal = true;
-    },
-    [CLOSE_PROPERTY_MODAL](state: State) {
-      state.propertyModal = false;
     },
     clear(state: State) {
       state.list = [];

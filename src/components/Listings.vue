@@ -1,35 +1,7 @@
-<template>
+<template lang="html">
   <div class="buying" :id="id">
     <div class="buying__howto">
-      <hr class="main-divider" />
-      <div class="buying__howto__icon_row">
-        <Icon
-          :icon-location="require('../assets/icons/search.svg')"
-          alt-icon-description="icon of newspaper search"
-          icon-label="Look For A House"
-        />
-        <Icon
-          :icon-location="require('../assets/icons/like.svg')"
-          alt-icon-description="icon of thumbs up"
-          icon-label="Find one you like"
-        />
-        <Icon
-          :icon-location="require('../assets/icons/tick.svg')"
-          alt-icon-description="icon of a checkbox"
-          icon-label="Mark It As Interesting"
-        />
-        <Icon
-          :icon-location="require('../assets/icons/click.svg')"
-          alt-icon-description="icon of a of finger clicking"
-          icon-label="Click On It"
-        />
-        <Icon
-          :icon-location="require('../assets/icons/mail.svg')"
-          alt-icon-description="icon of an envelope"
-          icon-label="Request Viewings"
-        />
-      </div>
-      <hr class="main-divider" />
+      <IconRow />
     </div>
     <div class="properties">
       <h1 class="properties__heading">
@@ -54,16 +26,16 @@ import { SET_BUYING_FLAG, OPEN_MODAL } from "@/store/mutation-types";
 import { Property } from "@/interfaces";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import PropertyCarousel from "./PropertyCarousel.vue";
-import PropertyDescription from "./PropertyDescription.vue";
+import PropertyCarousel from "./Listings/PropertyCarousel.vue";
+import PropertyDescription from "./Listings/PropertyDescription.vue";
 import FormDialog from "./FormDialog.vue";
-import Icon from "./Icon.vue";
+import IconRow from "./Listings/IconRow.vue";
 export default defineComponent({
   components: {
     PropertyCarousel,
     PropertyDescription,
     FormDialog,
-    Icon,
+    IconRow,
   },
   setup() {
     const store = useStore();
@@ -105,13 +77,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.main-divider {
-  width: 100%;
-  height: 1rem;
-  border: none;
-  background-color: #f5e1bf;
-  border-radius: 5rem;
-}
 .cta {
   text-decoration: none;
 }
@@ -151,13 +116,5 @@ export default defineComponent({
 
 .buying {
   margin: 3rem 0;
-  &__howto {
-    &__icon_row {
-      display: flex;
-      flex-flow: row wrap;
-      justify-content: space-between;
-      padding: 3rem 2rem;
-    }
-  }
 }
 </style>

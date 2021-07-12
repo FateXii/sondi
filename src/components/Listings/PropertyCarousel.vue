@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
   <div class="property-carousel">
     <el-carousel
       height="22.5rem"
@@ -21,7 +21,7 @@
 import { watchEffect, defineComponent, ref, computed } from "vue";
 import { useStore } from "vuex";
 import { ElCarousel } from "element-plus";
-import PropertyCard from "./PropertyCard.vue";
+import PropertyCard from "@/components/PropertyCard.vue";
 import { Property } from "@/interfaces";
 export default defineComponent({
   components: {

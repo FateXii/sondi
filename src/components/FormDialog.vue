@@ -35,7 +35,7 @@ import { useStore } from "vuex";
 export default defineComponent({
   setup() {
     const store = useStore();
-    const dialog = ref<boolean>();
+    const dialog = ref(false);
     watch(
       computed(() => store.state.formModal),
       (value) => {
