@@ -1,17 +1,22 @@
 <template lang="html">
   <LoginForm v-if="!authenticated" />
-  <AdminPanel v-else />
+  <div v-else>
+    <Header />
+    <AdminPanel />
+  </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
-import LoginForm from "@/components/auth/LoginForm.vue";
-import AdminPanel from "@/components/auth/AdminPanel.vue";
+import Header from "@/components/Header.vue";
+import LoginForm from "@/components/Admin/LoginForm.vue";
+import AdminPanel from "@/components/Admin/AdminPanel.vue";
 export default defineComponent({
   components: {
     LoginForm,
     AdminPanel,
+    Header,
   },
   setup() {
     const store = useStore();

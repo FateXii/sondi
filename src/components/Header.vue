@@ -4,7 +4,7 @@
       <router-link to="/">
         <img class="logo" :src="require(`../assets/logo.svg`)" />
       </router-link>
-      <div class="header-menu">
+      <div class="header-menu" v-if="!admin">
         <span class="header-menu__icon" @click="drawer = true">
           <img
             :src="require('../assets/icons/menu-icon.svg')"
@@ -51,12 +51,12 @@ export default defineComponent({
       drawer.value = false;
       store.commit(SET_BUYING_FLAG, buying);
     };
-    const publicPath = computed(() => process.env.BASE_URL);
+    const admin = computed(() => store.state.authenticated);
     return {
       setBuying,
       drawer,
       openDialog: () => store.commit(OPEN_MODAL),
-      publicPath,
+      admin,
     };
   },
 });
