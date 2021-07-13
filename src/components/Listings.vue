@@ -14,15 +14,17 @@
         <PropertyCarousel @currentlyViewing="getProperty" />
         <PropertyDescription :showInterest="true" :property="property" />
       </div>
-      <el-button type="warning" @click="openDialog"> I'm interested </el-button>
+      <el-button type="warning" @click="openInterestContactModal">
+        I'm interested
+      </el-button>
     </div>
-    <FormDialog />
+    <FormDialog property="property" />
   </div>
 </template>
 
 <script lang="ts">
 import { onMounted, watch, computed, defineComponent, ref } from "vue";
-import { SET_BUYING_FLAG, OPEN_MODAL } from "@/store/mutation-types";
+import { SET_BUYING_FLAG } from "@/store/mutation-types";
 import { Property } from "@/interfaces";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
@@ -30,6 +32,7 @@ import PropertyCarousel from "./Listings/PropertyCarousel.vue";
 import PropertyDescription from "./Listings/PropertyDescription.vue";
 import FormDialog from "./FormDialog.vue";
 import IconRow from "./Listings/IconRow.vue";
+import { manageContactModal } from "@/composables/manageContactModal";
 export default defineComponent({
   components: {
     PropertyCarousel,
@@ -38,6 +41,7 @@ export default defineComponent({
     IconRow,
   },
   setup() {
+    const { interested, openContactModal } = manageContactModal();
     const store = useStore();
     const router = useRouter();
     const property = ref<Property>();
@@ -62,9 +66,13 @@ export default defineComponent({
       store.commit(SET_BUYING_FLAG, !isBuying.value);
       router.push(`#${!isBuying.value ? "renting" : "buying"}`);
     };
-    const openDialog = () => store.commit(OPEN_MODAL);
+    const openInterestContactModal = () => {
+      interested.value = true;
+      openContactModal();
+    };
     return {
-      openDialog,
+      openInterestContactModal,
+      openContactModal,
       getProperty,
       property,
       id,

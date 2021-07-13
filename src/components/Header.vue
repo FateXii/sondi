@@ -20,7 +20,9 @@
             <a @click="setBuying(false)" class="info-link" href="#renting">
               Renting
             </a>
-            <el-button type="warning" @click="openDialog"> Contact </el-button>
+            <el-button type="warning" @click="openContactModal">
+              Contact
+            </el-button>
           </div>
         </el-drawer>
         <div class="header-menu__items lg">
@@ -31,7 +33,9 @@
           <a @click="setBuying(false)" class="info-link" href="#renting">
             Renting
           </a>
-          <el-button type="warning" @click="openDialog"> Contact </el-button>
+          <el-button type="warning" @click="openContactModal">
+            Contact
+          </el-button>
         </div>
       </div>
     </header>
@@ -40,11 +44,17 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
+import { manageContactModal } from "@/composables/manageContactModal";
 import { useStore } from "vuex";
-import { OPEN_MODAL, SET_BUYING_FLAG } from "../store/mutation-types";
+import { SET_BUYING_FLAG } from "../store/mutation-types";
 
 export default defineComponent({
   setup() {
+    const { interested, openContactModal } = manageContactModal();
+    const openNomalContactModal = () => {
+      interested.value = false;
+      openContactModal();
+    };
     const store = useStore();
     const drawer = ref(false);
     const setBuying = (buying: boolean) => {
@@ -55,7 +65,7 @@ export default defineComponent({
     return {
       setBuying,
       drawer,
-      openDialog: () => store.commit(OPEN_MODAL),
+      openContactModal,
       admin,
     };
   },
@@ -86,6 +96,15 @@ export default defineComponent({
     }
   }
   padding: 1rem 2rem;
+  @media (min-width: 767px) {
+    padding: 0 8.75rem;
+    font-size: 1.5em;
+    .logo {
+      img {
+        width: 100%;
+      }
+    }
+  }
 }
 .header-menu {
   &__icon {
@@ -104,18 +123,6 @@ export default defineComponent({
 }
 
 @media (min-width: 767px) {
-  .header {
-    font-size: 1.5em;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .logo {
-      img {
-        width: 100%;
-      }
-    }
-  }
   .header-menu {
     .lg {
       display: flex;

@@ -3,6 +3,4 @@ export const REMOVE_PROPERTY = "REMOVE_PROPERTY";
 export const SET_VIEWING = "SET_VIEWING";
 export const SET_BUYING_FLAG = "SET_BUYING_FLAG";
 export const TOGGLE_INTERESTED = "TOGGLE_INTERESTED";
-export const OPEN_MODAL = "OPEN_MODAL";
-export const CLOSE_MODAL = "CLOSE_MODAL";
 export const SET_AUTH = "SET_AUTH";

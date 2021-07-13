@@ -21,10 +21,10 @@ interface Property {
 
 interface State {
   list: Property[];
+  properties: Property[];
   viewing: number;
   buying: boolean;
   interested: number[];
-  formModal: boolean;
   authenticated: boolean;
 }
 

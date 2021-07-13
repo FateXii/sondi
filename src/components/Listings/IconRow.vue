@@ -57,6 +57,6 @@ export default defineComponent({
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  padding: 3rem 2rem;
+  padding: 3rem 8.375rem;
 }
 </style>

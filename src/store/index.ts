@@ -1,4 +1,4 @@
-import { createStore, createLogger } from "vuex";
+import { createStore, createLogger, ActionContext } from "vuex";
 import { State, Property } from "../interfaces";
 import { LOAD_PROPERTIES, AUTH } from "./action-types";
 
@@ -8,8 +8,6 @@ import {
   REMOVE_PROPERTY,
   SET_BUYING_FLAG,
   TOGGLE_INTERESTED,
-  OPEN_MODAL,
-  CLOSE_MODAL,
   SET_AUTH,
 } from "./mutation-types";
 
@@ -19,24 +17,27 @@ function timeout(ms: number) {
 export default createStore({
   state: (): State => ({
     list: [],
+    properties: [],
     viewing: -1,
     interested: [],
     buying: true,
-    formModal: false,
     authenticated: false,
   }),
   mutations: {
     [ADD_PROPERTY](state: State, property: Property) {
-      state.list.push(property);
+      state.properties.push(property);
     },
     [REMOVE_PROPERTY](state: State, property: Property) {
-      state.list.splice(state.list.indexOf(property), 1);
+      state.properties.splice(state.list.indexOf(property), 1);
     },
     [SET_VIEWING](state: State, id: number) {
       state.viewing = id;
     },
     [SET_BUYING_FLAG](state: State, flag: boolean) {
       state.buying = flag;
+      state.list = state.properties.filter(
+        (property: Property) => property.buying == flag
+      );
     },
     [SET_AUTH](state: State, flag: boolean) {
       state.authenticated = flag;
@@ -49,12 +50,6 @@ export default createStore({
         property.interested = !property.interested;
       }
     },
-    [CLOSE_MODAL](state: State) {
-      state.formModal = false;
-    },
-    [OPEN_MODAL](state: State) {
-      state.formModal = true;
-    },
     clear(state: State) {
       state.list = [];
       state.viewing = -1;
@@ -64,7 +59,7 @@ export default createStore({
   },
   getters: {
     getPropertyById: (state: State) => (id: number) => {
-      return state.list.find((property) => property.id === id);
+      return state.properties.find((property) => property.id === id);
     },
     getCurrentViewingProperty: (state: State) => {
       if (state.viewing >= 0) {
@@ -74,15 +69,13 @@ export default createStore({
       }
     },
     getProperties: (state: State) => () => {
-      return state.list.filter(
-        (property: Property) => property.buying === state.buying
-      );
+      return state.list;
     },
     isBuying: (state: State) => () => state.buying,
   },
   actions: {
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-    async [LOAD_PROPERTIES](ctx: any) {
+    async [LOAD_PROPERTIES](ctx: ActionContext<State, State>) {
       ctx.commit("clear");
       const data = await fetch("data.json");
       data
@@ -93,12 +86,15 @@ export default createStore({
           );
         })
         .then(() => {
+          ctx.state.list = ctx.state.properties.filter(
+            (property: Property) => property.buying === ctx.state.buying
+          );
           if (ctx.state.list.length > 0) {
             ctx.commit(SET_VIEWING, ctx.state.list[0].id);
           }
         });
     },
-    async [AUTH](ctx: any, login: boolean) {
+    async [AUTH](ctx: ActionContext<State, State>, login: boolean) {
       await timeout(1000);
       ctx.commit(SET_AUTH, login);
     },
