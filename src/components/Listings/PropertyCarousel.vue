@@ -7,7 +7,7 @@
       ref="currentlyViewing"
     >
       <el-carousel-item
-        v-for="property in properties()"
+        v-for="property in properties"
         :key="property.id"
         :name="`${property.id}`"
       >
@@ -30,26 +30,24 @@ export default defineComponent({
   emits: ["currentlyViewing"],
   setup(_, { emit }) {
     const store = useStore();
-    const properties = computed(() => store.getters.getProperties);
+    const properties = computed(() => store.state.list);
     const currentlyViewing = ref<InstanceType<typeof ElCarousel>>();
-
     watchEffect(() => {
       const current = currentlyViewing.value;
       const items = current?.items;
-      if (current?.data.activeIndex === -1) {
-        if (items && items[0]) {
-          currentlyViewing.value?.next();
+      let activeItem = items?.find((item) => item.active);
+      if (!activeItem) {
+        if (items && items?.length > 0) {
+          currentlyViewing.value?.setActiveItem(items[0].name);
+          activeItem = items[0];
         }
       }
-      const currentActive = current?.items.find((card) => card.active);
-      if (currentActive) {
+      if (activeItem) {
         emit(
           "currentlyViewing",
-          properties
-            .value()
-            .find(
-              (property: Property) => property.id === Number(currentActive.name)
-            )
+          properties.value.find(
+            (property: Property) => property.id === Number(activeItem?.name)
+          )
         );
       }
     });
