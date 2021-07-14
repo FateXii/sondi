@@ -38,7 +38,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .el-container {
-  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   .el-form {
     width: 100vw;
     box-shadow: 1px 1px 10px 0px #e6a23c, -1px -1px 10px 0px #e6a23c;

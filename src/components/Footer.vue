@@ -1,11 +1,16 @@
-<template>
-  <el-footer height="20vh">
+<template lang="html">
+  <el-footer height="fit-content">
     <el-container class="footer">
-      <div class="footer__address">
-        <span class="footer__address__line">312 Susan Street</span>
-        <span class="footer__address__line">Wierda Park</span>
-        <span class="footer__address__line">Centurion</span>
-        <span class="footer__address__line">0157</span>
+      <div class="container">
+        <span class="footer__logo">
+          <img :src="require(`@/assets/logo-light.svg`)" alt="light logo" />
+        </span>
+        <div class="footer__address">
+          <span class="footer__address__line">312 Susan Street</span>
+          <span class="footer__address__line">Wierda Park</span>
+          <span class="footer__address__line">Centurion</span>
+          <span class="footer__address__line">0157</span>
+        </div>
       </div>
     </el-container>
   </el-footer>
@@ -15,16 +20,45 @@
 .el-footer {
   padding: 0;
   max-height: 20rem;
+  background-color: #545c64;
+  color: #fff;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
 }
 .footer {
   display: flex;
   flex-flow: column nowrap;
-  background-color: #c8c8cc;
-  padding: 1rem 8.375rem;
+  align-items: center;
+  padding: 2rem 8.375rem;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   @media screen and (min-width: 767px) {
     flex-flow: row nowrap;
+    max-width: 67.5rem;
+  }
+  .container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    @media screen and (min-width: 767px) {
+      flex-flow: row nowrap;
+      align-items: center;
+      width: 100%;
+    }
+  }
+  &__logo {
+    width: 10rem;
+    margin: 1.5rem 0;
+    @media screen and (min-width: 767px) {
+      margin: 0;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
   &__address {
     display: flex;
