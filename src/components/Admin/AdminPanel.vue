@@ -1,51 +1,77 @@
 <template lang="html">
+  <el-menu
+    default-active="1"
+    class="el-menu-vertical-demo"
+    background-color="#545c64"
+    text-color="#fff"
+    active-text-color="#ffd04b"
+    mode="horizontal"
+  >
+    <el-menu-item index="1">
+      <i class="el-icon-user"></i>
+      <span>Manage Users</span>
+    </el-menu-item>
+    <el-menu-item index="2">
+      <i class="el-icon-s-custom"></i>
+      <span>Manage Tenants</span>
+    </el-menu-item>
+    <el-submenu index="3">
+      <template #title>
+        <i class="el-icon-house"></i>
+        <span>Manage Properties</span>
+      </template>
+      <el-submenu index="3-1">
+        <template #title>
+          <i class="el-icon-plus"></i>
+          <span>New Property</span>
+        </template>
+        <el-menu-item index="3-1-1" @click="openNewPropertyFormModal">
+          Sectional
+        </el-menu-item>
+        <el-menu-item index="3-1-2" @click="openPropertyModal">
+          Stand Alone
+        </el-menu-item>
+      </el-submenu>
+      <el-submenu index="3-2">
+        <template #title>
+          <i class="el-icon-view"></i>
+          <span>View Properties</span>
+        </template>
+        <el-menu-item index="3-2-1" @click="openPropertyListModal">
+          View All Properties
+        </el-menu-item>
+        <el-menu-item index="3-2-2"> View Sectional Properties</el-menu-item>
+        <el-menu-item index="3-2-3"> View Stand Alone Properties</el-menu-item>
+      </el-submenu>
+    </el-submenu>
+  </el-menu>
   <el-container class="admin-container">
     <el-main>
-      <el-container class="admin">
-        <h1 class="admin__heading">Admin Panel</h1>
-        <div class="admin__button-box">
-          <div
-            class="admin__button-box__button"
-            @click="openPropertyManagement = !openPropertyManagement"
-          >
-            <i class="el-icon-house admin__button-box__button__icon"></i>
-            <span class="admin__button-box__button__text">
-              Manage Properties
-            </span>
-          </div>
-          <div class="admin__button-box__button">
-            <i class="el-icon-user admin__button-box__button__icon"></i>
-            <span class="admin__button-box__button__text"> Manage Users </span>
-          </div>
-          <div class="admin__button-box__button">
-            <i class="el-icon-s-custom admin__button-box__button__icon"></i>
-            <span class="admin__button-box__button__text">
-              Manage Tenants
-            </span>
-          </div>
-        </div>
-      </el-container>
       <PropertyManagement
         @newProperty="addProperty"
         @editProperty="updateProperty"
-        v-if="openPropertyManagement"
       />
     </el-main>
     <PropertyModal :property="property" />
+    <NewPropertyForm />
   </el-container>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import PropertyManagement from "./PropertyManagement.vue";
+import NewPropertyForm from "./NewPropertyForm.vue";
 import PropertyModal from "./PropertyModal.vue";
 import managePropertyModal from "@/composables/managePropertyModal";
+import { managePropertyListModal } from "@/composables/managePropertyListModal";
+import { manageNewPropertyFormModal } from "@/composables/manageNewPropertyFormModal";
 import { Property } from "@/interfaces";
 
 export default defineComponent({
   components: {
     PropertyManagement,
     PropertyModal,
+    NewPropertyForm,
   },
   setup() {
     const {
@@ -54,6 +80,9 @@ export default defineComponent({
       closePropertyModal,
       makeProperty,
     } = managePropertyModal();
+
+    const { openPropertyListModal } = managePropertyListModal();
+    const { openNewPropertyFormModal } = manageNewPropertyFormModal();
 
     const openPropertyManagement = ref(false);
     const property = ref(makeProperty(ref(undefined)));
@@ -66,10 +95,12 @@ export default defineComponent({
     };
     return {
       openPropertyManagement,
+      openNewPropertyFormModal,
       addProperty,
       propertyModal,
       openPropertyModal,
       closePropertyModal,
+      openPropertyListModal,
       property,
       updateProperty,
     };
@@ -90,6 +121,9 @@ export default defineComponent({
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
+    @media (min-width: 767px) {
+      flex-flow: row nowrap;
+    }
     &__button {
       display: flex;
       flex-flow: column nowrap;
@@ -114,9 +148,6 @@ export default defineComponent({
           margin: 1rem;
         }
       }
-    }
-    @media (min-width: 767px) {
-      flex-flow: row nowrap;
     }
   }
   @media (min-width: 767px) {

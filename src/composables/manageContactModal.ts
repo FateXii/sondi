@@ -11,6 +11,7 @@ interface IContactModalManager {
   dialog: Ref<boolean>;
   formInfo: IContactInfo;
   openContactModal: () => void;
+  clearContactForm: () => void;
   closeContactModal: () => void;
 }
 
@@ -24,6 +25,12 @@ const formInfo = reactive({
 });
 
 export const manageContactModal = (): IContactModalManager => {
+  const clearContactForm = (): void => {
+    formInfo.name = "";
+    formInfo.email = "";
+    formInfo.message = "";
+    formInfo.number = "";
+  };
   const openContactModal = (): void => {
     dialog.value = true;
   };
@@ -40,6 +47,7 @@ export const manageContactModal = (): IContactModalManager => {
   return {
     dialog,
     interested,
+    clearContactForm,
     formInfo,
     openContactModal,
     closeContactModal,

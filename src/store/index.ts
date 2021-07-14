@@ -52,6 +52,7 @@ export default createStore({
     },
     clear(state: State) {
       state.list = [];
+      state.properties = [];
       state.viewing = -1;
       state.interested = [];
       state.buying = false;

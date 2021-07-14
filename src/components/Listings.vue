@@ -18,7 +18,7 @@
         I'm interested
       </el-button>
     </div>
-    <FormDialog property="property" />
+    <FormDialog :property="property" />
   </div>
 </template>
 

@@ -20,7 +20,7 @@
             <a @click="setBuying(false)" class="info-link" href="#renting">
               Renting
             </a>
-            <el-button type="warning" @click="openContactModal">
+            <el-button type="warning" @click="openNormalContactModal">
               Contact
             </el-button>
           </div>
@@ -33,7 +33,7 @@
           <a @click="setBuying(false)" class="info-link" href="#renting">
             Renting
           </a>
-          <el-button type="warning" @click="openContactModal">
+          <el-button type="warning" @click="openNormalContactModal">
             Contact
           </el-button>
         </div>
@@ -50,8 +50,10 @@ import { SET_BUYING_FLAG } from "../store/mutation-types";
 
 export default defineComponent({
   setup() {
-    const { interested, openContactModal } = manageContactModal();
-    const openNomalContactModal = () => {
+    const { interested, clearContactForm, openContactModal } =
+      manageContactModal();
+    const openNormalContactModal = () => {
+      clearContactForm();
       interested.value = false;
       openContactModal();
     };
@@ -65,7 +67,7 @@ export default defineComponent({
     return {
       setBuying,
       drawer,
-      openContactModal,
+      openNormalContactModal,
       admin,
     };
   },
@@ -97,7 +99,7 @@ export default defineComponent({
   }
   padding: 1rem 2rem;
   @media (min-width: 767px) {
-    padding: 0 8.75rem;
+    padding: 1rem 8.75rem;
     font-size: 1.5em;
     .logo {
       img {

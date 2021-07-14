@@ -1,53 +1,58 @@
 <template lang="html">
-  <el-container class="property-management">
-    <h1>Manage Properties</h1>
-    <el-button @click="newProperty" type="primary" icon="el-icon-plus"
-      >Add New</el-button
-    >
-    <div
-      class="property-management__property-list"
-      v-if="properties.length > 0"
-    >
+  <el-dialog
+    v-model="propertyListModal"
+    :width="screenWidth < 767 ? '90vw' : '50vw'"
+  >
+    <el-container class="property-management">
+      <h1>Manage Properties</h1>
       <div
-        class="property-management__property-list__item"
-        v-for="property in properties"
-        :key="property.id"
+        class="property-management__property-list"
+        v-if="properties.length > 0"
       >
-        <h2>{{ property.name }}</h2>
-        <PropertyCard
-          class="property-management__property-list__item__card"
-          :property="property"
-        />
-        <el-button-group
-          class="property-management__property-list__item__button-row"
+        <div
+          class="property-management__property-list__item"
+          v-for="property in properties"
+          :key="property.id"
         >
-          <el-popconfirm
-            confirmButtonText="OK"
-            cancelButtonText="No, Thanks"
-            icon="el-icon-info"
-            iconColor="red"
-            title="Are you sure to delete this?"
+          <h2>{{ property.name }}</h2>
+          <PropertyCard
+            class="property-management__property-list__item__card"
+            :property="property"
+          />
+          <el-button-group
+            class="property-management__property-list__item__button-row"
           >
-            <template #reference>
-              <el-button type="danger" icon="el-icon-delete"></el-button>
-            </template>
-          </el-popconfirm>
-          <el-button
-            @click="editProperty(property)"
-            type="primary"
-            icon="el-icon-edit"
-          ></el-button>
-        </el-button-group>
+            <el-popconfirm
+              confirmButtonText="OK"
+              cancelButtonText="No, Thanks"
+              icon="el-icon-info"
+              iconColor="red"
+              title="Are you sure to delete this?"
+            >
+              <template #reference>
+                <el-button type="danger" icon="el-icon-delete"></el-button>
+              </template>
+            </el-popconfirm>
+            <el-button
+              @click="editProperty(property)"
+              type="primary"
+              icon="el-icon-edit"
+            ></el-button>
+          </el-button-group>
+        </div>
       </div>
-    </div>
-  </el-container>
+    </el-container>
+  </el-dialog>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, onUnmounted, ref } from "vue";
 import { useStore } from "vuex";
 import PropertyCard from "@/components/PropertyCard.vue";
 import { Property } from "@/interfaces";
+import { managePropertyListModal } from "@/composables/managePropertyListModal";
+import screenWidth from "@/composables/windowWidth";
+
 export default defineComponent({
   components: {
     PropertyCard,
@@ -56,7 +61,8 @@ export default defineComponent({
 
   setup(_, { emit }) {
     const store = useStore();
-    const properties = computed(() => store.state.list);
+    const properties = computed(() => store.state.properties);
+    const { propertyListModal } = managePropertyListModal();
     const editProperty = (property: Property) => {
       emit("editProperty", property);
     };
@@ -65,8 +71,10 @@ export default defineComponent({
     };
     return {
       properties,
+      screenWidth,
       newProperty,
       editProperty,
+      propertyListModal,
     };
   },
 });
@@ -85,13 +93,7 @@ export default defineComponent({
     margin-top: 2rem;
     @media (min-width: 767px) {
       display: grid;
-      grid-template-columns: repeat(2, min-content);
-      grid-gap: 2rem;
-      justify-content: center;
-    }
-    @media (min-width: 767px) {
-      display: grid;
-      grid-template-columns: repeat(2, min-content);
+      grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
       grid-gap: 2rem;
       justify-content: center;
     }

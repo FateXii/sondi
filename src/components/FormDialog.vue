@@ -51,16 +51,16 @@ export default defineComponent({
     } = manageContactModal();
     const property = toRef(props, "property");
     const sendRequest = () => {
-      closeContactModal();
-      if (interested && property.value) {
+      if (interested.value && property.value) {
         store.commit(
           TOGGLE_INTERESTED,
           store.getters.getCurrentViewingProperty.id
         );
       }
+      closeContactModal();
     };
     watch(formInfo, () => {
-      if (interested && property.value) {
+      if (interested.value && property && property.value) {
         const phoneNumber = `\t Phone: ${formInfo.number}`;
         const email = `\t Email: ${formInfo.email}`;
         const line1 = `Hello.`;
