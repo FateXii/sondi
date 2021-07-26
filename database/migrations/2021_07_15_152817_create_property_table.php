@@ -15,15 +15,17 @@ class CreatePropertyTable extends Migration
   {
     Schema::create('property', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('addresses_id');
       $table->integer('bedrooms');
       $table->integer('bathrooms');
       $table->integer('garages');
       $table->text('description');
+      $table->foreignId('stand_alones_id')->nullable();
+      $table->foreignId('sectional_units_id')->nullable();
       $table->timestamps();
 
       $table->index([
-        'addresses_id'
+        'stand_alones_id',
+        'sectional_units_id'
       ]);
     });
   }

@@ -29,8 +29,13 @@ class Property extends Model
     return $this->hasOne(Rentals::class);
   }
 
-  public function address()
+  public function sectionalUnit()
   {
-    return $this->hasOne(Address::class);
+    return $this->belongsTo(SectionalUnit::class, 'sectional_units_id');
+  }
+
+  public function standAlone()
+  {
+    return $this->belongsTo(StandAlone::class, 'stand_alones_id');
   }
 }

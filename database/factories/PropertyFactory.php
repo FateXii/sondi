@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Address;
 use App\Models\Property;
+use App\Models\SectionalUnit;
+use App\Models\StandAlone;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PropertyFactory extends Factory
@@ -26,7 +27,8 @@ class PropertyFactory extends Factory
       'bathrooms' => rand(0, 15),
       'bedrooms' => rand(0, 15),
       'garages' => rand(0, 15),
-      'addresses_id' => Address::factory(),
+      'sectional_units_id' => SectionalUnit::factory(),
+      'stand_alones_id' => StandAlone::factory(),
       'description' => $this->faker->text,
     ];
   }

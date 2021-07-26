@@ -2,9 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Models\Address;
 use App\Models\Property;
+use App\Models\Sectionals;
+use App\Models\SectionalUnit;
+use App\Models\StandAlone;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 use function GuzzleHttp\json_encode;
 
@@ -135,12 +140,20 @@ class PropertiesTest extends TestCase
     ]);
 
     $updated_property = $properties->find($property_id);
-    $updated_property->bedrooms = 77;
-
-    $response->assertJson([
-      'message' => 'updated property',
-      'property' =>   $updated_property->jsonSerialize()
+    // $updated_property->bedrooms = 77;
+    $this->assertDatabaseHas('property', [
+      'id' => $property_id,
+      'bedrooms' => 77
     ]);
+
+    $response->assertJson(
+      fn (AssertableJson $json) =>
+      $json
+        ->where('message', 'updated property')
+        ->where('property.id', $property_id)
+        ->where('property.bedrooms', 77)
+        ->etc()
+    );
     $response->assertStatus(200);
   }
 
@@ -153,6 +166,7 @@ class PropertiesTest extends TestCase
   {
     $this->assertDatabaseCount('property', 0);
     $property = Property::factory()->create();
+    $this->assertDatabaseCount('property', 1);
     $property_id = $property->id;
 
     $this->assertDatabaseHas('property', [

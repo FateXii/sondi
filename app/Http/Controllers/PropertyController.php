@@ -31,14 +31,17 @@ class PropertyController extends Controller
       'bathrooms' => 'required|integer',
       'garages' => 'required|integer',
       'description' => 'required|string',
-      'addresses_id' => 'required|integer'
+      'stand_alones_id' => 'required_if:sectional_units_id,null|integer',
+      'sectional_units_id' => 'required_if:stand_alones_id,null|integer',
+
     ]);
     $property = new Property;
-    $property->addresses_id = $request->addresses_id;
     $property->bedrooms = $request->bedrooms;
     $property->bathrooms = $request->bathrooms;
     $property->garages = $request->garages;
     $property->description = $request->description;
+    $property->sectional_units_id = $request->sectional_units_id;
+    $property->stand_alones_id = $request->stand_alones_id;
 
     $property->save();
 
