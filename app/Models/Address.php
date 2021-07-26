@@ -7,9 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Address extends Model
 {
-    use HasFactory;
-    public function property() 
-    {
-      return $this->belongsTo(Property::class);
-    }
+  use HasFactory;
+
+  public function sectionals()
+  {
+    return $this->hasOne(Sectionals::class);
+  }
+
+  public function standAlone()
+  {
+    return $this->hasOne(StandAlone::class);
+  }
 }

@@ -31,10 +31,6 @@ class AddressController extends Controller
     $address->city          = $request->city;
     $address->province      = $request->province;
     $address->postal_code   = $request->postal_code;
-    $address->is_sectional  = $request->is_sectional;
-    $address->section_name  = $request->section_name;
-    $address->unit          = $request->unit;
-    $address->type          = $request->type;
 
     $address->save();
     return $address;
@@ -67,14 +63,9 @@ class AddressController extends Controller
 
     $fields = [
       'street',
-      'suburb',
       'city',
       'province',
       'postal_code',
-      'is_sectional',
-      'section_name',
-      'unit',
-      'type'
     ];
     foreach ($fields as $field) {
       if ($request->filled($field)) {

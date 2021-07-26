@@ -24,14 +24,6 @@ class AddressFactory extends Factory
     return [
       'street' => $this->faker->streetAddress,
       'city' => $this->faker->city,
-      'is_sectional' => $this->faker->boolean(),
-      'section_name' => $this->faker->word,
-      'unit' => $this->faker->randomLetter . $this->faker->randomNumber,
-      'type' => $this->faker->randomElement([
-        'apartment',
-        'complex',
-        'estate'
-      ]),
       'province' => $this->faker->randomElement([
         'limpopo',
         'mpumalanga',

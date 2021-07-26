@@ -19,13 +19,6 @@ class CreateAddressesTable extends Migration
       $table->string('city');
       $table->string('province');
       $table->string('postal_code');
-      $table->boolean('is_sectional');
-      $table->string('section_name')
-        ->nullable();
-      $table->string('unit')
-        ->nullable();
-      $table->string('type')
-        ->nullable();
       $table->timestamps();
     });
   }
