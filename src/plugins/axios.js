@@ -8,10 +8,10 @@ import axios from "axios";
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-let config = {
-  // baseURL: process.env.baseURL || process.env.apiUrl || ""
-  // timeout: 60 * 1000, // Timeout
-  // withCredentials: true, // Check cross-site Access-Control
+const config = {
+  baseURL: process.env.baseURL || process.env.API || "",
+  timeout: 60 * 1000, // Timeout
+  withCredentials: true, // Check cross-site Access-Control
 };
 
 const _axios = axios.create(config);
@@ -39,6 +39,7 @@ _axios.interceptors.response.use(
   }
 );
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 Plugin.install = function (Vue, options) {
   Vue.axios = _axios;
   window.axios = _axios;
