@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\PropertyImageController;
 use App\Http\Controllers\RentalsController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SectionalsController;
@@ -32,9 +34,9 @@ Route::apiResource(
 );
 
 Route::apiResource(
-  'properties.photos',
-  PhotoController::class
-);
+  'properties.images',
+  PropertyImageController::class
+)->shallow();
 
 Route::apiResource(
   'sales',
@@ -54,6 +56,11 @@ Route::apiResource(
 Route::apiResource(
   'address',
   AddressController::class
+);
+
+Route::apiResource(
+  'images',
+  ImageController::class
 );
 
 Route::apiResource(

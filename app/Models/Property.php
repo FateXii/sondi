@@ -10,13 +10,14 @@ class Property extends Model
   use HasFactory;
   protected $table = 'property';
 
-
-  /**
-   * Get the photos for a property
-   */
-  public function photos()
+  public function property_images()
   {
-    return $this->hasMany(Photo::class);
+    return $this->hasMany(PropertyImage::class);
+  }
+
+  public function images()
+  {
+    return $this->hasManyThrough(PropertyImage::class, Image::class);
   }
 
   public function sales()
