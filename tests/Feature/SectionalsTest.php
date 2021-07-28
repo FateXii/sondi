@@ -6,6 +6,8 @@ use App\Models\Address;
 use App\Models\Sectionals;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
@@ -16,6 +18,8 @@ class SectionalsTest extends TestCase
   public function test_create()
   {
     $address = Address::factory()->create();
+    Storage::fake('public');
+    $image = UploadedFile::fake()->image('image.png');
 
     $address_id = $address->id;
 
@@ -27,7 +31,8 @@ class SectionalsTest extends TestCase
       [
         'addresses_id' => $address_id,
         'name' => $section_name,
-        'type' => $section_type
+        'type' => $section_type,
+        'image' => $image
       ]
     );
 
@@ -37,9 +42,11 @@ class SectionalsTest extends TestCase
       $json
         ->where('name', $section_name)
         ->where('type', $section_type)
+        ->where('image', 'images/' . $image->hashName())
         ->where('addresses_id', $address_id)
         ->etc()
     );
+    Storage::disk('public')->assertExists('images/' . $image->hashName());
   }
 
   public function test_list()

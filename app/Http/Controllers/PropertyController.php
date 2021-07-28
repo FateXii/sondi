@@ -101,10 +101,7 @@ class PropertyController extends Controller
 
     $property->save();
 
-    return new Response([
-      'message' => 'updated property',
-      'property' =>  $property,
-    ]);
+    return $property;
   }
 
   /**

@@ -18,6 +18,7 @@ class CreateSectionalsTable extends Migration
       $table->foreignId('addresses_id');
       $table->string('name');
       $table->string('type');
+      $table->string('image');
       $table->timestamps();
 
       $table->index('addresses_id');

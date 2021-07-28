@@ -149,9 +149,8 @@ class PropertiesTest extends TestCase
     $response->assertJson(
       fn (AssertableJson $json) =>
       $json
-        ->where('message', 'updated property')
-        ->where('property.id', $property_id)
-        ->where('property.bedrooms', 77)
+        ->where('id', $property_id)
+        ->where('bedrooms', 77)
         ->etc()
     );
     $response->assertStatus(200);
