@@ -42,7 +42,7 @@ class SectionalsTest extends TestCase
       $json
         ->where('name', $section_name)
         ->where('type', $section_type)
-        ->where('image', 'images/' . $image->hashName())
+        ->where('image', 'storage/images/' . $image->hashName())
         ->where('addresses_id', $address_id)
         ->etc()
     );

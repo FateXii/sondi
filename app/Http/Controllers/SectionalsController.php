@@ -46,7 +46,7 @@ class SectionalsController extends Controller
     $sectional->addresses_id = $request->addresses_id;
     $sectional->name = $request->name;
     $sectional->type = $request->type;
-    $sectional->image = $request->file('image')
+    $sectional->image = 'storage/' . $request->file('image')
       ->store('images', 'public');
 
     $sectional->save();
