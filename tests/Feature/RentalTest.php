@@ -22,7 +22,7 @@ class RentalTest extends TestCase
     $rental_price = 451254.25;
     $response = $this->postJson('/api/rentals', [
       'price' => $rental_price,
-      'property' => 1
+      'property_id' => 1
     ]);
 
     $response->assertStatus(201);

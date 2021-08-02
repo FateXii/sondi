@@ -36,7 +36,7 @@ class RentalsController extends Controller
   public function store(Request $request)
   {
     $rental = new Rentals();
-    $rental->property_id = $request->property;
+    $rental->property_id = $request->property_id;
     $rental->price = $request->price;
 
     $rental->save();

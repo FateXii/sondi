@@ -36,7 +36,7 @@ class SalesController extends Controller
   public function store(Request $request)
   {
     $sale = new Sales();
-    $sale->property_id = $request->property;
+    $sale->property_id = $request->property_id;
     $sale->price = $request->price;
 
     $sale->save();

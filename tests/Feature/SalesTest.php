@@ -21,7 +21,7 @@ class SalesTest extends TestCase
     $sale_price = 451254.25;
     $response = $this->postJson('/api/sales', [
       'price' => $sale_price,
-      'property' => 1
+      'property_id' => 1
     ]);
 
     $response->assertStatus(201);
