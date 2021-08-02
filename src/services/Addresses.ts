@@ -1,47 +1,24 @@
 import http from "@/services/http-service";
-
-declare type Province =
-  | "limpopo"
-  | "mpumalanga"
-  | "western cape"
-  | "eastern cape"
-  | "northern cape"
-  | "kwazulu natal"
-  | "gauteng"
-  | "free state"
-  | "north west";
-
-interface AddressData {
-  street?: string;
-  city?: string;
-  province?: Province;
-  postal_code?: string;
-}
-
-interface ResponseAddressType {
-  id: number;
-  street: string;
-  city: string;
-  province: Province;
-  postal_code: string;
-}
+import { IAddress } from "@/interfaces/apiTypes";
 
 class Address {
-  create(data: AddressData): Promise<ResponseAddressType> {
+  create(data: IAddress): Promise<any> {
     return http.post("/api/address", data);
   }
-  update(addressId: number, data: AddressData): Promise<ResponseAddressType> {
+
+  update(addressId: number, data: IAddress): Promise<any> {
     return http.put(`/api/address/${addressId}`, data);
   }
 
-  getAll(): Promise<ResponseAddressType> {
+  getAll(): Promise<any> {
     return http.get("/api/address");
   }
 
-  delete(addressId: number): Promise<ResponseAddressType> {
+  delete(addressId: number): Promise<any> {
     return http.delete(`/api/address/${addressId}`);
   }
-  get(addressId: number): Promise<ResponseAddressType> {
+
+  get(addressId: number): Promise<any> {
     return http.get(`/api/address/${addressId}`);
   }
 }

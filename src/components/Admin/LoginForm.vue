@@ -15,14 +15,10 @@
 </template>
 
 <script lang="ts">
-import { AUTH } from "@/store/action-types";
 import { defineComponent, reactive } from "vue";
-import { useStore } from "vuex";
 
 export default defineComponent({
   setup() {
-    const store = useStore();
-    const login = () => store.dispatch(AUTH, true);
     const formLabelAlign = reactive({
       name: "",
       email: "",
@@ -30,7 +26,6 @@ export default defineComponent({
     });
     return {
       formLabelAlign,
-      login,
     };
   },
 });

@@ -1,27 +1,13 @@
 <template lang="html">
   <div class="card">
     <el-card shadow="never" :body-style="{ padding: '0px' }">
-      <img
-        :src="require(`../assets/${property.imageList.coverImage}`)"
-        class="card__image"
-      />
+      <img :src="setImageHost(imagePath)" class="card__image" />
       <div class="card__description">
         <span class="card__description__price">R {{ property.price }} </span>
-        <span class="card__description__name">{{ property.name }}</span>
-        <div class="card__description__location">
-          <img
-            :src="require('../assets/icons/location.svg')"
-            class="card__description__location__icon"
-            alt="location droppoint"
-          />
-          <span class="card__description__location__text">{{
-            property.location
-          }}</span>
-        </div>
-        <div class="card__description__stats" v-if="property.beds > 0">
+        <div class="card__description__stats" v-if="property.bedrooms > 0">
           <div class="card__description__stats__container">
             <span class="card__description__stats__container__number">{{
-              property.beds
+              property.bedrooms
             }}</span>
             <img
               :src="require('../assets/icons/bed.svg')"
@@ -31,10 +17,10 @@
           </div>
           <div
             class="card__description__stats__container"
-            :v-if="property.baths > 0"
+            :v-if="property.bathrooms > 0"
           >
             <span class="card__description__stats__container__number">{{
-              property.baths
+              property.bathrooms
             }}</span>
             <img
               :src="require('../assets/icons/bath.svg')"
@@ -62,8 +48,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType } from "vue";
+import { defineComponent, PropType, ref, onMounted, watchEffect } from "vue";
 import { Property } from "@/interfaces";
+import propertyImageApi from "@/services/PropertyImage";
+import { IImageModel } from "@/interfaces/apiTypes";
 
 export default defineComponent({
   props: {
@@ -72,10 +60,22 @@ export default defineComponent({
       required: true,
     },
   },
-  setup() {
-    const publicPath = computed(() => process.env.BASE_URL);
+  setup(prop) {
+    const setImageHost = (image: string) => {
+      return `${process.env.VUE_APP_API_HOST}${image}`;
+    };
+    const propertyImage = ref<IImageModel>();
+    const imagePath = ref("");
+    watchEffect(() => {
+      propertyImageApi.getAll(prop.property.property.id).then((response) => {
+        const { data } = response;
+        imagePath.value = data[0].path;
+      });
+    });
     return {
-      publicPath,
+      setImageHost,
+      propertyImage,
+      imagePath,
     };
   },
 });

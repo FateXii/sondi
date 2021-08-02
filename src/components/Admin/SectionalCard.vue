@@ -1,17 +1,14 @@
 <template lang="html">
   <el-card>
-    <img
-      src="https://th.bing.com/th/id/OIP.VjZgsBLSmRComw8zgXA8QgHaEU?pid=ImgDet&rs=1"
-      class="image"
-    />
+    <img :src="setImageHost(sectionalProperty.image)" class="image" />
     <div style="padding: 14px">
-      <span>Some Property</span>
+      <span>{{ sectionalProperty.name }}</span>
       <div class="bottom">
         <el-button
           @click="selectSectionalProperty"
           type="primary"
           class="button"
-          >Add Property</el-button
+          >Add New Unit</el-button
         >
       </div>
     </div>
@@ -19,15 +16,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
+import { ISectionalPropertyModel } from "@/interfaces/apiTypes";
+
 export default defineComponent({
   emits: ["selectedSectionalProperty"],
-  setup(_, { emit }) {
+  props: {
+    sectionalProperty: {
+      type: Object as PropType<ISectionalPropertyModel>,
+    },
+  },
+  setup(props, { emit }) {
     const selectSectionalProperty = () => {
-      emit("selectedSectionalProperty");
+      emit("selectedSectionalProperty", props.sectionalProperty);
+    };
+    const setImageHost = (image: string) => {
+      return `${process.env.VUE_APP_API_HOST}${image}`;
     };
     return {
       selectSectionalProperty,
+      setImageHost,
     };
   },
 });

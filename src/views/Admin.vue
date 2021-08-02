@@ -1,29 +1,19 @@
 <template lang="html">
-  <LoginForm v-if="!authenticated" />
-  <div v-else>
-    <Header />
-    <AdminPanel />
-  </div>
+  <Header />
+  <AdminPanel />
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
-import { useStore } from "vuex";
+import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
-import LoginForm from "@/components/Admin/LoginForm.vue";
 import AdminPanel from "@/components/Admin/AdminPanel.vue";
 export default defineComponent({
   components: {
-    LoginForm,
     AdminPanel,
     Header,
   },
   setup() {
-    const store = useStore();
-    const authenticated = computed(() => store.state.authenticated);
-    return {
-      authenticated,
-    };
+    return {};
   },
 });
 </script>

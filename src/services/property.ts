@@ -1,43 +1,23 @@
 import http from "@/services/http-service";
-
-interface PropertyType {
-  bathrooms?: number;
-  bedrooms?: number;
-  garages?: number;
-  sectional_unit_id?: number;
-  stand_alines_id?: number;
-  description?: string;
-}
-
-interface ResponsePropertyType {
-  id: number;
-  bathrooms: number;
-  bedrooms: number;
-  garages: number;
-  sectional_unit_id: number;
-  stand_alines_id: number;
-  description: string;
-}
+import { IProperty } from "@/interfaces/apiTypes";
 
 class Property {
-  create(data: PropertyType): Promise<ResponsePropertyType> {
+  create(data: IProperty): Promise<any> {
     return http.post("/api/properties", data);
   }
-  update(
-    propertyId: number,
-    data: PropertyType
-  ): Promise<ResponsePropertyType> {
+  update(propertyId: number, data: IProperty): Promise<any> {
     return http.put(`/api/properties/${propertyId}`, data);
   }
 
-  getAll(): Promise<ResponsePropertyType> {
+  getAll(): Promise<any> {
     return http.get("/api/properties");
   }
 
-  delete(propertyId: number): Promise<ResponsePropertyType> {
+  delete(propertyId: number): Promise<any> {
     return http.delete(`/api/properties/${propertyId}`);
   }
-  get(propertyId: number): Promise<ResponsePropertyType> {
+
+  get(propertyId: number): Promise<any> {
     return http.get(`/api/properties/${propertyId}`);
   }
 }

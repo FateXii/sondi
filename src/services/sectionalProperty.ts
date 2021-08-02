@@ -1,34 +1,43 @@
 import http from "@/services/http-service";
-
-interface SectionalPropertyData {
-  name: string;
-  type: string;
-  addresses_id: number;
-}
+import {
+  ISectionalProperty,
+  ISectionalPropertyModel,
+} from "@/interfaces/apiTypes";
+import IAxiosResponse from "@/interfaces/schemas";
 
 class SectionalProperty {
-  create(data: SectionalPropertyData): Promise<any> {
-    return http.post("/api/sectionals", data);
+  create(data: FormData): Promise<IAxiosResponse<ISectionalPropertyModel>> {
+    return http.post("/api/sectionals", data, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
   }
   update(
     sectionalPropertyId: number,
-    data: SectionalPropertyData
-  ): Promise<any> {
+    data: ISectionalProperty
+  ): Promise<IAxiosResponse<ISectionalPropertyModel>> {
     return http.put(`/api/sectionals/${sectionalPropertyId}`, data);
   }
 
-  getAll(): Promise<any> {
+  getAll(): Promise<IAxiosResponse<ISectionalPropertyModel[]>> {
     return http.get("/api/sectionals");
   }
 
-  getAllUnits(sectionalPropertyId: number): Promise<any> {
+  getAllUnits(
+    sectionalPropertyId: number
+  ): Promise<IAxiosResponse<ISectionalPropertyModel>> {
     return http.get(`/api/sectionals/${sectionalPropertyId}/unit`);
   }
 
-  delete(sectionalPropertyId: number) {
+  delete(
+    sectionalPropertyId: number
+  ): Promise<IAxiosResponse<ISectionalPropertyModel>> {
     return http.delete(`/api/sectionals/${sectionalPropertyId}`);
   }
-  get(sectionalPropertyId: number) {
+  get(
+    sectionalPropertyId: number
+  ): Promise<IAxiosResponse<ISectionalPropertyModel>> {
     return http.get(`/api/sectionals/${sectionalPropertyId}`);
   }
 }

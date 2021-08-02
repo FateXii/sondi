@@ -6,12 +6,9 @@
       trigger="click"
       indicator-position="none"
     >
-      <el-carousel-item
-        v-for="(image, index) in property.imageList.allImages"
-        :key="index"
-      >
+      <el-carousel-item v-for="(image, index) in imagePath" :key="index">
         <div class="property-description__images__image">
-          <img :src="require(`@/assets/${image}`)" alt="image of house ____" />
+          <img :src="setImageHost(image)" alt="image of house ____" />
         </div>
       </el-carousel-item>
     </el-carousel>
@@ -20,19 +17,6 @@
         <span class="property-description__details__specs__price"
           >R {{ property.price }}
         </span>
-        <span class="property-description__details__specs__name">{{
-          property.name
-        }}</span>
-        <div class="property-description__details__specs__location">
-          <img
-            class="property-description__details__specs__location__icon"
-            :src="require('@/assets/icons/location.svg')"
-            alt="location droppoint"
-          />
-          <span class="property-description__details__specs__location__text">{{
-            property.location
-          }}</span>
-        </div>
       </div>
       <div class="property-description__details__text">
         <p>
@@ -44,8 +28,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, onMounted, PropType, ref } from "vue";
 import { Property } from "@/interfaces";
+import propertyImageApi from "@/services/PropertyImage";
+import { IImageModel } from "@/interfaces/apiTypes";
 export default defineComponent({
   props: {
     showInterest: Boolean,
@@ -54,8 +40,21 @@ export default defineComponent({
       required: true,
     },
   },
-  setup() {
-    return {};
+  setup(prop) {
+    const setImageHost = (image: string) => {
+      return `${process.env.VUE_APP_API_HOST}${image}`;
+    };
+    const imagePath = ref([]);
+    onMounted(() => {
+      propertyImageApi.getAll(prop.property.property.id).then((response) => {
+        const { data } = response;
+        imagePath.value = data.map((image: IImageModel) => image.path);
+      });
+    });
+    return {
+      setImageHost,
+      imagePath,
+    };
   },
 });
 </script>

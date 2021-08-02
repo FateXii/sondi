@@ -5,15 +5,17 @@
 </template>
 
 <script>
-import { LOAD_PROPERTIES } from "./store/action-types";
 import { defineComponent, onMounted } from "vue";
-import { useStore } from "vuex";
+import { manageProperties } from "@/composables/manageProperties";
 
 export default defineComponent({
   name: "App",
   setup() {
-    const store = useStore();
-    onMounted(() => store.dispatch(LOAD_PROPERTIES));
+    const { setPropertiesForRent, setPropertiesForSale } = manageProperties();
+    onMounted(() => {
+      setPropertiesForSale();
+      setPropertiesForRent();
+    });
     return {};
   },
 });

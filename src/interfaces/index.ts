@@ -1,3 +1,4 @@
+import { IRentalModel, ISaleModel } from "./apiTypes";
 import { ElFile } from "./element-plus.d";
 
 interface PropertyImage {
@@ -5,19 +6,7 @@ interface PropertyImage {
   allImages: Array<string>;
 }
 
-interface Property {
-  id: number;
-  location: string;
-  description: string;
-  beds: number;
-  baths: number;
-  garages: number;
-  buying: boolean;
-  imageList: PropertyImage;
-  price: number;
-  name: string;
-  interested: boolean;
-}
+type Property = ISaleModel | IRentalModel;
 
 interface State {
   list: Property[];

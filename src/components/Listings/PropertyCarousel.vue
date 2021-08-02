@@ -5,34 +5,46 @@
       arrow="always"
       :autoplay="false"
       ref="currentlyViewing"
+      v-if="properties"
     >
       <el-carousel-item
         v-for="property in properties"
-        :key="property.id"
-        :name="`${property.id}`"
+        :key="property.property.id"
+        :name="`${property.property.id}`"
       >
         <PropertyCard :property="property" />
       </el-carousel-item>
     </el-carousel>
+    <h1 v-else>No properties to show</h1>
   </div>
 </template>
 
 <script lang="ts">
-import { watchEffect, defineComponent, ref, computed } from "vue";
-import { useStore } from "vuex";
+import { watchEffect, defineComponent, ref, computed, onMounted } from "vue";
 import { ElCarousel } from "element-plus";
 import PropertyCard from "@/components/PropertyCard.vue";
 import { Property } from "@/interfaces";
+import { manageProperties } from "@/composables/manageProperties";
+
 export default defineComponent({
   components: {
     PropertyCard,
   },
   emits: ["currentlyViewing"],
   setup(_, { emit }) {
-    const store = useStore();
-    const properties = computed(() => store.state.list);
+    const { propertiesForSale, propertiesForRent, isBuying } =
+      manageProperties();
+    const properties = ref<Property[]>([]);
+
     const currentlyViewing = ref<InstanceType<typeof ElCarousel>>();
     watchEffect(() => {
+      if (isBuying.value) {
+        console.log(propertiesForSale);
+        properties.value = propertiesForSale.value;
+      } else {
+        console.log(propertiesForRent);
+        properties.value = propertiesForRent.value;
+      }
       const current = currentlyViewing.value;
       const items = current?.items;
       let activeItem = items?.find((item) => item.active);
@@ -46,7 +58,8 @@ export default defineComponent({
         emit(
           "currentlyViewing",
           properties.value.find(
-            (property: Property) => property.id === Number(activeItem?.name)
+            (property: Property) =>
+              property.property.id === Number(activeItem?.name)
           )
         );
       }

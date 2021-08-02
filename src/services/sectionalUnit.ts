@@ -1,22 +1,31 @@
 import http from "@/services/http-service";
-
-interface SectionalUnitData {
-  unit: string;
-}
+import { ISectionalUnit, ISectionalUnitModel } from "@/interfaces/apiTypes";
+import IAxiosResponse from "@/interfaces/schemas";
 
 class SectionalUnit {
-  create(data: SectionalUnitData): Promise<any> {
-    return http.post("/api/sectionals/${sectionalPropertyId}/unit", data);
+  create(
+    sectionalPropertyId: number,
+    data: ISectionalUnit
+  ): Promise<IAxiosResponse<ISectionalUnitModel>> {
+    return http.post(`/api/sectionals/${sectionalPropertyId}/unit`, data);
   }
 
-  update(sectionalUnitId: number, data: SectionalUnitData): Promise<any> {
+  update(
+    sectionalUnitId: number,
+    data: ISectionalUnit
+  ): Promise<IAxiosResponse<ISectionalUnitModel>> {
     return http.put(`/api/unit/${sectionalUnitId}`, data);
   }
 
-  delete(sectionalUnitId: number): Promise<any> {
-    return http.delete(`/api/unit/${sectionalPropertyId}`);
+  delete(
+    sectionalUnitId: number
+  ): Promise<IAxiosResponse<ISectionalUnitModel>> {
+    return http.delete(`/api/unit/${sectionalUnitId}`);
   }
-  get(sectionalUnitId: number, sectionalPropertyId: number): Promise<any> {
+  get(
+    sectionalUnitId: number,
+    sectionalPropertyId: number
+  ): Promise<IAxiosResponse<ISectionalUnitModel>> {
     return http.get(
       `/api/sectionals/${sectionalPropertyId}/unit/${sectionalUnitId}`
     );

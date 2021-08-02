@@ -12,7 +12,11 @@
       >
       <div class="properties__showings">
         <PropertyCarousel @currentlyViewing="getProperty" />
-        <PropertyDescription :showInterest="true" :property="property" />
+        <PropertyDescription
+          v-if="property"
+          :showInterest="true"
+          :property="property"
+        />
       </div>
       <el-button type="warning" @click="openInterestContactModal">
         I'm interested
@@ -24,15 +28,14 @@
 
 <script lang="ts">
 import { onMounted, watch, computed, defineComponent, ref } from "vue";
-import { SET_BUYING_FLAG } from "@/store/mutation-types";
 import { Property } from "@/interfaces";
-import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import PropertyCarousel from "./Listings/PropertyCarousel.vue";
 import PropertyDescription from "./Listings/PropertyDescription.vue";
 import FormDialog from "./FormDialog.vue";
 import IconRow from "./Listings/IconRow.vue";
 import { manageContactModal } from "@/composables/manageContactModal";
+import { manageProperties } from "@/composables/manageProperties";
 export default defineComponent({
   components: {
     PropertyCarousel,
@@ -42,28 +45,32 @@ export default defineComponent({
   },
   setup() {
     const { interested, openContactModal } = manageContactModal();
-    const store = useStore();
+    const {
+      setPropertiesForRent,
+      setPropertiesForSale,
+      setCurrentlyViewing,
+      currentlyViewing,
+      isBuying,
+    } = manageProperties();
     const router = useRouter();
     const property = ref<Property>();
     onMounted(() => {
-      const initialProperty = computed(
-        () => store.getters.getCurrentViewingProperty
-      );
-      if (initialProperty.value) {
-        property.value = initialProperty.value;
+      if (currentlyViewing.value) {
+        property.value = currentlyViewing.value;
       }
     });
     function getProperty(propertyIn: Property) {
       property.value = propertyIn;
     }
-    const isBuying = computed(() => store.getters.isBuying());
     const id = ref("renting");
     watch(isBuying, (buying) => {
       id.value = buying ? "buying" : "renting";
     });
 
     const toggleBuying = () => {
-      store.commit(SET_BUYING_FLAG, !isBuying.value);
+      setPropertiesForRent();
+      setPropertiesForSale();
+      isBuying.value = !isBuying.value;
       router.push(`#${!isBuying.value ? "renting" : "buying"}`);
     };
     const openInterestContactModal = () => {
@@ -78,7 +85,6 @@ export default defineComponent({
       id,
       isBuying,
       toggleBuying,
-      publicPath: computed(() => process.env.BASE_URL),
     };
   },
 });

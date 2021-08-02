@@ -1,41 +1,23 @@
 import http from "@/services/http-service";
-
-interface SaleType {
-  property_id?: number;
-  price?: number;
-}
-interface PropertyType {
-  bathrooms?: number;
-  bedrooms?: number;
-  garages?: number;
-  sectional_unit_id?: number;
-  stand_alines_id?: number;
-  description?: string;
-}
-
-interface ResponseSaleType {
-  id: number;
-  property?: PropertyType;
-  price?: number;
-}
+import { IProperty, ISale } from "@/interfaces/apiTypes";
 
 class Sale {
-  create(data: SaleType): Promise<ResponseSaleType> {
-    return http.post("/api/address", data);
+  create(data: ISale): Promise<any> {
+    return http.post("/api/sales", data);
   }
-  update(saleId: number, data: SaleType): Promise<ResponseSaleType> {
-    return http.put(`/api/address/${saleId}`, data);
-  }
-
-  getAll(): Promise<ResponseSaleType> {
-    return http.get("/api/address");
+  update(saleId: number, data: ISale): Promise<any> {
+    return http.put(`/api/sales/${saleId}`, data);
   }
 
-  delete(saleId: number): Promise<ResponseSaleType> {
-    return http.delete(`/api/address/${saleId}`);
+  getAll(): Promise<any> {
+    return http.get("/api/sales");
   }
-  get(saleId: number): Promise<ResponseSaleType> {
-    return http.get(`/api/address/${saleId}`);
+
+  delete(saleId: number): Promise<any> {
+    return http.delete(`/api/sales/${saleId}`);
+  }
+  get(saleId: number): Promise<any> {
+    return http.get(`/api/sales/${saleId}`);
   }
 }
 

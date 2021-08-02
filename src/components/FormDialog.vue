@@ -21,18 +21,16 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button type="danger" @click="closeContactModal">Cancel</el-button>
-        <el-button type="warning" @click="sendRequest">Send Request</el-button>
+        <el-button type="warning" @click="() => {}">Send Request</el-button>
       </span>
     </template>
   </el-dialog>
 </template>
 <script lang="ts">
 import { Property } from "@/interfaces";
-import { TOGGLE_INTERESTED } from "@/store/mutation-types";
 
 import { manageContactModal } from "@/composables/manageContactModal";
 import { defineComponent, PropType, toRef, watch } from "vue";
-import { useStore } from "vuex";
 
 export default defineComponent({
   props: {
@@ -41,7 +39,6 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = useStore();
     const {
       interested,
       dialog,
@@ -50,28 +47,16 @@ export default defineComponent({
       closeContactModal,
     } = manageContactModal();
     const property = toRef(props, "property");
-    const sendRequest = () => {
-      if (interested.value && property.value) {
-        store.commit(
-          TOGGLE_INTERESTED,
-          store.getters.getCurrentViewingProperty.id
-        );
-      }
-      closeContactModal();
-    };
     watch(formInfo, () => {
       if (interested.value && property && property.value) {
         const phoneNumber = `\t Phone: ${formInfo.number}`;
         const email = `\t Email: ${formInfo.email}`;
         const line1 = `Hello.`;
         const line2 = `My name is ${formInfo.name}.`;
-        const line3 = `I am interested in ${property.value?.name}.`;
         const line4 = `Please contact me at:`;
         const line5 = `${formInfo.number.length ? phoneNumber : ""}`;
         const line6 = `${formInfo.email.length ? email : ""}`;
-        formInfo.message = [line1, line2, line3, line4, line5, line6].join(
-          "\n"
-        );
+        formInfo.message = [line1, line2, line4, line5, line6].join("\n");
       }
     });
 
@@ -80,7 +65,6 @@ export default defineComponent({
       dialog,
       closeContactModal,
       openContactModal,
-      sendRequest,
     };
   },
 });
