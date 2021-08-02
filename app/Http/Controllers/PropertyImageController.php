@@ -32,20 +32,33 @@ class PropertyImageController extends Controller
    */
   public function store(Request $request)
   {
-    $propertyImage = new PropertyImage;
-    $propertyImage->property_id = $request->property;
+    $property_id = $request->property;
+    if ($request->hasFile('images')) {
+      foreach ($request->file('images') as $file) {
+        $propertyImage = new PropertyImage;
+        $propertyImage->property_id = $property_id;
 
-    $image = new Image;
-    $image->path = $request->file('image')->store('images', 'public');
-    $image->save();
+        $image = new Image;
+        $image->path = 'storage/' . $file->store('images', 'public');
+        $image->save();
 
-    $propertyImage->image_id = $image->id;
-    $propertyImage->save();
-    return new Response([
-      'id' => $propertyImage['id'],
-      'property_id' => $propertyImage['property_id'],
-      'image' => $image->path,
-    ], Response::HTTP_CREATED);
+        $propertyImage->image_id = $image->id;
+        $propertyImage->save();
+      }
+    }
+
+    return new Response(
+      PropertyImage::all()->where('property_id', $property_id)->map(
+        function (PropertyImage $property_image) {
+          return [
+            'id' => $property_image->id,
+            'image' => $property_image->image->path,
+            'property_id' => $property_image->property_id
+          ];
+        }
+      ),
+      Response::HTTP_CREATED
+    );
   }
 
   /**

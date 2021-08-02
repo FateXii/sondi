@@ -25,6 +25,7 @@ class PropertyImageTest extends TestCase
   public function test_create()
   {
     Storage::fake('public');
+
     $image = UploadedFile::fake()
       ->image('image.png');
 
@@ -34,18 +35,19 @@ class PropertyImageTest extends TestCase
     $response = $this->postJson(
       '/api/properties/' . $property_id . '/images',
       [
-        'image' => $image,
+        'images' => [$image],
       ]
     );
     $response->assertStatus(201);
     $response->assertJson(
       fn (AssertableJson $json) =>
-      $json->where('id', 1)
-        ->where('image', 'images/' . $image->hashName())
-        ->where('property_id', (string) $property_id)
+      $json->has(1)
+        ->where('0.id', 1)
+        ->where('0.image', 'storage/images/' . $image->hashName())
+        ->where('0.property_id', $property_id)
         ->etc()
     );
-    Storage::disk('public')->assertExists('images/' . $image->hashName());
+    Storage::disk('public')->assertExists('storage/images/' . $image->hashName());
   }
 
   public function test_list_user_images()
