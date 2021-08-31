@@ -4,7 +4,7 @@
       <router-link to="/">
         <img class="logo" :src="require(`../assets/logo.svg`)" />
       </router-link>
-      <div class="header-menu" v-if="!admin">
+      <div class="header-menu">
         <span class="header-menu__icon" @click="drawer = true">
           <img
             :src="require('../assets/icons/menu-icon.svg')"
@@ -12,63 +12,53 @@
           />
         </span>
         <el-drawer v-model="drawer" size="90%">
-          <div class="header-menu__items drawer">
-            <router-link class="info-link" to="/admin"> admin </router-link>
-            <a @click="setBuying(true)" class="info-link" href="#buying">
-              Buying
-            </a>
-            <a @click="setBuying(false)" class="info-link" href="#renting">
-              Renting
-            </a>
-            <el-button type="warning" @click="openNormalContactModal">
-              Contact
-            </el-button>
-          </div>
+          <HeaderMenuItems class="header-menu__items drawer" />
         </el-drawer>
-        <div class="header-menu__items lg">
-          <router-link class="info-link" to="/admin"> admin </router-link>
-          <a @click="setBuying(true)" class="info-link" href="#buying">
-            Buying
-          </a>
-          <a @click="setBuying(false)" class="info-link" href="#renting">
-            Renting
-          </a>
-          <el-button type="warning" @click="openNormalContactModal">
-            Contact
-          </el-button>
-        </div>
+        <HeaderMenuItems class="header-menu__items lg" />
       </div>
     </header>
   </el-container>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
 import { manageContactModal } from "@/composables/manageContactModal";
-import { useStore } from "vuex";
-import { SET_BUYING_FLAG } from "../store/mutation-types";
+import { authManager, checkUser } from "@/composables/authManager";
+import { useRouter } from "vue-router";
+import HeaderMenuItems from "@/components/HeaderMenuItems.vue";
 
 export default defineComponent({
+  components: {
+    HeaderMenuItems,
+  },
   setup() {
     const { interested, clearContactForm, openContactModal } =
       manageContactModal();
+    const { loggedIn, user } = authManager();
     const openNormalContactModal = () => {
       clearContactForm();
       interested.value = false;
       openContactModal();
     };
-    const store = useStore();
     const drawer = ref(false);
     const setBuying = (buying: boolean) => {
       drawer.value = false;
-      store.commit(SET_BUYING_FLAG, buying);
     };
-    const admin = computed(() => store.state.authenticated);
+    const router = useRouter();
+    const goToDashboard = () => {
+      router.push("/dashboard");
+    };
+    onMounted(() => {
+      checkUser();
+      console.log(user);
+    });
     return {
+      goToDashboard,
       setBuying,
       drawer,
       openNormalContactModal,
-      admin,
+      loggedIn,
+      user,
     };
   },
 });
