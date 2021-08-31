@@ -1,6 +1,11 @@
 interface IModel {
   id: number;
 }
+export interface IUser {
+  id: number;
+  name: string;
+  email: string;
+}
 
 export interface ISectionalUnit {
   sectionals_id: number;
@@ -42,6 +47,16 @@ export interface IRental {
   price: number;
 }
 
+export interface IUserLoginData {
+  email: string;
+  password: string;
+}
+export interface IUserRegistrationData {
+  name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+}
 export interface IAddress {
   street: string;
   city: string;

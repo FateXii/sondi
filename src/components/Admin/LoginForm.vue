@@ -1,31 +1,45 @@
 <template>
   <el-container>
-    <el-form label-position="top" label-width="100px" :model="formLabelAlign">
+    <el-form label-position="top" label-width="100px" :model="loginForm">
       <el-form-item label="Email">
-        <el-input type="email" v-model="formLabelAlign.name"></el-input>
+        <el-input type="email" v-model="loginForm.email"></el-input>
       </el-form-item>
       <el-form-item label="Password">
-        <el-input type="password" v-model="formLabelAlign.region"></el-input>
+        <el-input type="password" v-model="loginForm.password"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="login" type="primary">Login</el-button>
+        <el-row>
+          <el-button @click="loginUser" type="primary" :loading="loggingIn">{{
+            loggingIn ? "Logging In" : "Login"
+          }}</el-button>
+          <router-link to="/dashboard/register">register</router-link>
+        </el-row>
       </el-form-item>
     </el-form>
   </el-container>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
+import { defineComponent, onMounted, reactive } from "vue";
+import { authManager } from "@/composables/authManager";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   setup() {
-    const formLabelAlign = reactive({
-      name: "",
-      email: "",
-      password: "",
+    const { login, user, loginForm, loggingIn } = authManager();
+    const loginUser = () => {
+      login();
+    };
+    const router = useRouter();
+    onMounted(() => {
+      if (user.value) {
+        router.push("/dashboard");
+      }
     });
     return {
-      formLabelAlign,
+      loginUser,
+      loginForm,
+      loggingIn,
     };
   },
 });

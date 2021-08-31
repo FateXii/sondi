@@ -58,14 +58,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, watchEffect } from "vue";
 import PropertyManagement from "./PropertyManagement.vue";
 import NewPropertyForm from "./NewPropertyForm.vue";
 import PropertyModal from "./PropertyModal.vue";
 import managePropertyModal from "@/composables/managePropertyModal";
 import { managePropertyListModal } from "@/composables/managePropertyListModal";
 import { manageNewPropertyFormModal } from "@/composables/manageNewPropertyFormModal";
+import { authManager } from "@/composables/authManager";
 import { Property } from "@/interfaces";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   components: {
@@ -93,6 +95,15 @@ export default defineComponent({
       property.value = makeProperty(ref(_property));
       openPropertyModal();
     };
+    const router = useRouter();
+    const { loggedIn } = authManager();
+
+    watchEffect(() => {
+      if (!loggedIn) {
+        router.push("/dashboard/login");
+      }
+    });
+
     return {
       openPropertyManagement,
       openNewPropertyFormModal,

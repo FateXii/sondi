@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "../views/Home.vue";
 import Admin from "../views/Admin.vue";
+import LoginForm from "@/components/Admin/LoginForm.vue";
+import RegistrationForm from "@/components/Admin/RegistrationForm.vue";
+import AdminPanel from "@/components/Admin/AdminPanel.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -9,9 +12,24 @@ const routes: Array<RouteRecordRaw> = [
     component: Home,
   },
   {
-    path: "/admin/",
+    path: "/dashboard",
     name: "Admin",
     component: Admin,
+    children: [
+      {
+        path: "",
+        component: AdminPanel,
+      },
+      {
+        path: "login",
+        component: LoginForm,
+      },
+
+      {
+        path: "register",
+        component: RegistrationForm,
+      },
+    ],
   },
 ];
 
