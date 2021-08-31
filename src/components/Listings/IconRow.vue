@@ -58,5 +58,9 @@ export default defineComponent({
   flex-flow: row wrap;
   justify-content: space-between;
   padding: 3rem 8.375rem;
+
+  @media (max-width: 375px) {
+    padding: 3rem 1rem;
+  }
 }
 </style>
