@@ -9,7 +9,9 @@ use App\Http\Controllers\RentalsController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SectionalsController;
 use App\Http\Controllers\SectionalUnitController;
+use App\Http\Controllers\StandAloneController;
 use App\Models\Address;
+use App\Models\StandAlone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,11 +26,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
   return $request->user();
 });
 
-Route::apiResource(
+Route::middleware('auth:sanctum')->apiResource(
   'properties',
   PropertyController::class
 );
@@ -58,6 +60,10 @@ Route::apiResource(
   AddressController::class
 );
 
+Route::apiResource(
+  'stand_alone',
+  StandAloneController::class
+);
 Route::apiResource(
   'images',
   ImageController::class
