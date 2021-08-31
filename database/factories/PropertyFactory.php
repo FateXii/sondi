@@ -30,6 +30,7 @@ class PropertyFactory extends Factory
       'sectional_units_id' => SectionalUnit::factory(),
       'stand_alones_id' => StandAlone::factory(),
       'description' => $this->faker->text,
+      'video_url' => $this->faker->url,
     ];
   }
 }

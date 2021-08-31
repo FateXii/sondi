@@ -47,7 +47,7 @@ class PropertyImageTest extends TestCase
         ->where('0.property_id', $property_id)
         ->etc()
     );
-    Storage::disk('public')->assertExists('storage/images/' . $image->hashName());
+    Storage::disk('public')->assertExists('images/' . $image->hashName());
   }
 
   public function test_list_user_images()

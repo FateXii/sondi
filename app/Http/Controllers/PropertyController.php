@@ -31,6 +31,7 @@ class PropertyController extends Controller
       'bathrooms' => 'required|integer',
       'garages' => 'required|integer',
       'description' => 'required|string',
+      'video_url' => 'string',
       'stand_alones_id' => 'required_if:sectional_units_id,null|integer',
       'sectional_units_id' => 'required_if:stand_alones_id,null|integer',
 
@@ -40,6 +41,7 @@ class PropertyController extends Controller
     $property->bathrooms = $request->bathrooms;
     $property->garages = $request->garages;
     $property->description = $request->description;
+    $property->video_url = $request->video_url;
     $property->sectional_units_id = $request->sectional_units_id;
     $property->stand_alones_id = $request->stand_alones_id;
 
@@ -78,6 +80,7 @@ class PropertyController extends Controller
     $request->validate([
       'bedrooms' => 'sometimes|required|integer',
       'bathrooms' => 'sometimes|required|integer',
+      'video_url' => 'sometimes|required|string',
       'garages' => 'sometimes|required|integer',
       'description' => 'sometimes|require|string'
     ]);
@@ -91,7 +94,8 @@ class PropertyController extends Controller
       'bedrooms',
       'bathrooms',
       'garages',
-      'description'
+      'description',
+      'url'
     ];
     foreach ($fields as $field) {
       if ($request->filled($field)) {
