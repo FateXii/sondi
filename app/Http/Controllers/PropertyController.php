@@ -38,6 +38,7 @@ class PropertyController extends Controller
     ]);
     $property = new Property;
     $property->bedrooms = $request->bedrooms;
+    $property->cover_image = $request->file('image')->store('images', 'public');
     $property->bathrooms = $request->bathrooms;
     $property->garages = $request->garages;
     $property->description = $request->description;

@@ -22,6 +22,7 @@ class CreatePropertyTable extends Migration
       $table->foreignId('stand_alones_id')->nullable();
       $table->foreignId('sectional_units_id')->nullable();
       $table->string('video_url')->nullable();
+      $table->string('cover_image');
       $table->timestamps();
 
       $table->index([
