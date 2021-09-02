@@ -23,8 +23,8 @@ export default defineComponent({
     Listings,
     Footer,
   },
-  setup() {
-    return {};
-  },
+  // setup() {
+  //   return {};
+  // },
 });
 </script>

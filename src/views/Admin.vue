@@ -1,26 +1,19 @@
 <template lang="html">
   <Header />
   <router-view></router-view>
+  <Footer />
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
+import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
-import { authManager, checkUser } from "@/composables/authManager";
-import { useRouter } from "vue-router";
+import Footer from "@/components/Footer.vue";
 export default defineComponent({
   components: {
     Header,
+    Footer,
   },
   setup() {
-    const { user } = authManager();
-    const router = useRouter();
-    onMounted(() => {
-      checkUser();
-      if (!user.value) {
-        router.push("/dashboard/login");
-      }
-    });
     return {};
   },
 });

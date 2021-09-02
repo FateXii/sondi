@@ -2,6 +2,13 @@ import http from "@/services/http-service";
 import { IProperty } from "@/interfaces/apiTypes";
 
 class Property {
+  completeCreate(data: FormData): Promise<any> {
+    return http.post("/api/create_property", data, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+  }
   create(data: IProperty): Promise<any> {
     return http.post("/api/properties", data);
   }

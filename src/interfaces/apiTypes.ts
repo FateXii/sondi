@@ -16,6 +16,9 @@ export interface IImage {
   path: File;
 }
 
+export interface IStandAloneProperty {
+  addresses_id: number;
+}
 export interface ISectionalProperty {
   name: string;
   type: string;
@@ -74,6 +77,7 @@ export interface ISectionalPropertyModel extends ISectionalProperty, IModel {}
 
 export interface IPropertyModel extends IProperty, IModel {}
 
+export interface IStandAlonePropertyModel extends IStandAloneProperty, IModel {}
 export interface ISaleModel extends ISale, IModel {
   property: IPropertyModel;
 }

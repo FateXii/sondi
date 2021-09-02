@@ -20,26 +20,20 @@
         <i class="el-icon-house"></i>
         <span>Manage Properties</span>
       </template>
-      <el-submenu index="3-1">
-        <template #title>
-          <i class="el-icon-plus"></i>
-          <span>New Property</span>
-        </template>
-        <el-menu-item index="3-1-1" @click="openNewPropertyFormModal">
-          Sectional
+      <router-link to="/dashboard/new_property">
+        <el-menu-item index="3-1">
+          <template #title>
+            <i class="el-icon-plus"></i>
+            <span>New Property</span>
+          </template>
         </el-menu-item>
-        <el-menu-item index="3-1-2" @click="openPropertyModal">
-          Stand Alone
-        </el-menu-item>
-      </el-submenu>
+      </router-link>
       <el-submenu index="3-2">
         <template #title>
           <i class="el-icon-view"></i>
           <span>View Properties</span>
         </template>
-        <el-menu-item index="3-2-1" @click="openPropertyListModal">
-          View All Properties
-        </el-menu-item>
+        <el-menu-item index="3-2-1"> View All Properties </el-menu-item>
         <el-menu-item index="3-2-2"> View Sectional Properties</el-menu-item>
         <el-menu-item index="3-2-3"> View Stand Alone Properties</el-menu-item>
       </el-submenu>
@@ -47,21 +41,21 @@
   </el-menu>
   <el-container class="admin-container">
     <el-main>
+      <router-view></router-view>
+    </el-main>
+    <!-- <el-main>
       <PropertyManagement
         @newProperty="addProperty"
         @editProperty="updateProperty"
       />
     </el-main>
     <PropertyModal :property="property" />
-    <NewPropertyForm />
+    <NewPropertyForm /> -->
   </el-container>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, watchEffect } from "vue";
-import PropertyManagement from "./PropertyManagement.vue";
-import NewPropertyForm from "./NewPropertyForm.vue";
-import PropertyModal from "./PropertyModal.vue";
 import managePropertyModal from "@/composables/managePropertyModal";
 import { managePropertyListModal } from "@/composables/managePropertyListModal";
 import { manageNewPropertyFormModal } from "@/composables/manageNewPropertyFormModal";
@@ -70,11 +64,7 @@ import { Property } from "@/interfaces";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
-  components: {
-    PropertyManagement,
-    PropertyModal,
-    NewPropertyForm,
-  },
+  components: {},
   setup() {
     const {
       propertyModal,

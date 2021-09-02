@@ -48,7 +48,9 @@ export default defineComponent({
     onMounted(() => {
       propertyImageApi.getAll(prop.property.property.id).then((response) => {
         const { data } = response;
-        imagePath.value = data.map((image: IImageModel) => image.path);
+        imagePath.value = data.map(
+          (image: IImageModel) => `storage/${image.path}`
+        );
       });
     });
     return {
