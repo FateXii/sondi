@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Property;
+use App\Models\PropertyImage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class PropertyController extends Controller
 {
@@ -15,7 +18,23 @@ class PropertyController extends Controller
    */
   public function index()
   {
-    return Property::all();
+    return Property::all()->map(function (Property $property) {
+      $price = null;
+      if (!$property->rentals) {
+        $price = $property->sales->price;
+      } else {
+        $price = $property->rentals->price;
+      }
+
+      return array_merge(
+        $property->toArray(),
+        [
+          'isSale' => !$property->rentals,
+          'price' => $price,
+          'address' => $property->address
+        ]
+      );
+    });
   }
 
   /**
@@ -31,13 +50,17 @@ class PropertyController extends Controller
       'bathrooms' => 'required|integer',
       'garages' => 'required|integer',
       'description' => 'required|string',
+      'title' => 'required|string',
+      'cover_image' => 'image',
       'video_url' => 'string',
       'stand_alones_id' => 'required_if:sectional_units_id,null|integer',
       'sectional_units_id' => 'required_if:stand_alones_id,null|integer',
 
     ]);
     $property = new Property;
+
     $property->bedrooms = $request->bedrooms;
+    $property->title = $request->title;
     $property->cover_image = $request->file('image')->store('images', 'public');
     $property->bathrooms = $request->bathrooms;
     $property->garages = $request->garages;
@@ -64,7 +87,27 @@ class PropertyController extends Controller
         'message' => 'property not found',
       ], 404);
     }
-    return $property;
+    $price = null;
+    if (!$property->rentals) {
+      $price = $property->sales->price;
+    } else {
+      $price = $property->rentals->price;
+    }
+
+    $images = PropertyImage::all()->where('property_id', $property->id)->map(
+      function ($image) {
+        return 'storage/' . $image->image->path;
+      }
+    );
+    return array_merge(
+      $property->toArray(),
+      [
+        'isSale' => !$property->rentals,
+        'price' => $price,
+        'address' => $property->address,
+        'images' => $images->toArray(),
+      ]
+    );
   }
 
   /**
@@ -82,6 +125,7 @@ class PropertyController extends Controller
       'bedrooms' => 'sometimes|required|integer',
       'bathrooms' => 'sometimes|required|integer',
       'video_url' => 'sometimes|required|string',
+      'title' => 'sometimes|required|string',
       'garages' => 'sometimes|required|integer',
       'description' => 'sometimes|require|string'
     ]);
@@ -96,6 +140,8 @@ class PropertyController extends Controller
       'bathrooms',
       'garages',
       'description',
+      'video_url',
+      'title',
       'url'
     ];
     foreach ($fields as $field) {
