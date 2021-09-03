@@ -1,6 +1,0 @@
-export const ADD_PROPERTY = "ADD_PROPERTY";
-export const REMOVE_PROPERTY = "REMOVE_PROPERTY";
-export const SET_VIEWING = "SET_VIEWING";
-export const SET_BUYING_FLAG = "SET_BUYING_FLAG";
-export const TOGGLE_INTERESTED = "TOGGLE_INTERESTED";
-export const SET_AUTH = "SET_AUTH";

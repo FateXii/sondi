@@ -27,16 +27,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { SET_BUYING_FLAG } from "../store/mutation-types";
 
 export default defineComponent({
   setup() {
-    const store = useStore();
     const router = useRouter();
     const setBuyingFlag = (flag: boolean) => {
-      store.commit(SET_BUYING_FLAG, flag);
       const route = flag ? "#buying" : "#renting";
       router.push(route);
     };
