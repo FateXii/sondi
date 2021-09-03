@@ -113,11 +113,12 @@ export default defineComponent({
 .el-main {
   flex-flow: row nowrap;
   justify-content: center;
+  padding: 1rem 0;
   @media (min-width: 767px) {
-    padding: 0 10%;
+    // padding: 0 10%;
   }
   @media (min-width: 1023px) {
-    padding: 0 20%;
+    // padding: 0 20%;s
     // width: 60%;
     margin-top: 5vh;
   }
