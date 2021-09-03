@@ -117,6 +117,25 @@ class PropertyController extends Controller
    */
   public function destroy(Property $property)
   {
-    $property->delete();
+    Storage::delete($property->cover_image);
+    $images = PropertyImage::all()->where('property_id', $property->id);
+    foreach ($images as $image) {
+      Storage::delete($property->cover_image);
+      $currentImage = Image::all()->firstWhere('image_id', $image->image_id);
+      Storage::delete($currentImage->path);
+    }
+    if ($property->sales()) {
+
+      $property->sales()->delete();
+    } else {
+      $property->rentals()->delete();
+    }
+    if ($property->sectionalUnit()) {
+      $property->sectionalUnit()->delete();
+    } else {
+      $property->standAlone()->address()->delete();
+      $property->standAlone()->delete();
+    }
+    $property->$property->delete();
   }
 }

@@ -7,6 +7,7 @@ use App\Models\Property;
 use App\Models\PropertyImage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class PropertyImageController extends Controller
 {
@@ -39,7 +40,7 @@ class PropertyImageController extends Controller
         $propertyImage->property_id = $property_id;
 
         $image = new Image;
-        $image->path = 'storage/' . $file->store('images', 'public');
+        $image->path = $file->store('images', 'public');
         $image->save();
 
         $propertyImage->image_id = $image->id;
@@ -92,6 +93,7 @@ class PropertyImageController extends Controller
    */
   public function destroy(Image $image)
   {
+    Storage::delete($image->path);
     $image->delete();
   }
 }
