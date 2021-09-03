@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\FullPropertyController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\PropertyController;
@@ -30,10 +31,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
   return $request->user();
 });
 
-Route::middleware('auth:sanctum')->apiResource(
+Route::apiResource(
   'properties',
   PropertyController::class
 );
+
+Route::post('/create_property', [FullPropertyController::class, 'create']);
 
 Route::apiResource(
   'properties.images',
