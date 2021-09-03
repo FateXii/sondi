@@ -3,7 +3,7 @@
     <div class="property">
       <h1 class="property__heading">
         <span class="property__heading__price">
-          {{ formatter.format(property.price) }}
+          {{ price }}
         </span>
         |
         <span class="property__heading__title">{{ property.title }}</span>
@@ -53,27 +53,25 @@
         </div>
       </div>
     </div>
-    <el-affix target="#affix-container" :offset="80">
-      <div class="contact property-item">
-        <el-form class="contact__form">
-          <el-form-item>
-            <el-input placeholder="Name"> </el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-input placeholder="Contact Number"> </el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-input placeholder="Email Address"> </el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-input type="textarea" placeholder="Email Address"> </el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button> Send </el-button>
-          </el-form-item>
-        </el-form>
-      </div>
-    </el-affix>
+    <div :class="['contact', 'property-item']">
+      <el-form class="contact__form">
+        <el-form-item>
+          <el-input placeholder="Name"> </el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input placeholder="Contact Number"> </el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input placeholder="Email Address"> </el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input type="textarea" placeholder="Email Address"> </el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button> Send </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -83,7 +81,7 @@ import { defineComponent, onMounted, onUnmounted, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import FeatureIcon from "@/components/FeatureIcon.vue";
 
-const formatter = new Intl.NumberFormat("en-ZA", {
+const currenyFormatter = new Intl.NumberFormat("en-ZA", {
   currency: "ZAR",
   style: "currency",
 });
@@ -95,36 +93,77 @@ export default defineComponent({
   setup() {
     const property = ref();
     const route = useRoute();
-    const fixedHeight = ref(300);
-    console.log(fixedHeight.value);
+    const price = ref("");
     function setImageHost(image: string) {
       return `${process.env.VUE_APP_API_HOST}${image}`;
     }
-    const onWindowResize = (e: any) => {
-      console.log("re: ", e);
-      fixedHeight.value = window.innerHeight / 4;
+    let contactWidth = Number();
+    const onWindowScroll = (e: any) => {
+      const propertyDetailContainer =
+        document.getElementsByClassName("property")[0];
+      const propertyContactInfo = document.getElementsByClassName("contact")[0];
+      const {
+        width,
+        top: contactTop,
+        bottom: contactBottom,
+      } = propertyContactInfo.getBoundingClientRect();
+      contactWidth = Math.max(width, contactWidth);
+      const {
+        top,
+        right,
+        bottom: propertyBottom,
+      } = propertyDetailContainer.getBoundingClientRect();
+      console.log(`scroll: pT=${top}; cT=${contactTop}`);
+      console.log(
+        `scroll: pB=${Math.round(propertyBottom)}; cB=${Math.round(
+          contactBottom
+        )}`
+      );
+      const fixedPos = 200;
+      if (
+        top <= fixedPos &&
+        Math.round(contactBottom) < Math.round(propertyBottom) &&
+        contactTop >= fixedPos
+      ) {
+        if (propertyContactInfo) {
+          propertyContactInfo.setAttribute(
+            "style",
+            `top:${fixedPos}px;` +
+              `position:fixed;` +
+              `left:calc(1rem + ${right}px);` +
+              `width:${contactWidth}px;`
+          );
+        }
+      } else if (top <= fixedPos && contactTop < fixedPos) {
+        propertyContactInfo.setAttribute("style", `align-self:end;`);
+      } else {
+        propertyContactInfo.setAttribute("style", ``);
+      }
     };
-    window.addEventListener("resize", onWindowResize);
+    window.addEventListener("scroll", onWindowScroll);
     onUnmounted(() => {
-      window.removeEventListener("resize", onWindowResize);
+      window.removeEventListener("scroll", onWindowScroll);
     });
     onMounted(() => {
       propertyApi.get(Number(route.params.id)).then((res) => {
         const { data } = res;
         property.value = data;
+        price.value = currenyFormatter.format(data.price);
       });
     });
     return {
+      price,
       property,
-      formatter,
-      fixedHeight,
       setImageHost,
+      currenyFormatter,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+.fixed {
+}
 .el-carousel {
   &__container {
     height: fit-content;
@@ -146,17 +185,16 @@ export default defineComponent({
 }
 
 .property-detail {
-  // display: grid;
-  // grid-template-columns: 2fr 1fr;
-  // gap: 1rem;
-  display: flex;
-  flex-flow: row nowrap;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
   padding: 2rem;
   .contact {
     flex: 1;
     height: fit-content;
   }
   .property {
+    height: fit-content;
     flex: 2;
     &__images {
       border: none;
