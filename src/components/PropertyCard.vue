@@ -1,49 +1,58 @@
 <template lang="html">
   <div class="card">
-    <el-card shadow="never" :body-style="{ padding: '0px' }">
-      <img :src="setImageHost(imagePath)" class="card__image" />
-      <div class="card__description">
-        <span class="card__description__price">R {{ property.price }} </span>
-        <div class="card__description__stats" v-if="property.bedrooms > 0">
-          <div class="card__description__stats__container">
-            <span class="card__description__stats__container__number">{{
-              property.bedrooms
-            }}</span>
-            <img
-              :src="require('../assets/icons/bed.svg')"
-              class="card__description__stats__container__icon"
-              alt="location droppoint"
-            />
-          </div>
-          <div
-            class="card__description__stats__container"
-            :v-if="property.bathrooms > 0"
-          >
-            <span class="card__description__stats__container__number">{{
-              property.bathrooms
-            }}</span>
-            <img
-              :src="require('../assets/icons/bath.svg')"
-              class="card__description__stats__container__icon"
-              alt="location droppoint"
-            />
-          </div>
-          <div
-            class="card__description__stats__container"
-            :v-if="property.garages > 0"
-          >
-            <span class="card__description__stats__container__number">{{
-              property.garages
-            }}</span>
-            <img
-              :src="require('../assets/icons/gar.svg')"
-              class="card__description__stats__container__icon"
-              alt="location droppoint"
-            />
-          </div>
+    <h1 class="card__title">{{ property.title }}</h1>
+    <img :src="setImageHost(imagePath)" class="card__image" />
+    <div class="card__description">
+      <div class="card__description__summary">
+        <span class="card__description__summary__price"
+          >R {{ property.price }}
+        </span>
+        <span class="card__description__summary__text">
+          <p>{{ property.description }}</p>
+        </span>
+      </div>
+      <div class="card__description__stats">
+        <div
+          class="card__description__stats__container"
+          v-if="property.bedrooms > 0"
+        >
+          <span class="card__description__stats__container__number">{{
+            property.bedrooms
+          }}</span>
+          <img
+            :src="require('../assets/icons/bed.svg')"
+            class="card__description__stats__container__icon"
+            alt="location droppoint"
+          />
+        </div>
+        <div
+          class="card__description__stats__container"
+          :v-if="property.bathrooms > 0"
+        >
+          <span class="card__description__stats__container__number">{{
+            property.bathrooms
+          }}</span>
+          <img
+            :src="require('../assets/icons/bath.svg')"
+            class="card__description__stats__container__icon"
+            alt="location droppoint"
+          />
+        </div>
+        <div
+          class="card__description__stats__container"
+          :v-if="property.garages > 0"
+        >
+          <span class="card__description__stats__container__number">{{
+            property.garages
+          }}</span>
+          <img
+            :src="require('../assets/icons/gar.svg')"
+            class="card__description__stats__container__icon"
+            alt="location droppoint"
+          />
         </div>
       </div>
-    </el-card>
+    </div>
   </div>
 </template>
 
@@ -51,6 +60,7 @@
 import { defineComponent, PropType, ref, onMounted, watchEffect } from "vue";
 import { Property } from "@/interfaces";
 import propertyImageApi from "@/services/PropertyImage";
+import propertyApi from "@/services/property";
 import { IImageModel } from "@/interfaces/apiTypes";
 
 export default defineComponent({
@@ -60,16 +70,20 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(prop) {
+  setup(props) {
+    onMounted(() => {
+      console.log(props.property);
+    });
     const setImageHost = (image: string) => {
       return `${process.env.VUE_APP_API_HOST}${image}`;
     };
     const propertyImage = ref<IImageModel>();
     const imagePath = ref("");
     watchEffect(() => {
-      propertyImageApi.getAll(prop.property.property.id).then((response) => {
+      propertyApi.get(props.property.id).then((response) => {
         const { data } = response;
-        imagePath.value = data[0].path;
+        console.log(data);
+        imagePath.value = `storage/${data.cover_image}`;
       });
     });
     return {
@@ -84,6 +98,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 .card {
   width: 20rem;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
   &__image {
     width: 100%;
   }

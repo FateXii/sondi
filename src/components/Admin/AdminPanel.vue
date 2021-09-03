@@ -110,6 +110,18 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.el-main {
+  flex-flow: row nowrap;
+  justify-content: center;
+  @media (min-width: 767px) {
+    padding: 0 10%;
+  }
+  @media (min-width: 1023px) {
+    padding: 0 20%;
+    // width: 60%;
+    margin-top: 5vh;
+  }
+}
 .admin-container {
   flex-flow: column nowrap;
 }

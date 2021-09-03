@@ -4,6 +4,9 @@
       <h1>Create New Property</h1>
       <el-collapse v-model="activeFormItem" accordion>
         <el-collapse-item title="Description" name="type">
+          <el-form-item label="Title">
+            <el-input v-model="property.title"></el-input>
+          </el-form-item>
           <el-form-item label="Property Type">
             <el-select v-model="property.type" placeholder="Property Type">
               <el-option
@@ -290,10 +293,10 @@ export default defineComponent({
     padding: 1rem;
     @media (min-width: 767px) {
       padding: 2rem;
-      width: 80%;
+      // width: 80%;
     }
     @media (min-width: 1023px) {
-      width: 60%;
+      // width: 60%;
       margin-top: 5vh;
     }
   }

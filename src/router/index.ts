@@ -5,6 +5,8 @@ import LoginForm from "@/components/Admin/LoginForm.vue";
 import RegistrationForm from "@/components/Admin/RegistrationForm.vue";
 import AdminPanel from "@/components/Admin/AdminPanel.vue";
 import NewProperty from "@/components/Properties/NewProperty.vue";
+import PropertyList from "@/components/Properties/PropertyList.vue";
+import PropertyDetails from "@/components/Properties/PropertyDetail.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -30,6 +32,14 @@ const routes: Array<RouteRecordRaw> = [
         path: "",
         component: AdminPanel,
         children: [
+          {
+            path: "properties",
+            component: PropertyList,
+          },
+          {
+            path: "properties/:id",
+            component: PropertyDetails,
+          },
           {
             path: "new_property",
             component: NewProperty,

@@ -58,6 +58,8 @@ interface IPropertyForm {
   cover_image: ElFile | undefined;
 
   //address
+  title: string;
+  name: string;
   street: string;
   city: string;
   province: string;
@@ -75,8 +77,10 @@ interface IPropertyForm {
 function createFormData(property: IPropertyForm, isSectional: Bool): FormData {
   const propertyFormData = new FormData();
   propertyFormData.append("isSectional", isSectional);
-  propertyFormData.append("sectionalType", property.sectionalType);
+  propertyFormData.append("type", property.sectionalType);
   propertyFormData.append("unit", property.unit);
+  propertyFormData.append("title", property.title);
+  propertyFormData.append("name", property.name);
 
   propertyFormData.append("bedrooms", property.bedrooms.toString());
   propertyFormData.append("bathrooms", property.bathrooms.toString());
@@ -118,6 +122,8 @@ export const manageNewProperty = (): any => {
     cover_image: undefined,
 
     //address
+    title: "name",
+    name: "name",
     street: "",
     city: "",
     province: "",
@@ -139,7 +145,6 @@ export const manageNewProperty = (): any => {
         index < uploadedImages.value.uploadFiles.length;
         index++
       ) {
-        property.images = [];
         property.images.push(uploadedImages.value.uploadFiles[index].raw);
       }
     }
@@ -167,7 +172,10 @@ export const manageNewProperty = (): any => {
           router.push(`/dashboard/properties/${data.id}`);
         }
       })
-      .catch((e) => console.error(e));
+      .catch((e) => {
+        creatingProperty.value = false;
+        console.error(e);
+      });
   }
   return {
     uploadedCoverImage,
