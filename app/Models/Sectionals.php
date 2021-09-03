@@ -13,9 +13,4 @@ class Sectionals extends Model
   {
     return $this->hasMany(SectionalUnit::class);
   }
-
-  public function address()
-  {
-    return $this->belongsTo(Address::class, 'addresses_id');
-  }
 }

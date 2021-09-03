@@ -20,14 +20,17 @@ class CreatePropertyTable extends Migration
       $table->integer('garages');
       $table->text('description');
       $table->foreignId('stand_alones_id')->nullable();
+      $table->foreignId('addresses_id')->nullable();
       $table->foreignId('sectional_units_id')->nullable();
       $table->string('video_url')->nullable();
       $table->string('cover_image');
+      $table->string('title');
       $table->timestamps();
 
       $table->index([
         'stand_alones_id',
-        'sectional_units_id'
+        'sectional_units_id',
+        'addresses_id',
       ]);
     });
   }

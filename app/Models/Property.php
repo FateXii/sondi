@@ -39,4 +39,9 @@ class Property extends Model
   {
     return $this->belongsTo(StandAlone::class, 'stand_alones_id');
   }
+
+  public function address()
+  {
+    return $this->belongsTo(Address::class, 'addresses_id');
+  }
 }

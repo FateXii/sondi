@@ -15,17 +15,7 @@ class SectionalsController extends Controller
    */
   public function index()
   {
-    $sectionals = Sectionals::all();
-    return $sectionals->map(
-      function (Sectionals $sectional) {
-        return [
-          'id' => $sectional->id,
-          'name' => $sectional->name,
-          'address' => $sectional->address,
-          'image' => $sectional->image,
-        ];
-      }
-    );
+    return Sectionals::all();
   }
 
   /**
@@ -39,15 +29,12 @@ class SectionalsController extends Controller
     $request->validate([
       'name' => 'required|string',
       'type' => 'required|string',
-      'image' => 'required|file',
-      'addresses_id' => 'required|integer',
+      'street_address' => 'required|string',
     ]);
     $sectional = new Sectionals;
-    $sectional->addresses_id = $request->addresses_id;
     $sectional->name = $request->name;
     $sectional->type = $request->type;
-    $sectional->image = 'storage/' . $request->file('image')
-      ->store('images', 'public');
+    $sectional->street_address = $request->street_address;
 
     $sectional->save();
 
@@ -65,8 +52,8 @@ class SectionalsController extends Controller
     return [
       'id' => $sectional->id,
       'name' => $sectional->name,
-      'address' => $sectional->address,
-      'image' => $sectional->image
+      'type' => $sectional->type,
+      'street_address' => $sectional->street_address,
     ];
   }
 
@@ -86,13 +73,10 @@ class SectionalsController extends Controller
     }
 
     $fields = [
-      'name', 'type', 'image'
+      'name', 'type', 'street_address'
     ];
     foreach ($fields as $field) {
-      if ($field === 'image' && $request->filled('image')) {
-        $sectional->image = $request->file('image')
-          ->store('images', 'public');
-      } else if ($request->filled($field)) {
+      if ($request->filled($field)) {
         $sectional[$field] = $request[$field];
       }
     }

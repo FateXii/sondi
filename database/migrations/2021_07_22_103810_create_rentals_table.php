@@ -6,32 +6,32 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateRentalsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('rentals', function (Blueprint $table) {
-            $table->id();
-            $table
-              ->foreignId('property_id')
-              ->nullable();
-            $table->unsignedFloat('price');
-            $table->timestamps();
+  /**
+   * Run the migrations.
+   *
+   * @return void
+   */
+  public function up()
+  {
+    Schema::create('rentals', function (Blueprint $table) {
+      $table->id();
+      $table
+        ->foreignId('property_id')
+        ->nullable();
+      $table->unsignedInteger('price');
+      $table->timestamps();
 
-            $table->index('property_id');
-        });
-    }
+      $table->index('property_id');
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('rentals');
-    }
+  /**
+   * Reverse the migrations.
+   *
+   * @return void
+   */
+  public function down()
+  {
+    Schema::dropIfExists('rentals');
+  }
 }

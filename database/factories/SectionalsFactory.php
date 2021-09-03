@@ -26,13 +26,11 @@ class SectionalsFactory extends Factory
   {
     Storage::fake('public');
     return [
-      'addresses_id' => Address::factory(),
       'name' => $this->faker->word,
       'type' => $this->faker->randomElement(
         ['apartment', 'complex']
       ),
-      'image' => UploadedFile::fake()
-        ->image($this->faker->image)->store('images'),
+      'street_address' => $this->faker->streetAddress,
     ];
   }
 }

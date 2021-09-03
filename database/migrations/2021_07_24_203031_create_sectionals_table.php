@@ -15,13 +15,10 @@ class CreateSectionalsTable extends Migration
   {
     Schema::create('sectionals', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('addresses_id');
       $table->string('name');
       $table->string('type');
-      $table->string('image');
+      $table->string('street_address');
       $table->timestamps();
-
-      $table->index('addresses_id');
     });
   }
 

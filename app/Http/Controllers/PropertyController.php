@@ -50,6 +50,7 @@ class PropertyController extends Controller
       'bathrooms' => 'required|integer',
       'garages' => 'required|integer',
       'description' => 'required|string',
+      'addresses_id' => 'required|number',
       'title' => 'required|string',
       'cover_image' => 'image',
       'video_url' => 'string',
@@ -59,6 +60,7 @@ class PropertyController extends Controller
     ]);
     $property = new Property;
 
+    $property->addresses_id = $request->addresses_id;
     $property->bedrooms = $request->bedrooms;
     $property->title = $request->title;
     $property->cover_image = $request->file('image')->store('images', 'public');
