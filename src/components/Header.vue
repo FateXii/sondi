@@ -21,9 +21,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from "vue";
+import { defineComponent, ref } from "vue";
 import { manageContactModal } from "@/composables/manageContactModal";
-import { authManager, checkUser } from "@/composables/authManager";
+import { authManager } from "@/composables/authManager";
 import { useRouter } from "vue-router";
 import HeaderMenuItems from "@/components/HeaderMenuItems.vue";
 
@@ -41,20 +41,12 @@ export default defineComponent({
       openContactModal();
     };
     const drawer = ref(false);
-    const setBuying = (buying: boolean) => {
-      drawer.value = false;
-    };
     const router = useRouter();
     const goToDashboard = () => {
       router.push("/dashboard");
     };
-    onMounted(() => {
-      checkUser();
-      console.log(user);
-    });
     return {
       goToDashboard,
-      setBuying,
       drawer,
       openNormalContactModal,
       loggedIn,

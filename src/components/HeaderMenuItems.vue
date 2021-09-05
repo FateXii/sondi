@@ -20,9 +20,9 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
+import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
-import { authManager, checkUser } from "@/composables/authManager";
+import { authManager } from "@/composables/authManager";
 
 export default defineComponent({
   setup() {
@@ -30,16 +30,12 @@ export default defineComponent({
     const router = useRouter();
     const toggleLoggedIn = () => {
       if (!user.value) {
-        router.push("/dashboard");
+        router.push("/dashboard/login");
       } else {
         logout();
-        /* router.push("/"); */
+        router.push("/");
       }
     };
-    onMounted(() => {
-      checkUser();
-      console.log(user);
-    });
     return {
       toggleLoggedIn,
       loggingOut,
