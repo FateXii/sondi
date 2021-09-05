@@ -1,114 +1,137 @@
 import { computed, reactive, Ref, ref } from "vue";
-import userApi from "@/services/user";
+import AuthService from "@/services/AuthService";
 import { useRouter } from "vue-router";
 import {
   IUser,
   IUserLoginData,
   IUserRegistrationData,
 } from "@/interfaces/apiTypes";
+import { use } from "element-plus/lib/locale";
 
+function getError(e: any) {
+  const errorMessage = "API Error, please try again.";
+  if (e.response.data && e.response.data.errors) {
+    return e.response.data.errors;
+  }
+  return errorMessage;
+}
 type Option<T> = undefined | T;
 
-const user = ref<Option<IUser>>(undefined);
-export const checkUser = () => {
-  userApi
-    .get()
-    .then((response) => {
-      if (response.status === 200) {
-        const { id, name, email } = response.data;
-        user.value = {
-          id,
-          name,
-          email,
-        };
-      }
-      console.log(`then loggedIn: ${user.value?.name}`);
-    })
-    .catch((_) => {
-      console.log(`catch loggedIn: ${user.value?.name}`);
-    });
-};
+const authError = ref();
+function setError(error: any) {
+  authError.value = getError(error);
+}
 
-const loginForm = reactive({
-  email: "",
-  password: "",
-});
-const registrationForm = reactive({
-  name: "",
-  email: "",
-  password: "",
-  password_confirmation: "",
-});
+const user = ref<Option<IUser>>(undefined);
+
+function setUser(newUser: Option<IUser>) {
+  user.value = newUser;
+}
+function setGuest(guestStatus: string) {
+  window.localStorage.setItem("guest", guestStatus);
+}
+
+function makeGuest() {
+  setGuest("isGuest");
+}
+
+function unMakeGuest() {
+  setGuest("isNotGuest");
+}
+
+export function isGuest() {
+  const guestStatus = window.localStorage.getItem("guest");
+  if (!guestStatus || guestStatus === "isNotGuest") return false;
+  if (guestStatus === "isGuest") return true;
+}
+async function getAuthUser() {
+  try {
+    const { data } = await AuthService.getAuthUser();
+    setUser(data);
+    unMakeGuest();
+  } catch (error) {
+    setUser(undefined);
+    makeGuest();
+  }
+  return user.value;
+}
+
 export const authManager = () => {
   const registering = ref(false);
   const loggingIn = ref(false);
   const loggingOut = ref(false);
   const router = useRouter();
-  const logout = () => {
-    loggingOut.value = true;
-    checkUser();
-    if (user.value) {
-      userApi
-        .logout()
-        .then((response) => {
-          if (response.status === 204) {
-            user.value = undefined;
-            loggingOut.value = false;
-          }
-          router.push("/");
-        })
-        .catch((error) => {
-          console.error(error);
-          loggingOut.value = false;
-        });
-    }
-    loggingOut.value = false;
-  };
-  const login = (data: IUserLoginData = loginForm) => {
-    console.log("logging in");
-    console.log(data);
-    loggingIn.value = true;
-    userApi
-      .login(data)
-      .then((response) => {
-        if (response.status === 200) {
-          loggingIn.value = false;
-          checkUser();
-          router.push("/dashboard");
-        }
+  const registrationForm = reactive({
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+  });
+  const register = (payload: IUserRegistrationData = registrationForm) => {
+    authError.value = null;
+    registering.value = true;
+    AuthService.register(payload)
+      .then(() => {
+        router.push("/dashboard");
+        getAuthUser();
+        registering.value = false;
       })
-      .catch((error) => {
-        console.error(error);
-        loggingIn.value = false;
+      .catch((apiError) => {
+        setError(apiError);
+        registering.value = false;
       });
   };
-  const register = (data: IUserRegistrationData = registrationForm) => {
-    console.log(data);
-    registering.value = true;
-    userApi
-      .register(data)
-      .then((response) => {
-        if (response.status === 201) {
-          registering.value = false;
-          const { email, password } = data;
-          login({ email, password });
-        }
+  const loginForm = reactive({
+    email: "",
+    password: "",
+  });
+  const login = async (payload: IUserLoginData = loginForm) => {
+    authError.value = null;
+    loggingIn.value = true;
+    try {
+      await AuthService.login(payload);
+      const authUser = await getAuthUser();
+      if (authUser) {
+        router.push("/dashboard");
+        loggingIn.value = false;
+      } else {
+        const apiError = Error(
+          "Unable to fetch user after login, check your API settings."
+        );
+        apiError.name = "Fetch User";
+        loggingIn.value = false;
+        throw apiError;
+      }
+    } catch (apiError) {
+      setError(apiError);
+      loggingIn.value = false;
+    }
+  };
+  const logout = () => {
+    authError.value = null;
+    loggingOut.value = true;
+    AuthService.logout()
+      .then(() => {
+        setUser(undefined);
+        setGuest("isGuest");
+        loggingOut.value = false;
       })
-      .catch((error) => {
-        console.error(error);
-        registering.value = false;
+      .catch((apiError) => {
+        setError(apiError);
       });
   };
   return {
     loginForm,
-    login,
     loggingIn,
-    logout,
     loggingOut,
     registrationForm,
-    register,
     registering,
     user,
     loggedIn: computed(() => user.value !== undefined),
+    isAdmin: computed(() => user.value && user.value.is_admin),
+    getAuthUser,
+    login,
+    logout,
+    register,
   };
 };

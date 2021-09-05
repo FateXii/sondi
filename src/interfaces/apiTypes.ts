@@ -5,6 +5,9 @@ export interface IUser {
   id: number;
   name: string;
   email: string;
+  is_admin: boolean;
+  is_agent: boolean;
+  is_tenant: boolean;
 }
 
 export interface ISectionalUnit {

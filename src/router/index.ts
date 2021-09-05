@@ -17,6 +17,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/dashboard",
     name: "Admin",
+
     component: Admin,
     children: [
       {
@@ -35,14 +36,26 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: "properties",
             component: PropertyList,
+            meta: {
+              requiresAuth: true,
+              requiresAdmin: true,
+            },
           },
           {
             path: "properties/:id",
             component: PropertyDetails,
+            meta: {
+              requiresAuth: true,
+              requiresAdmin: true,
+            },
           },
           {
             path: "new_property",
             component: NewProperty,
+            meta: {
+              requiresAuth: true,
+              requiresAdmin: true,
+            },
           },
         ],
       },
