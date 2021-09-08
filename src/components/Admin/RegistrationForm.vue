@@ -36,12 +36,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { authManager } from "@/composables/authManager";
+import { AuthManager } from "@/composables/AuthManager";
 
 export default defineComponent({
   setup() {
     const { loggingIn, registrationForm, register, registering } =
-      authManager();
+      AuthManager();
     const registerUser = () => {
       register();
     };

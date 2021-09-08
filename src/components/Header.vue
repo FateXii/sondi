@@ -23,7 +23,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { manageContactModal } from "@/composables/manageContactModal";
-import { authManager } from "@/composables/authManager";
+import { AuthManager } from "@/composables/AuthManager";
 import { useRouter } from "vue-router";
 import HeaderMenuItems from "@/components/HeaderMenuItems.vue";
 
@@ -34,7 +34,7 @@ export default defineComponent({
   setup() {
     const { interested, clearContactForm, openContactModal } =
       manageContactModal();
-    const { loggedIn, user } = authManager();
+    const { loggedIn, user } = AuthManager();
     const openNormalContactModal = () => {
       clearContactForm();
       interested.value = false;

@@ -22,14 +22,14 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
-import { authManager } from "@/composables/authManager";
+import { AuthManager } from "@/composables/AuthManager";
 
 export default defineComponent({
   setup() {
-    const { loggedIn, user, logout, loggingOut, loggingIn } = authManager();
+    const { loggedIn, user, logout, loggingOut, loggingIn } = AuthManager();
     const router = useRouter();
     const toggleLoggedIn = () => {
-      if (!user.value) {
+      if (!user) {
         router.push("/dashboard/login");
       } else {
         logout();

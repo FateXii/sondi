@@ -43,14 +43,6 @@
     <el-main>
       <router-view></router-view>
     </el-main>
-    <!-- <el-main>
-      <PropertyManagement
-        @newProperty="addProperty"
-        @editProperty="updateProperty"
-      />
-    </el-main>
-    <PropertyModal :property="property" />
-    <NewPropertyForm /> -->
   </el-container>
 </template>
 
@@ -59,7 +51,7 @@ import { defineComponent, ref, watchEffect } from "vue";
 import managePropertyModal from "@/composables/managePropertyModal";
 import { managePropertyListModal } from "@/composables/managePropertyListModal";
 import { manageNewPropertyFormModal } from "@/composables/manageNewPropertyFormModal";
-import { authManager } from "@/composables/authManager";
+import { AuthManager } from "@/composables/AuthManager";
 import { Property } from "@/interfaces";
 import { useRouter } from "vue-router";
 
@@ -86,7 +78,7 @@ export default defineComponent({
       openPropertyModal();
     };
     const router = useRouter();
-    const { loggedIn } = authManager();
+    const { loggedIn } = AuthManager();
 
     watchEffect(() => {
       if (!loggedIn) {

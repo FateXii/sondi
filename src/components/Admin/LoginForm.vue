@@ -21,18 +21,18 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, reactive } from "vue";
-import { authManager } from "@/composables/authManager";
+import { AuthManager } from "@/composables/AuthManager";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
   setup() {
-    const { login, user, loginForm, loggingIn } = authManager();
+    const { login, user, loginForm, loggingIn } = AuthManager();
     const loginUser = () => {
       login();
     };
     const router = useRouter();
     onMounted(() => {
-      if (user.value) {
+      if (user) {
         router.push("/dashboard");
       }
     });

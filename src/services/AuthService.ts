@@ -1,11 +1,16 @@
-import axios, { AxiosInstance } from "axios";
+import axios from "axios";
 import { IUserLoginData, IUserRegistrationData } from "@/interfaces/apiTypes";
-import Auth, { GetAuthenticatedUser } from "@/store/auth";
+import Auth from "@/store/auth";
 import { AuthManager } from "@/composables/AuthManager";
 
 export const authClient = axios.create({
   baseURL: process.env.VUE_APP_API_HOST,
-  withCredentials: true, // required to handle the CSRF token
+  withCredentials: true,
+  headers: {
+    "content-type": "application/json",
+    Accept: "application/json",
+    "X-Requested-With": "XMLHttpRequest",
+  },
 });
 
 /*
