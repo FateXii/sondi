@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\PotentialUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -28,14 +29,19 @@ class CreateNewUser implements CreatesNewUsers
                 'email',
                 'max:255',
                 Rule::unique(User::class),
+                Rule::exists('potential_users','email')
             ],
             'password' => $this->passwordRules(),
-        ])->validate();
+        ],
+        ['exists' => 'The :attribute must be in referenced table']
+        )->validate();
 
-        return User::create([
+
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+        return $user;
     }
 }
