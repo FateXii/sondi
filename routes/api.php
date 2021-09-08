@@ -11,6 +11,7 @@ use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SectionalsController;
 use App\Http\Controllers\SectionalUnitController;
 use App\Http\Controllers\StandAloneController;
+use App\Http\Controllers\TokenController;
 use App\Models\Address;
 use App\Models\StandAlone;
 use Illuminate\Http\Request;
@@ -26,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/sanctum/token', TokenController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
   return $request->user();
