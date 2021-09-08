@@ -44,21 +44,21 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function profile()
     {
-        return $this->hasOne(UserProfile::class);
+        return $this->hasOne(UserProfile::class, 'user_id');
     }
 
-    public function isAdmin()
+    public function isAdmin(): bool
     {
-        return $this->profile()->is_admin;
+        return $this->profile->is_admin;
     }
 
-    public function isAgent()
+    public function isAgent(): bool
     {
-        return $this->profile()->is_agent;
+        return $this->profile->is_agent;
     }
 
-    public function isTenant()
+    public function isTenant(): bool
     {
-        return $this->profile()->is_tenant;
+        return $this->profile->is_tenant;
     }
 }

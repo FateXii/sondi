@@ -23,8 +23,8 @@ class UserProfileController extends Controller
 
         /**@var App\Models\User $user  */
         $user = Auth::user();
-        if (!$user || $user->isTenant){
-            return Response::HTTP_UNAUTHORIZED;
+        if (!$user || $user->isTenant()){
+            return response()->json(['message' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
         }
         else if ($user->isAdmin()){
             return UserProfileResource::collection(
@@ -109,7 +109,7 @@ class UserProfileController extends Controller
             ]);
             return Response::HTTP_NO_CONTENT;
         }
-        return  response()->json(["message" => "Not Authourized"], Response::HTTP_UNAUTHORIZED);
+        return  response()->json(["message" => "Unauthourized"], Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -120,7 +120,16 @@ class UserProfileController extends Controller
      */
     public function destroy(UserProfile $userProfile)
     {
-        $userProfile->delete();
+        /**@var App\Models\User $user  */
+        $user = Auth::user();
+        if (!$user || $user->isTenant()){
+            return response()->json(['message' => 'Unauthorized',], Response::HTTP_UNAUTHORIZED);
+        }
+        else if ($user->isAdmin()){
+            $userProfile->delete();
+        } else {
+            $userProfile->delete();
+        }
         return Response::HTTP_NO_CONTENT;
     }
 }
