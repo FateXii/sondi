@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { IUserLoginData, IUserRegistrationData } from "@/interfaces/apiTypes";
-import { isGuest, authManager } from "@/composables/authManager";
+import Auth, { GetAuthenticatedUser } from "@/store/auth";
+import { AuthManager } from "@/composables/AuthManager";
 
 export const authClient = axios.create({
   baseURL: process.env.VUE_APP_API_HOST,
@@ -16,12 +17,12 @@ authClient.interceptors.response.use(
   },
   function (error) {
     if (
-      error.response &&
       [401, 419].includes(error.response.status) &&
-      authManager().user &&
-      !isGuest()
+      error.response &&
+      Auth.state.user &&
+      Auth.IsGuest()
     ) {
-      authManager().logout();
+      AuthManager().logout();
     }
     return Promise.reject(error);
   }
