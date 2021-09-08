@@ -12,6 +12,7 @@ use App\Http\Controllers\SectionalsController;
 use App\Http\Controllers\SectionalUnitController;
 use App\Http\Controllers\StandAloneController;
 use App\Http\Controllers\TokenController;
+use App\Http\Controllers\UserProfileController;
 use App\Models\Address;
 use App\Models\StandAlone;
 use Illuminate\Http\Request;
@@ -32,6 +33,8 @@ Route::post('/sanctum/token', TokenController::class);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
   return $request->user();
 });
+
+Route::apiResource('profiles', UserProfileController::class)->middleware('auth:sanctum');
 
 Route::apiResource(
   'properties',
