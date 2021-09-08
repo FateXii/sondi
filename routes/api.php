@@ -3,7 +3,6 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\FullPropertyController;
 use App\Http\Controllers\ImageController;
-use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\PropertyImageController;
 use App\Http\Controllers\RentalsController;
@@ -13,8 +12,7 @@ use App\Http\Controllers\SectionalUnitController;
 use App\Http\Controllers\StandAloneController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserProfileController;
-use App\Models\Address;
-use App\Models\StandAlone;
+use App\Http\Resources\UserProfileResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,10 +26,11 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::post('/sanctum/token', TokenController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-  return $request->user();
+  return new UserProfileResource($request->user()->profile);
 });
 
 Route::apiResource('profiles', UserProfileController::class)->middleware('auth:sanctum');
