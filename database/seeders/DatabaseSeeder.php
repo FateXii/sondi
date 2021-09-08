@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\PotentialUser;
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,9 +16,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->createOne([
-            'email'=>'test@email.com'
-        ]);
+        UserProfile::factory()->count(10)->create();
+        UserProfile::factory()
+            ->state(['is_admin' => true])
+            ->for(User::factory()
+                    ->createOne([
+                        'email'=>'test@email.com'
+                    ]              
+                )  
+            )->createOne();
         $this->call([
             PotentialUserSeeder::class,
         ]);
