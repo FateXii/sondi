@@ -23,12 +23,16 @@
 import { defineComponent, onMounted, reactive } from "vue";
 import { AuthManager } from "@/composables/AuthManager";
 import { useRouter } from "vue-router";
+import Auth, {GetAuthenticatedUser} from "@/store/auth"
 
 export default defineComponent({
   setup() {
-    const { login, user, loginForm, loggingIn } = AuthManager();
+    const { login, user, loginForm, loggingIn, loginError } = AuthManager();
     const loginUser = () => {
-      login();
+      console.log("loginUser")
+      login().then(() => {
+        GetAuthenticatedUser().then(() =>  console.log("loggedIn"))
+        }).catch(error => console.log(error));
     };
     const router = useRouter();
     onMounted(() => {

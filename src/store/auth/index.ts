@@ -63,7 +63,7 @@ export async function GetAuthenticatedUser(): Promise<Option<IUserDataType>> {
     SetUser(null);
     SetError(GetError(error as RespnseError));
   }
-  return null;
+  return state.user;
 }
 
 export default { state, SetError, SetLoading, SetUser, IsGuest, SetGuest };
