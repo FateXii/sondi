@@ -1,20 +1,70 @@
-<template lang="html">
+<template>
   <el-menu
     default-active="1"
     class="el-menu-vertical-demo"
     background-color="#545c64"
     text-color="#fff"
     active-text-color="#ffd04b"
-    mode="horizontal"
+    :mode="displayWidth > 767 ? 'horizontal' : 'vertical'"
   >
-    <el-menu-item index="1">
-      <i class="el-icon-user"></i>
-      <span>Manage Users</span>
-    </el-menu-item>
-    <el-menu-item index="2">
-      <i class="el-icon-s-custom"></i>
-      <span>Manage Tenants</span>
-    </el-menu-item>
+    <el-submenu v-if="isAdmin" index="1">
+      <template #title>
+        <i class="el-icon-user"></i>
+        <span>Manage Users</span>
+      </template>
+      <router-link to="/dashboard/users">
+        <el-menu-item index="1-1">
+          <template #title>
+            <i class="el-icon-view"></i>
+            <span>View All Users</span>
+          </template>
+        </el-menu-item>
+      </router-link>
+      <el-submenu index="1-2">
+        <template #title>
+          <i class="el-icon-plus"></i>
+          <span>New Users</span>
+        </template>
+        <router-link to="/dashboard/new_user?type='admin'">
+          <el-menu-item index="1-2-1">
+            <template #title>
+              <span>Admin</span>
+            </template>
+          </el-menu-item>
+        </router-link>
+        <router-link to="/dashboard/new_user?type='agent'">
+          <el-menu-item index="1-2-2">
+            <template #title>
+              <span>Agent</span>
+            </template>
+          </el-menu-item>
+        </router-link>
+      </el-submenu>
+    </el-submenu>
+
+    <el-submenu v-if="isAdmin || isAgent" index="2">
+      <template #title>
+        <i class="el-icon-s-custom"></i>
+        <span>Manage Tenants</span>
+      </template>
+      <router-link to="/dashboard/new_user?type='tenant'">
+        <el-menu-item index="2-1">
+          <template #title>
+            <i class="el-icon-plus"></i>
+            <span>New Tenant</span>
+          </template>
+        </el-menu-item>
+      </router-link>
+      <router-link to="/dashboard/users">
+        <el-menu-item index="2-2">
+          <template #title>
+            <i class="el-icon-view"></i>
+            <span>View All Tenants</span>
+          </template>
+        </el-menu-item>
+      </router-link>
+    </el-submenu>
+
     <el-submenu index="3">
       <template #title>
         <i class="el-icon-house"></i>
@@ -47,55 +97,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect } from "vue";
-import managePropertyModal from "@/composables/managePropertyModal";
-import { managePropertyListModal } from "@/composables/managePropertyListModal";
-import { manageNewPropertyFormModal } from "@/composables/manageNewPropertyFormModal";
-import { AuthManager } from "@/composables/AuthManager";
-import { Property } from "@/interfaces";
-import { useRouter } from "vue-router";
+import { computed, defineComponent, onUnmounted, ref } from "vue";
+import useAuthStore from "@/store/auth";
 
 export default defineComponent({
   components: {},
   setup() {
-    const {
-      propertyModal,
-      openPropertyModal,
-      closePropertyModal,
-      makeProperty,
-    } = managePropertyModal();
+    const Auth = useAuthStore();
+    const isLoggedIn = Auth.IsAthenticated.value;
 
-    const { openPropertyListModal } = managePropertyListModal();
-    const { openNewPropertyFormModal } = manageNewPropertyFormModal();
+    const isAdmin = computed(() => Auth.IsAdmin());
+    const isAgent = computed(() => Auth.IsAgent);
 
-    const openPropertyManagement = ref(false);
-    const property = ref(makeProperty(ref(undefined)));
-    const addProperty = () => {
-      openPropertyModal();
-    };
-    const updateProperty = (_property: Property) => {
-      property.value = makeProperty(ref(_property));
-      openPropertyModal();
-    };
-    const router = useRouter();
-    const { loggedIn } = AuthManager();
-
-    watchEffect(() => {
-      if (!loggedIn) {
-        router.push("/dashboard/login");
-      }
+    const displayWidth = ref(window.innerWidth);
+    function onResize() {
+      displayWidth.value = window.innerWidth;
+    }
+    window.addEventListener("resize", onResize);
+    onUnmounted(() => {
+      window.removeEventListener("resize", onResize);
     });
-
     return {
-      openPropertyManagement,
-      openNewPropertyFormModal,
-      addProperty,
-      propertyModal,
-      openPropertyModal,
-      closePropertyModal,
-      openPropertyListModal,
-      property,
-      updateProperty,
+      isAdmin,
+      isAgent,
+      isLoggedIn,
+      Auth,
+      displayWidth,
     };
   },
 });
@@ -114,6 +141,9 @@ export default defineComponent({
     // width: 60%;
     margin-top: 5vh;
   }
+}
+.router-link {
+  // display: inline-block;
 }
 .admin-container {
   flex-flow: column nowrap;

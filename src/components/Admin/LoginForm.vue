@@ -12,7 +12,7 @@
           <el-button @click="loginUser" type="primary" :loading="loggingIn">{{
             loggingIn ? "Logging In" : "Login"
           }}</el-button>
-          <router-link to="/dashboard/register">register</router-link>
+          <router-link to="/register">register</router-link>
         </el-row>
       </el-form-item>
     </el-form>
@@ -23,23 +23,21 @@
 import { defineComponent, onMounted, reactive } from "vue";
 import { AuthManager } from "@/composables/AuthManager";
 import { useRouter } from "vue-router";
-import Auth, {GetAuthenticatedUser} from "@/store/auth"
+import useAuthStore, { GetAuthenticatedUser } from "@/store/auth";
 
 export default defineComponent({
   setup() {
-    const { login, user, loginForm, loggingIn, loginError } = AuthManager();
-    const loginUser = () => {
-      console.log("loginUser")
-      login().then(() => {
-        GetAuthenticatedUser().then(() =>  console.log("loggedIn"))
-        }).catch(error => console.log(error));
+    const { login, loginForm, loggingIn, loginError } = AuthManager();
+    const loginUser = async () => {
+      await login();
     };
+    const { user } = useAuthStore();
     const router = useRouter();
-    onMounted(() => {
-      if (user) {
-        router.push("/dashboard");
-      }
-    });
+    // onMounted(() => {
+    //   if (user) {
+    //     router.push("/dashboard");
+    //   }
+    // });
     return {
       loginUser,
       loginForm,
@@ -58,7 +56,6 @@ export default defineComponent({
     width: 100vw;
     box-shadow: 1px 1px 10px 0px #e6a23c, -1px -1px 10px 0px #e6a23c;
     padding: 1rem;
-    margin-top: 5rem;
     @media (min-width: 767px) {
       width: 60vw;
     }

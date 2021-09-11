@@ -7,6 +7,7 @@ import AdminPanel from "@/components/Admin/AdminPanel.vue";
 import NewProperty from "@/components/Properties/NewProperty.vue";
 import PropertyList from "@/components/Properties/PropertyList.vue";
 import PropertyDetails from "@/components/Properties/PropertyDetail.vue";
+import UserList from "@/components/User/UserList.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -15,24 +16,47 @@ const routes: Array<RouteRecordRaw> = [
     component: Home,
   },
   {
+    path: "/login",
+    component: LoginForm,
+  },
+
+  {
+    path: "/register",
+    component: RegistrationForm,
+  },
+  {
     path: "/dashboard",
     name: "Admin",
-
     component: Admin,
     children: [
-      {
-        path: "login",
-        component: LoginForm,
-      },
-
-      {
-        path: "register",
-        component: RegistrationForm,
-      },
       {
         path: "",
         component: AdminPanel,
         children: [
+          {
+            path: "users",
+            component: UserList,
+            meta: {
+              requiresAuth: true,
+              requiresAdmin: true,
+            },
+          },
+          {
+            path: "users/:id",
+            component: PropertyDetails,
+            meta: {
+              requiresAuth: true,
+              requiresAdmin: true,
+            },
+          },
+          {
+            path: "new_user",
+            component: NewProperty,
+            meta: {
+              requiresAuth: true,
+              requiresAdmin: true,
+            },
+          },
           {
             path: "properties",
             component: PropertyList,

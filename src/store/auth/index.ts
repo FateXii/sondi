@@ -1,6 +1,6 @@
 import GetError, { RespnseError } from "@/Helpers/GetError";
 import AuthService from "@/services/AuthService";
-import { reactive } from "vue";
+import { computed, reactive } from "vue";
 
 type Option<T> = T | null;
 
@@ -66,4 +66,20 @@ export async function GetAuthenticatedUser(): Promise<Option<IUserDataType>> {
   return state.user;
 }
 
-export default { state, SetError, SetLoading, SetUser, IsGuest, SetGuest };
+const IsAdmin = () => state.user?.is_admin || false;
+const IsAgent = () => state.user?.is_agent || false;
+const IsAthenticated = computed(() => (state.user && true) || false);
+const user = computed(() => state.user);
+export default function useAuthStore() {
+  return {
+    IsAthenticated,
+    user,
+    IsAdmin,
+    IsAgent,
+    SetError,
+    SetLoading,
+    SetUser,
+    IsGuest,
+    SetGuest,
+  };
+}

@@ -24,8 +24,8 @@ authClient.interceptors.response.use(
     if (
       [401, 419].includes(error.response.status) &&
       error.response &&
-      Auth.state.user &&
-      Auth.IsGuest()
+      Auth().user.value &&
+      Auth().IsGuest()
     ) {
       AuthManager().logout();
     }

@@ -1,6 +1,9 @@
 import { computed, reactive, Ref, ref } from "vue";
 import AuthService from "@/services/AuthService";
-import Auth, { GetAuthenticatedUser, IUserDataType } from "@/store/auth";
+import useAuthStore, {
+  GetAuthenticatedUser,
+  IUserDataType,
+} from "@/store/auth";
 import { ILoginPayload, IRegistrationPayload } from "@/interfaces/Auth";
 import { useRouter } from "vue-router";
 import GetError, { RespnseError } from "@/Helpers/GetError";
@@ -10,6 +13,7 @@ export const AuthManager = () => {
   const loggingIn = ref(false);
   const loggingOut = ref(false);
   const router = useRouter();
+  const Auth = useAuthStore();
 
   //Handle Registration
   const registrationError = ref(null);
@@ -83,9 +87,9 @@ export const AuthManager = () => {
 
     registrationForm,
     registering,
-    user: Auth.state.user || undefined,
-    loggedIn: computed(() => Auth.state.user !== null),
-    isAdmin: computed(() => Auth.state.user?.is_admin),
+    user: Auth.user.value || undefined,
+    loggedIn: computed(() => Auth.IsAthenticated),
+    isAdmin: Auth.IsAdmin(),
     login,
     logout,
     register,
