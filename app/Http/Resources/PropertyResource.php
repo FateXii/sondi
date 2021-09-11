@@ -15,9 +15,9 @@ class PropertyResource extends JsonResource
      */
     public function toArray($request)
     {
-        $address = $address = $this->address;
-        if ($address) {
-            $address = $this->sectional->address;
+        $address = $this->address;
+        if ($address === null && $this->sectional_unit) {
+            $address = $this->sectional_unit->address();
         }
         return [
             'id' => $this->id,
@@ -31,7 +31,7 @@ class PropertyResource extends JsonResource
             'price' => $this->price,
             'images' => ImageResource::collection($this->images),
             'address' => new AddressResource($address),
-
+            'is_sectional' => $this->sectional_unit !== null
         ];
     }
 }

@@ -13,8 +13,17 @@ class Address extends Model
   {
     return $this->belongsTo(Property::class);
   }
-  public function sectional()
+  public function sectionals()
   {
     return $this->belongsTo(Sectionals::class);
+  }
+  public function unit()
+  {
+    return $this->sectionals !== null
+      ?
+      $this->sectionals
+      ->sectional_units
+      ->where('property_id', $this->property->id)
+      : null;
   }
 }
