@@ -15,7 +15,7 @@ class CreateSectionalUnitsTable extends Migration
   {
     Schema::create('sectional_units', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('sectional_id')
+      $table->foreignId('sectionals_id')
         ->references('id')
         ->on('sectionals')
         ->onDelete('cascade');
@@ -25,8 +25,6 @@ class CreateSectionalUnitsTable extends Migration
         ->onDelete('cascade');
       $table->string('unit');
       $table->timestamps();
-
-      $table->index('sectional_id');
     });
   }
 

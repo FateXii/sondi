@@ -9,7 +9,7 @@ class SectionalUnit extends Model
 {
   use HasFactory;
 
-  public function sectional()
+  public function sectionals()
   {
     return $this->belongsTo(Sectionals::class);
   }
@@ -17,5 +17,9 @@ class SectionalUnit extends Model
   public function property()
   {
     return $this->belongsTo(Property::class);
+  }
+  public function address()
+  {
+    return $this->sectionals->address;
   }
 }

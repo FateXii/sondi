@@ -9,7 +9,7 @@ class Sectionals extends Model
 {
   use HasFactory;
 
-  public function sectionalUnits()
+  public function sectional_units()
   {
     return $this->hasMany(SectionalUnit::class);
   }

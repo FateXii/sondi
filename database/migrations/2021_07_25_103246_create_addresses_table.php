@@ -23,10 +23,11 @@ class CreateAddressesTable extends Migration
         ->references('id')
         ->on('property')
         ->onDelete('cascade');
-      $table->foreignId('sectional_id')->nullable()
+      $table->foreignId('sectionals_id')->nullable()
         ->references('id')
         ->on('sectionals')
         ->onDelete('cascade');
+      $table->timestamps();
     });
   }
 
