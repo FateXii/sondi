@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import Auth, { IUserDataType } from "@/store/auth";
 import { AuthManager } from "@/composables/AuthManager";
 
-export const authClient = axios.create({
+export const requestClient = axios.create({
   baseURL: process.env.VUE_APP_API_HOST,
   withCredentials: true,
   headers: {
@@ -15,7 +15,7 @@ export const authClient = axios.create({
 /*
  * Add a response interceptor
  */
-authClient.interceptors.response.use(
+requestClient.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -81,15 +81,15 @@ type AxiosApiResponse<T> = AxiosResponse<IAPIResponse<T>>;
 
 export default {
   getAll(): Promise<AxiosApiResponse<IUserDataType[]>> {
-    return authClient.get("/api/profiles");
+    return requestClient.get("/api/profiles");
   },
   get(id: number): Promise<AxiosApiResponse<IUserDataType>> {
-    return authClient.get(`/api/profiles/${id}`);
+    return requestClient.get(`/api/profiles/${id}`);
   },
   update(id: number, data: any) {
-    return authClient.put(`/api/profiles/${id}`, data);
+    return requestClient.put(`/api/profiles/${id}`, data);
   },
   delete(id: number) {
-    return authClient.delete(`/api/profiles/${id}`);
+    return requestClient.delete(`/api/profiles/${id}`);
   },
 };
