@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Address;
+use App\Models\Image;
 use App\Models\Property;
 use App\Models\Sectionals;
 use App\Models\SectionalUnit;
@@ -21,6 +22,10 @@ class PropertySeeder extends Seeder
         $sectionals = Sectionals::factory()->count(5)->create();
         $visited = [false, false, false, false, false, false, false];
         foreach ($properties as  $property) {
+            Image::factory()
+                ->state(['property_id' => $property->id])
+                ->count(rand(5, 15))
+                ->create();
             $rand = rand(0, 10);
             if ($rand < 5) {
                 $sectional = $sectionals[$rand];
