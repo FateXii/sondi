@@ -3,7 +3,7 @@
     <Header />
     <main>
       <Hero />
-      <Listings />
+      <!-- <Listings /> -->
     </main>
     <Footer />
   </div>
@@ -20,7 +20,7 @@ export default defineComponent({
   components: {
     Header,
     Hero,
-    Listings,
+    // Listings,
     Footer,
   },
   // setup() {

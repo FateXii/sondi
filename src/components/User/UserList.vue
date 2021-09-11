@@ -11,7 +11,6 @@ import { defineComponent, onMounted, onUnmounted, ref } from "vue";
 import useAuthStore, { IUserDataType } from "@/store/auth";
 import UserItem from "@/components/User/UserItem.vue";
 import UserService from "@/services/UsersService";
-import UsersService from "@/services/UsersService";
 
 export default defineComponent({
   components: {
@@ -34,7 +33,7 @@ export default defineComponent({
     });
     async function updated(id: number) {
       try {
-        const response = await UsersService.get(id);
+        const response = await UserService.get(id);
         const currentUser = response.data.data;
         if (currentUser) {
           const index = users.value.findIndex((user) => user.id === id);

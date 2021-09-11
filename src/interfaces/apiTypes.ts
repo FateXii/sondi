@@ -29,14 +29,14 @@ export interface ISectionalProperty {
   addresses_id: number;
 }
 
-export interface IProperty {
-  bathrooms: number;
-  bedrooms: number;
-  garages: number;
-  sectional_units_id?: number;
-  stand_alones_id?: number;
-  description: string;
-}
+// export interface IProperty {
+//   bathrooms: number;
+//   bedrooms: number;
+//   garages: number;
+//   sectional_units_id?: number;
+//   stand_alones_id?: number;
+//   description: string;
+// }
 
 export interface IPropertyImage {
   property_id: number;
@@ -78,15 +78,9 @@ export interface IImageModel extends IImage, IModel {}
 
 export interface ISectionalPropertyModel extends ISectionalProperty, IModel {}
 
-export interface IPropertyModel extends IProperty, IModel {}
+// export interface IPropertyModel extends IProperty, IModel {}
 
 export interface IStandAlonePropertyModel extends IStandAloneProperty, IModel {}
-export interface ISaleModel extends ISale, IModel {
-  property: IPropertyModel;
-}
-export interface IRentalModel extends IRental, IModel {
-  property: IPropertyModel;
-}
 
 export type Province =
   | "limpopo"

@@ -6,15 +6,15 @@
 
 <script>
 import { defineComponent, onMounted } from "vue";
-import { manageProperties } from "@/composables/manageProperties";
+// import { manageProperties } from "@/composables/manageProperties";
 
 export default defineComponent({
   name: "App",
   setup() {
-    const { setPropertiesForRent, setPropertiesForSale } = manageProperties();
+    // const { setPropertiesForRent, setPropertiesForSale } = manageProperties();
     onMounted(() => {
-      setPropertiesForSale();
-      setPropertiesForRent();
+      // setPropertiesForSale();
+      // setPropertiesForRent();
     });
     return {};
   },
