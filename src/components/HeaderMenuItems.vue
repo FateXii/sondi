@@ -1,36 +1,55 @@
-<template lang="html">
-  <div class="header-menu__items">
-    <el-button
-      type="warning"
-      @click="toggleLoggedIn"
-      :loading="loggingOut || loggingIn"
-      >{{
-        user
-          ? loggingOut
-            ? "Logging Out"
-            : `Logout ${user?.name.split(" ")[0]}`
-          : "Login"
-      }}</el-button
+<template>
+  <el-menu>
+    <el-menu-item>
+      <a @click="setBuying(true)" class="info-link" href="#buying"> Buying </a>
+    </el-menu-item>
+    <el-menu-item>
+      <a @click="setBuying(false)" class="info-link" href="#renting">
+        Renting
+      </a>
+    </el-menu-item>
+    <el-menu-item>
+      <el-button type="warning"> Contact </el-button>
+    </el-menu-item>
+    <el-menu-item>
+      <el-button type="warning" @click="toggleLoggedIn" v-if="!user">
+        Login
+      </el-button>
+      <el-dropdown split-button v-else trigger="click">
+        {{ user ? (loggingOut ? "Logging Out" : `${user.name}`) : "Login" }}
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="toggleLoggedIn"
+              ><span>Logout</span></el-dropdown-item
+            >
+            <el-dropdown-item>Action 2</el-dropdown-item>
+            <el-dropdown-item>Action 3</el-dropdown-item>
+            <el-dropdown-item>Action 4</el-dropdown-item>
+            <el-dropdown-item>Action 5</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </el-menu-item>
+  </el-menu>
+  <!-- <div class="header-menu__items">
     >
-    <a @click="setBuying(true)" class="info-link" href="#buying"> Buying </a>
     <a @click="setBuying(false)" class="info-link" href="#renting"> Renting </a>
-    <el-button type="warning" @click="openNormalContactModal">
-      Contact
-    </el-button>
-  </div>
+  </div> -->
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import { AuthManager } from "@/composables/AuthManager";
+import useAuthStore from "@/store/auth";
 
 export default defineComponent({
   setup() {
-    const { loggedIn, user, logout, loggingOut, loggingIn } = AuthManager();
+    const { loggedIn, logout, loggingOut, loggingIn } = AuthManager();
     const router = useRouter();
+    const { user } = useAuthStore();
     const toggleLoggedIn = () => {
-      if (!user) {
-        router.push("/dashboard/login");
+      if (!user.value) {
+        router.push("/login");
       } else {
         logout();
         router.push("/");

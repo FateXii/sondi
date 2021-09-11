@@ -1,8 +1,8 @@
-<template lang="html">
-  <el-container>
+<template>
+  <el-container id="header-container">
     <header class="header">
       <router-link to="/">
-        <img class="logo" :src="require(`../assets/logo.svg`)" />
+        <img class="logo" src="@/assets/logo.svg" />
       </router-link>
       <div class="header-menu">
         <span class="header-menu__icon" @click="drawer = true">
@@ -11,7 +11,7 @@
             alt="Hamburger Icon"
           />
         </span>
-        <el-drawer v-model="drawer" size="90%">
+        <el-drawer v-model="drawer" :size="ScreenWidth < 400 ? '60%' : '40%'">
           <HeaderMenuItems class="header-menu__items drawer" />
         </el-drawer>
         <HeaderMenuItems class="header-menu__items lg" />
@@ -22,24 +22,17 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { manageContactModal } from "@/composables/manageContactModal";
 import { AuthManager } from "@/composables/AuthManager";
 import { useRouter } from "vue-router";
 import HeaderMenuItems from "@/components/HeaderMenuItems.vue";
+import ScreenWidth from "@/Helpers/GetScreenWidth";
 
 export default defineComponent({
   components: {
     HeaderMenuItems,
   },
   setup() {
-    const { interested, clearContactForm, openContactModal } =
-      manageContactModal();
     const { loggedIn, user } = AuthManager();
-    const openNormalContactModal = () => {
-      clearContactForm();
-      interested.value = false;
-      openContactModal();
-    };
     const drawer = ref(false);
     const router = useRouter();
     const goToDashboard = () => {
@@ -48,9 +41,9 @@ export default defineComponent({
     return {
       goToDashboard,
       drawer,
-      openNormalContactModal,
       loggedIn,
       user,
+      ScreenWidth,
     };
   },
 });
@@ -67,12 +60,17 @@ export default defineComponent({
   padding: 1.25rem 2rem;
   text-align: center;
 }
+#header-container {
+  height: fit-content;
+  flex-grow: 0;
+}
 .header {
   font-size: 1.875em;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: fit-content;
   a {
     display: flex;
     .logo {
@@ -80,8 +78,11 @@ export default defineComponent({
     }
   }
   padding: 1rem 2rem;
+  @media (min-width: 1023px) {
+    padding: 1rem 5rem;
+  }
   @media (min-width: 767px) {
-    padding: 1rem 8.75rem;
+    padding: 1rem 1rem;
     font-size: 1.5em;
     .logo {
       img {
