@@ -9,13 +9,13 @@ class SectionalUnit extends Model
 {
   use HasFactory;
 
-  public function sectionals()
+  public function sectional()
   {
     return $this->belongsTo(Sectionals::class);
   }
 
   public function property()
   {
-    return $this->hasOne(SectionalUnit::class);
+    return $this->belongsTo(Property::class);
   }
 }

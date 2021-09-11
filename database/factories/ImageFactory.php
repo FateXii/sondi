@@ -29,6 +29,7 @@ class ImageFactory extends Factory
     return [
       'path' => UploadedFile::fake()
         ->image($this->faker->image)->store('images'),
+      'property_id' => Property::factory(),
     ];
   }
 }

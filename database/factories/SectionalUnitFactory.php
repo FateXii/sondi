@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Property;
 use App\Models\Sectionals;
 use App\Models\SectionalUnit;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -24,6 +25,7 @@ class SectionalUnitFactory extends Factory
   {
     return [
       'sectionals_id' => Sectionals::factory(),
+      'property_id' => Property::factory(),
       'unit' => $this->faker->randomLetter . $this->faker->randomNumber()
     ];
   }

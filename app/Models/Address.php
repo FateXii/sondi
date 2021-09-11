@@ -9,13 +9,12 @@ class Address extends Model
 {
   use HasFactory;
 
-  public function sectionals()
+  public function property()
   {
-    return $this->hasOne(Sectionals::class);
+    return $this->belongsTo(Property::class);
   }
-
-  public function standAlone()
+  public function sectional()
   {
-    return $this->hasOne(StandAlone::class);
+    return $this->belongsTo(Sectionals::class);
   }
 }

@@ -15,23 +15,15 @@ class CreatePropertyTable extends Migration
   {
     Schema::create('property', function (Blueprint $table) {
       $table->id();
-      $table->integer('bedrooms');
-      $table->integer('bathrooms');
-      $table->integer('garages');
       $table->text('description');
-      $table->foreignId('stand_alones_id')->nullable();
-      $table->foreignId('addresses_id')->nullable();
-      $table->foreignId('sectional_units_id')->nullable();
+      $table->string('description_title')->nullable();
       $table->string('video_url')->nullable();
       $table->string('cover_image');
       $table->string('title');
+      $table->json('features');
+      $table->boolean('is_rental');
+      $table->unsignedBigInteger('price');
       $table->timestamps();
-
-      $table->index([
-        'stand_alones_id',
-        'sectional_units_id',
-        'addresses_id',
-      ]);
     });
   }
 

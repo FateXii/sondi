@@ -27,15 +27,12 @@ class SectionalsController extends Controller
   public function store(Request $request)
   {
     $request->validate([
-      'name' => 'required|string',
-      'type' => 'required|string',
-      'street_address' => 'required|string',
+      'name' => 'required|string|unique',
+      'type' => 'string|string'
     ]);
-    $sectional = new Sectionals;
-    $sectional->name = $request->name;
-    $sectional->type = $request->type;
-    $sectional->street_address = $request->street_address;
-
+    $sectional = new Sectionals();
+    $sectional->name = $request['name'];
+    $sectional->type = $request['type'];
     $sectional->save();
 
     return $sectional;
@@ -49,12 +46,6 @@ class SectionalsController extends Controller
    */
   public function show(Sectionals $sectional)
   {
-    return [
-      'id' => $sectional->id,
-      'name' => $sectional->name,
-      'type' => $sectional->type,
-      'street_address' => $sectional->street_address,
-    ];
   }
 
   /**
@@ -66,27 +57,6 @@ class SectionalsController extends Controller
    */
   public function update(Request $request, Sectionals $sectional)
   {
-    if (!$sectional) {
-      return new Response([
-        'error' => 'sectional not found',
-      ], 404);
-    }
-
-    $fields = [
-      'name', 'type', 'street_address'
-    ];
-    foreach ($fields as $field) {
-      if ($request->filled($field)) {
-        $sectional[$field] = $request[$field];
-      }
-    }
-
-    $sectional->save();
-
-    return new Response([
-      'message' => 'updated sectional',
-      'sectional' =>  $sectional,
-    ]);
   }
 
   /**

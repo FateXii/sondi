@@ -15,7 +15,14 @@ class CreateSectionalUnitsTable extends Migration
   {
     Schema::create('sectional_units', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('sectionals_id');
+      $table->foreignId('sectional_id')
+        ->references('id')
+        ->on('sectionals')
+        ->onDelete('cascade');
+      $table->foreignId('property_id')
+        ->references('id')
+        ->on('property')
+        ->onDelete('cascade');
       $table->string('unit');
       $table->timestamps();
 

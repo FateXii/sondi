@@ -30,7 +30,6 @@ class SectionalsFactory extends Factory
       'type' => $this->faker->randomElement(
         ['apartment', 'complex']
       ),
-      'street_address' => $this->faker->streetAddress,
     ];
   }
 }

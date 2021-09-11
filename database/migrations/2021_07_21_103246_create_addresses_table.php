@@ -19,7 +19,14 @@ class CreateAddressesTable extends Migration
       $table->string('city');
       $table->string('province');
       $table->string('postal_code');
-      $table->timestamps();
+      $table->foreignId('property_id')->nullable()
+        ->references('id')
+        ->on('property')
+        ->onDelete('cascade');
+      $table->foreignId('sectional_id')->nullable()
+        ->references('id')
+        ->on('sectionals')
+        ->onDelete('cascade');
     });
   }
 

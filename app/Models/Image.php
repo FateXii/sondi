@@ -13,6 +13,6 @@ class Image extends Model
 
   public function property()
   {
-    return $this->hasOneThrough(PropertyImage::class, Property::class);
+    return $this->belongsTo(Property::class);
   }
 }

@@ -25,18 +25,21 @@ class PropertyFactory extends Factory
    */
   public function definition()
   {
+    $properties = [
+      '{"screen": "50 inch", "resolution": "2048 x 1152 pixels", "ports": {"hdmi": 1, "usb": 3}, "speakers": {"left": "10 watt", "right": "10 watt"}}',
+      '{"screen": "30 inch", "resolution": "1600 x 900 pixles", "ports": {"hdmi": 1, "usb": 1}, "speakers": {"left": "10 watt", "right": "10 watt"}}',
+      '{"screen": "20 inch", "resolution": "1280 x 720 pixels", "ports": {"hdmi": 0, "usb": 0}, "speakers": {"left": "5 watt", "right": "5 watt"}}',
+    ];
     Storage::fake('public');
     return [
-      'bathrooms' => rand(0, 15),
-      'bedrooms' => rand(0, 15),
-      'garages' => rand(0, 15),
       'cover_image' => UploadedFile::fake()
         ->image($this->faker->image)->store('images'),
-      'sectional_units_id' => SectionalUnit::factory(),
-      'stand_alones_id' => StandAlone::factory(),
       'description' => $this->faker->text,
       'title' => $this->faker->text,
       'video_url' => $this->faker->url,
+      'features' => $this->faker->randomElement($properties),
+      'is_rental' => $this->faker->boolean,
+      'price' => $this->faker->random_int(5000, 2000000),
     ];
   }
 }

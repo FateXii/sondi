@@ -1,15 +1,8 @@
 <?php
 
 use App\Http\Controllers\AddressController;
-use App\Http\Controllers\FullPropertyController;
-use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PropertyController;
-use App\Http\Controllers\PropertyImageController;
-use App\Http\Controllers\RentalsController;
-use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SectionalsController;
-use App\Http\Controllers\SectionalUnitController;
-use App\Http\Controllers\StandAloneController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Resources\UserProfileResource;
@@ -40,23 +33,6 @@ Route::apiResource(
   PropertyController::class
 );
 
-Route::post('/create_property', [FullPropertyController::class, 'create']);
-
-Route::apiResource(
-  'properties.images',
-  PropertyImageController::class
-)->shallow();
-
-Route::apiResource(
-  'sales',
-  SalesController::class
-);
-
-Route::apiResource(
-  'rentals',
-  RentalsController::class
-);
-
 Route::apiResource(
   'sectionals',
   SectionalsController::class
@@ -66,17 +42,3 @@ Route::apiResource(
   'address',
   AddressController::class
 );
-
-Route::apiResource(
-  'stand_alone',
-  StandAloneController::class
-);
-Route::apiResource(
-  'images',
-  ImageController::class
-);
-
-Route::apiResource(
-  'sectionals.unit',
-  SectionalUnitController::class
-)->shallow();

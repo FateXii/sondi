@@ -16,6 +16,10 @@ class CreateImageTable extends Migration
     Schema::create('image', function (Blueprint $table) {
       $table->id();
       $table->string('path');
+      $table->foreignId('property_id')
+        ->references('id')
+        ->on('property')
+        ->onDelete('cascade');
       $table->timestamps();
     });
   }

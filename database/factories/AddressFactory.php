@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Address;
+use App\Models\Property;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AddressFactory extends Factory
@@ -35,6 +36,7 @@ class AddressFactory extends Factory
         'free state',
         'north west'
       ]),
+      'property_id' => Property::factory(),
       'postal_code' => $this->faker->postcode,
     ];
   }
