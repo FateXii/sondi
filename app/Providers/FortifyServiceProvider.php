@@ -35,17 +35,13 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Fortify::authenticateUsing(function (Request $request)
-            {
-                Validator::make($request,[
-                    'email' => [
-                        Rule::exists('users', 'email'),
-                    ]
-                ])->validate();
-                
+        Fortify::authenticateUsing(
+            function (Request $request) {
                 $user = User::where('email', $request->email)->first();
-                if ($user && !$user->profile->deleted_at &&
-                    Hash::check($request->password, $user->password)) {
+                if (
+                    $user &&
+                    Hash::check($request->password, $user->password)
+                ) {
                     return $user;
                 }
             }
@@ -56,7 +52,7 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
         RateLimiter::for('login', function (Request $request) {
-            return Limit::perMinute(5)->by($request->email.$request->ip());
+            return Limit::perMinute(5)->by($request->email . $request->ip());
         });
 
         RateLimiter::for('two-factor', function (Request $request) {
