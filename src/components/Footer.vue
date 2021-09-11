@@ -25,6 +25,7 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
+  bottom: 0;
 }
 .footer {
   display: flex;

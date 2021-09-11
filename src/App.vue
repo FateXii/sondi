@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container id="app-container">
     <router-view />
   </el-container>
 </template>
@@ -25,5 +25,8 @@ export default defineComponent({
 .el-container {
   justify-content: center;
   flex-flow: column nowrap;
+}
+#app-container {
+  min-height: 100vh;
 }
 </style>

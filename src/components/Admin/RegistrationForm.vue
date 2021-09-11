@@ -64,7 +64,6 @@ export default defineComponent({
     width: 100vw;
     box-shadow: 1px 1px 10px 0px #e6a23c, -1px -1px 10px 0px #e6a23c;
     padding: 1rem;
-    margin-top: 5rem;
     @media (min-width: 767px) {
       width: 60vw;
     }
