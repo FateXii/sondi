@@ -35,11 +35,12 @@ class PropertyFactory extends Factory
       'cover_image' => UploadedFile::fake()
         ->image($this->faker->image)->store('images'),
       'description' => $this->faker->text,
+      'description_title' => $this->faker->text(30),
       'title' => $this->faker->text,
       'video_url' => $this->faker->url,
       'features' => $this->faker->randomElement($properties),
       'is_rental' => $this->faker->boolean,
-      'price' => $this->faker->random_int(5000, 2000000),
+      'price' => $this->faker->randomNumber(6),
     ];
   }
 }
