@@ -83,7 +83,9 @@
           <i class="el-icon-view"></i>
           <span>View Properties</span>
         </template>
-        <el-menu-item index="3-2-1"> View All Properties </el-menu-item>
+        <router-link to="/dashboard/properties">
+          <el-menu-item index="3-2-1"> View All Properties </el-menu-item>
+        </router-link>
         <el-menu-item index="3-2-2"> View Sectional Properties</el-menu-item>
         <el-menu-item index="3-2-3"> View Stand Alone Properties</el-menu-item>
       </el-submenu>
