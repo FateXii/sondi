@@ -23,7 +23,7 @@ class PropertyController extends Controller
   public function index()
   {
     return PropertyResource::collection(
-      Property::orderByAsc('created_at')->paginate('10')
+      Property::all()
     );
   }
 
@@ -117,7 +117,7 @@ class PropertyController extends Controller
     if ($property_id) {
       $address->property_id   = $property_id;
     } else {
-      $address->sectional_id = $sectional_id;
+      $address->sectionals_id = $sectional_id;
     }
     $address->$address->save();
     return $address;
@@ -126,7 +126,7 @@ class PropertyController extends Controller
   {
     $unit = new SectionalUnit();
     $unit->unit = $unit_string;
-    $unit->sectional_id = $sectional_id;
+    $unit->sectionals_id = $sectional_id;
     $unit->property_id = $property_id;
     $unit->save();
 
