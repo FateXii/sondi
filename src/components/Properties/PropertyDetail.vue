@@ -95,7 +95,7 @@ export default defineComponent({
     const route = useRoute();
     const price = ref("");
     function setImageHost(image: string) {
-      return `${process.env.VUE_APP_API_HOST}${image}`;
+      return `${process.env.VUE_APP_API_HOST}/${image}`;
     }
     let contactWidth = Number();
     const onWindowScroll = (e: any) => {
@@ -113,12 +113,12 @@ export default defineComponent({
         right,
         bottom: propertyBottom,
       } = propertyDetailContainer.getBoundingClientRect();
-      console.log(`scroll: pT=${top}; cT=${contactTop}`);
-      console.log(
-        `scroll: pB=${Math.round(propertyBottom)}; cB=${Math.round(
-          contactBottom
-        )}`
-      );
+      // console.log(`scroll: pT=${top}; cT=${contactTop}`);
+      // console.log(
+      //   `scroll: pB=${Math.round(propertyBottom)}; cB=${Math.round(
+      //     contactBottom
+      //   )}`
+      // );
       const fixedPos = 200;
       if (
         top <= fixedPos &&
