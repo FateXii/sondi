@@ -26,7 +26,7 @@ class CreateSectionalUnitsTable extends Migration
       $table->string('unit');
       $table->timestamps();
 
-      $table->index('sectionals_id');
+      $table->index('sectional_id');
     });
   }
 
