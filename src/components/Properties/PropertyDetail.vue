@@ -40,8 +40,22 @@
           {{ property.description }}
         </p>
       </div>
+      <div class="property__features property-item">
+        <span class="property__features__heading"> Features </span>
+        <div
+          class="property__feature__item"
+          v-for="(feature, i) in getPropertyFeaturesMap(property)"
+          :key="i"
+        >
+          <span class="property__feature__item__name">
+            {{ feature[0] }}: {{ " " }}
+          </span>
+          <span class="property__feature__item__value">
+            {{ feature[1] }}
+          </span>
+        </div>
+      </div>
     </div>
-    <div class="property-features property-item"></div>
     <div :class="['contact', 'property-item']">
       <el-form class="contact__form">
         <el-form-item>
@@ -65,7 +79,6 @@
 </template>
 
 <script lang="ts">
-import propertyApi from "@/services/property";
 import { defineComponent, onMounted, onUnmounted, PropType } from "vue";
 import { IProperty } from "@/interfaces/Property";
 import { onWindowScroll } from "@/Helpers/General";
@@ -98,9 +111,15 @@ export default defineComponent({
       }
     });
 
+    function getPropertyFeaturesMap(property: IProperty) {
+      const features = JSON.parse(property.features);
+      return Object.entries(features);
+    }
+
     return {
       currencyFormatter,
       GetScreenWidth,
+      getPropertyFeaturesMap,
     };
   },
 });
