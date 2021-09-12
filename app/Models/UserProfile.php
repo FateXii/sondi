@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class UserProfile extends Model
 {
     use HasFactory, SoftDeletes;
-       /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -29,5 +29,13 @@ class UserProfile extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function property()
+    {
+        if ($this->is_agent) {
+            return $this->belongsToMany(Property::class, 'property_agents', 'agent_id', 'property_id');
+        }
+        return null;
     }
 }

@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        UserProfile::factory()->count(10)->create();
         UserProfile::factory()
             ->state(['is_admin' => true])
             ->for(

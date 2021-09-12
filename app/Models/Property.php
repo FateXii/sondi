@@ -22,4 +22,8 @@ class Property extends Model
   {
     return $this->hasOne(SectionalUnit::class);
   }
+  public function agents()
+  {
+    return $this->belongsToMany(UserProfile::class, 'property_agents', 'property_id', 'agent_id');
+  }
 }

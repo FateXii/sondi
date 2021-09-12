@@ -25,8 +25,8 @@ class UserProfileController extends Controller
 
         /**@var App\Models\User $user  */
         $user = Auth::user();
-        if (!$user || $user->isTenant()) {
-            return response()->json(['message' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
+        if (!$user && ($user->isTenant() && !$user->isAdmin())) {
+            return response()->json(['message' => 'Unauthorized', 'user' => $user], Response::HTTP_UNAUTHORIZED);
         } else if ($user->isAdmin()) {
             return UserProfileResource::collection(
                 (UserProfile::orderByDesc('created_at')->paginate(25))

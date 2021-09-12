@@ -15,6 +15,6 @@ class PotentialUserSeeder extends Seeder
      */
     public function run()
     {
-        PotentialUser::factory(10)->create();
+        PotentialUser::factory(1)->create();
     }
 }
