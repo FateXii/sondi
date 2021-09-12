@@ -1,7 +1,7 @@
 import { ElFile } from "@/interfaces";
 import { ElUpload } from "element-plus/lib/el-upload/src/upload.type";
 import { reactive, ref, watch, watchEffect } from "vue";
-import propertyApi from "@/services/property";
+import propertyApi from "@/services/PropertyService";
 import { AxiosResponse } from "axios";
 import { useRouter } from "vue-router";
 
@@ -164,7 +164,7 @@ export const manageNewProperty = (): any => {
     creatingProperty.value = true;
     const propertyFormData = createFormData(property, isSectional.value);
     propertyApi
-      .completeCreate(propertyFormData)
+      .create(propertyFormData)
       .then((response: AxiosResponse) => {
         if (response.status == 201) {
           const { data } = response;
