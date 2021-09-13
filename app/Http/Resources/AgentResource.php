@@ -18,7 +18,8 @@ class AgentResource extends JsonResource
             'id' => $this->id,
             'phone_number' => $this->phone_number,
             'image' => $this->photo,
-            'email' => $this->user->email
+            'email' => $this->user->email,
+            'name' => $this->user->name,
         ];
     }
 }
