@@ -85,7 +85,7 @@
 </template>
 
 <script lang="ts">
-import GetError, { RespnseError } from "@/Helpers/GetError";
+import GetError, { ResponseError } from "@/Helpers/GetError";
 import UsersService from "@/services/UsersService";
 import useAuthStore, { IUserDataType } from "@/store/auth";
 import { ElMessage, ElMessageBox, ElNotification } from "element-plus";
@@ -151,7 +151,7 @@ export default defineComponent({
               emit("onDeleted", user.value.id);
             })
             .catch((error) => {
-              console.log(GetError(error as RespnseError));
+              console.log(GetError(error as ResponseError));
               loading.value = false;
             });
         });
@@ -202,7 +202,7 @@ export default defineComponent({
           emit("onUpdated", user.value.id);
         })
         .catch((error) => {
-          console.log(GetError(error as RespnseError));
+          console.log(GetError(error as ResponseError));
           loading.value = false;
         });
     }

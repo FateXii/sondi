@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 
-export type RespnseError = Error | AxiosError;
-export default function GetError(error: RespnseError) {
+export type ResponseError = Error | AxiosError;
+export default function GetError(error: ResponseError) {
   const errorMessage = "API Error, please try again.";
 
   if (error.name === "Fetch User") {
