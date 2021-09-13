@@ -1,4 +1,4 @@
-import GetError, { RespnseError } from "@/Helpers/GetError";
+import GetError, { ResponseError } from "@/Helpers/GetError";
 import AuthService from "@/services/AuthService";
 import { computed, reactive } from "vue";
 
@@ -61,7 +61,7 @@ export async function GetAuthenticatedUser(): Promise<Option<IUserDataType>> {
   } catch (error) {
     SetLoading(false);
     SetUser(null);
-    SetError(GetError(error as RespnseError));
+    SetError(GetError(error as ResponseError));
   }
   return state.user;
 }

@@ -11,6 +11,15 @@ export interface IProperty {
   images: IImage[];
   address: IAddress;
   is_sectional: boolean;
+  agents: IAgent[];
+}
+
+interface IAgent {
+  id: number;
+  name: string;
+  phone_number: string;
+  image: string;
+  email: string;
 }
 
 interface IAddress {

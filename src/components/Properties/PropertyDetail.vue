@@ -55,6 +55,38 @@
           </span>
         </div>
       </div>
+      <div class="property__agents property-item">
+        <div
+          class="property__agents__item"
+          v-for="agent in property.agents"
+          :key="agent.id"
+        >
+          <el-avatar
+            shape="square"
+            :size="150"
+            fit="fill"
+            :src="agent.image"
+          ></el-avatar>
+
+          <div class="property__agents__item__details">
+            <span class="property__agents__item__details__name">
+              {{ agent.name }}
+            </span>
+            <span class="property__agents__item__details__number">
+              Call
+              <a href="tel:+">
+                {{ agent.phone_number }}
+              </a>
+            </span>
+            <span class="property__agents__item__details__email">
+              Email
+              <a href="Email:">
+                {{ agent.email }}
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
     <div :class="['contact', 'property-item']">
       <el-form class="contact__form">
@@ -166,6 +198,18 @@ export default defineComponent({
   .property {
     height: fit-content;
     flex: 2;
+    &__agents {
+      display: flex;
+      flex-flow: column nowrap;
+      &__item {
+        display: flex;
+        flex-flow: row nowrap;
+        &__details {
+          display: flex;
+          flex-flow: column nowrap;
+        }
+      }
+    }
     &__heading {
       font-size: 1.25rem;
       margin: 0;
