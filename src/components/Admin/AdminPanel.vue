@@ -12,33 +12,33 @@
         <i class="el-icon-user"></i>
         <span>Manage Users</span>
       </template>
-      <router-link to="/dashboard/users">
-        <el-menu-item index="1-1">
-          <template #title>
-            <i class="el-icon-view"></i>
-            <span>View All Users</span>
-          </template>
-        </el-menu-item>
-      </router-link>
+      <el-menu-item @click="router.push('/dashboard/users')" index="1-1">
+        <template #title>
+          <i class="el-icon-view"></i>
+          <span>View All Users</span>
+        </template>
+      </el-menu-item>
       <el-submenu index="1-2">
         <template #title>
           <i class="el-icon-plus"></i>
           <span>New Users</span>
         </template>
-        <router-link to="/dashboard/new_user?type='admin'">
-          <el-menu-item index="1-2-1">
-            <template #title>
-              <span>Admin</span>
-            </template>
-          </el-menu-item>
-        </router-link>
-        <router-link to="/dashboard/new_user?type='agent'">
-          <el-menu-item index="1-2-2">
-            <template #title>
-              <span>Agent</span>
-            </template>
-          </el-menu-item>
-        </router-link>
+        <el-menu-item
+          @click="router.push('/dashboard/new_user/admin')"
+          index="1-2-1"
+        >
+          <template #title>
+            <span>Admin</span>
+          </template>
+        </el-menu-item>
+        <el-menu-item
+          @click="router.push('/dashboard/new_user/agent')"
+          index="1-2-2"
+        >
+          <template #title>
+            <span>Agent</span>
+          </template>
+        </el-menu-item>
       </el-submenu>
     </el-submenu>
 
@@ -47,14 +47,15 @@
         <i class="el-icon-s-custom"></i>
         <span>Manage Tenants</span>
       </template>
-      <router-link to="/dashboard/new_user?type='tenant'">
-        <el-menu-item index="2-1">
-          <template #title>
-            <i class="el-icon-plus"></i>
-            <span>New Tenant</span>
-          </template>
-        </el-menu-item>
-      </router-link>
+      <el-menu-item
+        index="2-1"
+        @click="router.push('/dashboard/new_user/tenant')"
+      >
+        <template #title>
+          <i class="el-icon-plus"></i>
+          <span>New Tenant</span>
+        </template>
+      </el-menu-item>
       <router-link to="/dashboard/users">
         <el-menu-item index="2-2">
           <template #title>
@@ -101,10 +102,12 @@
 <script lang="ts">
 import { computed, defineComponent, onUnmounted, ref } from "vue";
 import useAuthStore from "@/store/auth";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   components: {},
   setup() {
+    const router = useRouter();
     const Auth = useAuthStore();
     const isLoggedIn = Auth.IsAthenticated.value;
 
@@ -125,6 +128,7 @@ export default defineComponent({
       isLoggedIn,
       Auth,
       displayWidth,
+      router,
     };
   },
 });
@@ -132,8 +136,10 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .el-main {
+  display: flex;
   flex-flow: row nowrap;
   justify-content: center;
+  align-items: center;
   padding: 1rem 0;
   @media (min-width: 767px) {
     // padding: 0 10%;
