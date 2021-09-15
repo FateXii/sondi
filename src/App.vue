@@ -5,11 +5,18 @@
 </template>
 
 <script>
-import { defineComponent, onMounted } from "vue";
+import { defineComponent, onMounted, onUnmounted } from "vue";
+import { onResize } from "./Helpers/GetScreenWidth";
 
 export default defineComponent({
   name: "App",
   setup() {
+    onMounted(() => {
+      window.addEventListener("resize", onResize);
+    });
+    onUnmounted(() => {
+      window.removeEventListener("resize", onResize);
+    });
     return {};
   },
 });
