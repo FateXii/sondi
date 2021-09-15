@@ -8,6 +8,8 @@ import NewProperty from "@/components/Properties/NewProperty.vue";
 import PropertyList from "@/components/Properties/PropertyList.vue";
 import PropertyDetails from "@/components/Properties/PropertyDetail.vue";
 import UserList from "@/components/User/UserList.vue";
+import NewUser from "@/components/User/NewUser.vue";
+import NotFoundComponent from "@/components/NotFoundComponent.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -81,9 +83,19 @@ const routes: Array<RouteRecordRaw> = [
               requiresAdmin: true,
             },
           },
+          {
+            path: "not_found",
+            component: NotFoundComponent,
+            name: "NotFound",
+          },
         ],
       },
     ],
+  },
+  {
+    path: "/:catchAll(.*)",
+    component: NotFoundComponent,
+    name: "NotFoundError",
   },
 ];
 
