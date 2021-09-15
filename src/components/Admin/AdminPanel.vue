@@ -112,7 +112,7 @@ export default defineComponent({
     const isLoggedIn = Auth.IsAthenticated.value;
 
     const isAdmin = computed(() => Auth.IsAdmin());
-    const isAgent = computed(() => Auth.IsAgent);
+    const isAgent = computed(() => Auth.IsAgent());
 
     const displayWidth = ref(window.innerWidth);
     function onResize() {

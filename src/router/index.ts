@@ -8,6 +8,7 @@ import NewProperty from "@/components/Properties/NewProperty.vue";
 import PropertyList from "@/components/Properties/PropertyList.vue";
 import PropertyDetails from "@/components/Properties/PropertyDetail.vue";
 import UserList from "@/components/User/UserList.vue";
+import UserDetails from "@/components/User/UserDetails.vue";
 import NewUser from "@/components/User/NewUser.vue";
 import NotFoundComponent from "@/components/NotFoundComponent.vue";
 
@@ -38,51 +39,28 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: "users",
             component: UserList,
-            meta: {
-              requiresAuth: true,
-              requiresAdmin: true,
-            },
           },
           {
             path: "users/:id",
-            component: PropertyDetails,
-            meta: {
-              requiresAuth: true,
-              requiresAdmin: true,
-            },
+            component: UserDetails,
+            props: true,
           },
           {
             path: "new_user/:role",
             component: NewUser,
             props: true,
-            meta: {
-              requiresAuth: true,
-              requiresAdmin: true,
-            },
           },
           {
             path: "properties",
             component: PropertyList,
-            meta: {
-              requiresAuth: true,
-              requiresAdmin: true,
-            },
           },
           {
             path: "properties/:id",
             component: PropertyDetails,
-            meta: {
-              requiresAuth: true,
-              requiresAdmin: true,
-            },
           },
           {
             path: "new_property",
             component: NewProperty,
-            meta: {
-              requiresAuth: true,
-              requiresAdmin: true,
-            },
           },
           {
             path: "not_found",

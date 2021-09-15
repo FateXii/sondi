@@ -1,6 +1,6 @@
 <template>
   <el-container class="new-user">
-    <el-form v-if="role" class="new-user__form">
+    <el-form v-if="role && role !== 'tenant'" class="new-user__form">
       <h1>
         Add New
         {{ `${capitalize(role)}${role.toLowerCase() === "tenant" ? "s" : ""}` }}
@@ -42,6 +42,7 @@
         {{ `${capitalize(role)}${role.toLowerCase() === "tenant" ? "s" : ""}` }}
       </el-button>
     </el-form>
+    <div v-else>This Feature is coming soon</div>
   </el-container>
 </template>
 
@@ -50,7 +51,8 @@ import { defineComponent, toRefs, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import { capitalize } from "@/Helpers";
 import { manageNewUser } from "@/composables/Users/NewUser";
-import GetError from "@/Helpers/GetError";
+import GetError, { ResponseError } from "@/Helpers/GetError";
+import { ElNotification } from "element-plus";
 
 export default defineComponent({
   props: {
@@ -83,7 +85,13 @@ export default defineComponent({
       try {
         await createNewUsers(role.value);
       } catch (error) {
-        GetError;
+        if (GetError(error as ResponseError)) {
+          ElNotification({
+            title: "Error",
+            message: "Something went wrong!",
+            type: "error",
+          });
+        }
       }
     }
 

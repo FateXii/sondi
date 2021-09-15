@@ -5,7 +5,7 @@
       effect="dark"
       type="success"
       size="small"
-      :closable="editing && Auth.IsAdmin"
+      :closable="editing && Auth.IsAdmin()"
       @close="handleToggleAdmin"
     >
       Admin
@@ -15,7 +15,7 @@
       effect="dark"
       type="warning"
       size="small"
-      :closable="editing"
+      :closable="editing && Auth.IsAdmin()"
       @close="handleToggleAgent"
     >
       Agent
@@ -32,27 +32,20 @@
     </el-tag>
     <el-popover
       v-if="
-        editing &&
-        !(userRoles.is_agent && userRoles.is_admin && userRoles.is_tenant)
+        (editing &&
+          !(userRoles.is_agent && userRoles.is_admin && userRoles.is_tenant)) ||
+        Auth.IsAdmin()
       "
       :placement="screenWidth > 767 ? 'right' : 'bottom'"
       :width="400"
       trigger="click"
     >
       <template #reference>
-        <el-button
-          icon="el-icon-plus"
-          circle
-          v-if="
-            editing &&
-            !(userRoles.is_agent && userRoles.is_admin && userRoles.is_tenant)
-          "
-          size="mini"
-        ></el-button>
+        <el-button icon="el-icon-plus" circle size="mini"></el-button>
       </template>
       <div class="role-tags__new-role-buttons">
         <el-button
-          v-if="!userRoles.is_admin"
+          v-if="!userRoles.is_admin && Auth.IsAdmin()"
           type="success"
           size="mini"
           class="role-tags__new-role-buttons__button"
@@ -60,7 +53,7 @@
           >Admin</el-button
         >
         <el-button
-          v-if="!userRoles.is_agent"
+          v-if="!userRoles.is_agent && Auth.IsAdmin()"
           type="warning"
           size="mini"
           class="role-tags__new-role-buttons__button"
@@ -68,7 +61,7 @@
           >Agent</el-button
         >
         <el-button
-          v-if="!userRoles.is_tenant"
+          v-if="!userRoles.is_tenant && (Auth.IsAdmin() || Auth.IsAgent())"
           type="info"
           size="mini"
           class="role-tags__new-role-buttons__button"
@@ -85,12 +78,7 @@
 import { IUserDataType } from "@/store/auth";
 import { defineComponent, PropType, reactive, ref, toRefs, watch } from "vue";
 import Auth from "@/store/auth";
-
-export interface IUserRoles {
-  is_admin: boolean;
-  is_agent: boolean;
-  is_tenant: boolean;
-}
+import { IUserRoles } from "@/interfaces/User";
 
 export default defineComponent({
   props: {
@@ -130,7 +118,7 @@ export default defineComponent({
     return {
       userRoles,
       selectNewRole,
-      Auth,
+      Auth: Auth(),
       handleToggleAdmin,
       handleToggleAgent,
       handleToggleTenant,

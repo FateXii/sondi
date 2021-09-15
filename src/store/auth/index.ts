@@ -67,6 +67,7 @@ export async function GetAuthenticatedUser(): Promise<Option<IUserDataType>> {
 }
 
 const IsAdmin = () => state.user?.is_admin || false;
+const IsTenant = () => state.user?.is_tenant || false;
 const IsAgent = () => state.user?.is_agent || false;
 const IsAthenticated = computed(() => (state.user && true) || false);
 const user = computed(() => state.user);
@@ -76,6 +77,7 @@ export default function useAuthStore() {
     user,
     IsAdmin,
     IsAgent,
+    IsTenant,
     SetError,
     SetLoading,
     SetUser,
