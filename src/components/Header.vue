@@ -6,10 +6,7 @@
       </router-link>
       <div class="header-menu">
         <span class="header-menu__icon" @click="drawer = true">
-          <img
-            :src="require('../assets/icons/menu-icon.svg')"
-            alt="Hamburger Icon"
-          />
+          <img src="@/assets/icons/menu-icon.svg" alt="Hamburger Icon" />
         </span>
         <el-drawer v-model="drawer" :size="ScreenWidth < 400 ? '60%' : '40%'">
           <HeaderMenuItems class="header-menu__items drawer" />
