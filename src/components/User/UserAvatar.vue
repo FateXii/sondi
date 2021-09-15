@@ -31,16 +31,23 @@
       Tenant
     </el-tag>
     <el-popover
-      v-if="
-        (editing &&
-          !(userRoles.is_agent && userRoles.is_admin && userRoles.is_tenant)) ||
-        Auth.IsAdmin()
-      "
+      v-if="editing"
       :placement="screenWidth > 767 ? 'right' : 'bottom'"
       :width="400"
       trigger="click"
     >
-      <template #reference>
+      <template
+        #reference
+        v-if="
+          (editing &&
+            !(
+              userRoles.is_agent &&
+              userRoles.is_admin &&
+              userRoles.is_tenant
+            )) ||
+          Auth.IsAdmin()
+        "
+      >
         <el-button icon="el-icon-plus" circle size="mini"></el-button>
       </template>
       <div class="role-tags__new-role-buttons">

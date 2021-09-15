@@ -1,45 +1,79 @@
 <template>
-  <el-container class="new-user">
-    <el-form v-if="role && role !== 'tenant'" class="new-user__form">
-      <h1>
-        Add New
-        {{ `${capitalize(role)}${role.toLowerCase() === "tenant" ? "s" : ""}` }}
-      </h1>
-      <el-container v-for="(user, i) in newUsers" :key="i">
+  <el-container class="new-user" v-loading="loading">
+    <el-form
+      ref="userCreationForm"
+      v-if="role !== 'tenant'"
+      class="new-user__form"
+      :rules="userValidator"
+      :model="user"
+    >
+      <h1>Add New {{ capitalize(role) }}</h1>
+      <div v-if="errors && errors.email">
         <el-alert
-          title="Invalid Credential"
+          title="Invalid Credentials"
           type="error"
           show-icon
-          v-for="(error, i) in user.error?.email"
+          v-for="(error, i) in errors.email"
           :key="i"
         >
           {{ error }}
         </el-alert>
-        <el-row>
-          <el-form-item class="new-user__form__email">
-            <el-input
-              type="email"
-              :required="true"
-              :placeholder="`New ${capitalize(role)} Email`"
-              v-model="user.email"
-            ></el-input>
+      </div>
+      <el-alert
+        title="Invalid input"
+        type="error"
+        show-icon
+        v-if="!validForm"
+      ></el-alert>
+      <el-descriptions
+        class="new-user__form__container"
+        direction="vertical"
+        :column="4"
+        border
+      >
+        <el-descriptions-item :span="4" label="Name">
+          <el-form-item prop="name">
+            <el-input v-model="user.name"> </el-input>
           </el-form-item>
-          <el-form-item
-            v-if="role.toLowerCase() === 'tenant'"
-            class="new-user__form__new-user-form"
-          >
-            <el-button
-              :id="`${i}`"
-              @click="i == 0 ? addUser(i) : newUsers.pop()"
-              :icon="i == 0 ? 'el-icon-plus' : 'el-icon-minus'"
-              circle
-            ></el-button>
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="Email"
+          :span="ScreenWidth < 992 ? 4 : role === 'agent' ? 1 : 2"
+        >
+          <el-form-item prop="email">
+            <el-input v-model="user.email"> </el-input>
           </el-form-item>
-        </el-row>
-      </el-container>
-      <el-button @click="createUsers">
+        </el-descriptions-item>
+        <el-descriptions-item
+          label="Phone Number"
+          :span="ScreenWidth < 992 ? 4 : 2"
+        >
+          <el-form-item>
+            <el-input v-model="user.phone_number"> </el-input>
+          </el-form-item>
+        </el-descriptions-item>
+        <el-descriptions-item
+          v-if="role === 'agent'"
+          :span="ScreenWidth < 992 ? 4 : 1"
+          label="Agent Registration Number"
+        >
+          <el-form-item>
+            <el-input v-model="user.agent_registration_number"> </el-input>
+          </el-form-item>
+        </el-descriptions-item>
+        <el-descriptions-item label="Bio" :span="4">
+          <el-form-item>
+            <el-input type="textarea" v-model="user.bio"> </el-input>
+          </el-form-item>
+        </el-descriptions-item>
+      </el-descriptions>
+      <el-button
+        class="new-user__form__container__button"
+        @click="handleCreateUser"
+        :loading="creatingUser"
+      >
         Create New
-        {{ `${capitalize(role)}${role.toLowerCase() === "tenant" ? "s" : ""}` }}
+        {{ capitalize(role) }}
       </el-button>
     </el-form>
     <div v-else>This Feature is coming soon</div>
@@ -47,12 +81,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, watchEffect } from "vue";
+import { computed, defineComponent, ref, toRefs, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import { capitalize } from "@/Helpers";
 import { manageNewUser } from "@/composables/Users/NewUser";
 import GetError, { ResponseError } from "@/Helpers/GetError";
-import { ElNotification } from "element-plus";
+import { ElForm, ElNotification } from "element-plus";
+import ScreenWidth from "@/Helpers/GetScreenWidth";
 
 export default defineComponent({
   props: {
@@ -64,42 +99,62 @@ export default defineComponent({
   setup(props) {
     const router = useRouter();
     const { role } = toRefs(props);
-    const { clearNewUsers, newUsers, addUser, createNewUsers } =
-      manageNewUser();
+    const errors = ref();
+    const userCreationForm = ref();
+    const {
+      user,
+      userValidator,
+      creatingUser,
+      createUser,
+      processRole,
+      getEmptyUser,
+    } = manageNewUser();
+    const loading = ref(false);
+    const validForm = ref(true);
 
     watchEffect(() => {
       if (
         role.value &&
-        !["admin", "tenant", "agent"].find(
-          (currentRole) => currentRole === role.value.toLowerCase()
-        )
+        !["admin", "tenant", "agent"].includes(role.value.toLowerCase())
       ) {
         router.push("/dashboard/not_found");
+        role.value = role.value.toLowerCase();
       }
-      if (role.value.toLowerCase() !== "tenant") {
-        clearNewUsers();
-      }
+      // loading.value = (role.value && true) || false;
     });
 
-    async function createUsers() {
-      try {
-        await createNewUsers(role.value);
-      } catch (error) {
-        if (GetError(error as ResponseError)) {
-          ElNotification({
-            title: "Error",
-            message: "Something went wrong!",
-            type: "error",
-          });
+    async function handleCreateUser() {
+      userCreationForm.value.validate((valid: boolean) => {
+        validForm.value = valid;
+      });
+      Object.assign(user, processRole(role.value));
+      if (validForm.value) {
+        try {
+          if (await createUser(user)) {
+            ElNotification({
+              message: "User created",
+              type: "success",
+            });
+            // Object.assign(user, getEmptyUser());
+          }
+        } catch (error) {
+          errors.value = GetError(error as ResponseError);
         }
       }
+      return;
     }
 
     return {
-      newUsers,
+      user,
       capitalize,
-      addUser,
-      createUsers,
+      errors,
+      loading,
+      ScreenWidth,
+      handleCreateUser,
+      userValidator,
+      creatingUser,
+      userCreationForm,
+      validForm,
     };
   },
 });
@@ -126,14 +181,10 @@ export default defineComponent({
       box-shadow: 1px 1px 10px 0px #e6a23c, -1px -1px 10px 0px #e6a23c;
       width: 80vw;
     }
-    @media (min-width: 769px) {
-      width: 50vw;
-    }
-    &__email {
-      width: 100%;
-    }
-    &__new-user-form {
-      margin-left: 1rem;
+    &__container {
+      &__button {
+        margin: 1rem 0;
+      }
     }
   }
 }
