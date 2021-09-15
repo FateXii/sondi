@@ -9,19 +9,7 @@
         <span class="property__heading__title">{{ property.title }}</span>
       </h1>
       <div class="property__images property-item">
-        <el-carousel
-          :height="GetScreenWidth < 500 ? '20rem' : '30rem'"
-          :autoplay="false"
-          arrow="always"
-        >
-          <el-carousel-item v-for="image in property.images" :key="image">
-            <img
-              ref="propImage"
-              class="property__images__image"
-              :src="image.path"
-            />
-          </el-carousel-item>
-        </el-carousel>
+        <carousel />
       </div>
       <div class="property__description property-item">
         <h3 class="property__description__title">
@@ -63,7 +51,7 @@
         >
           <el-avatar
             shape="square"
-            :size="150"
+            :size="75"
             fit="fill"
             :src="agent.image"
           ></el-avatar>
@@ -115,6 +103,7 @@ import { defineComponent, onMounted, onUnmounted, PropType } from "vue";
 import { IProperty } from "@/interfaces/Property";
 import { onWindowScroll } from "@/Helpers/General";
 import GetScreenWidth from "@/Helpers/GetScreenWidth";
+import Carousel from "./Carousel.vue";
 
 const currencyFormatter = new Intl.NumberFormat("en-ZA", {
   currency: "ZAR",
@@ -123,6 +112,7 @@ const currencyFormatter = new Intl.NumberFormat("en-ZA", {
 
 export default defineComponent({
   components: {
+    Carousel,
     // FeatureIcon,
   },
   props: {
@@ -170,7 +160,7 @@ export default defineComponent({
     @media (min-width: 767px) {
       height: 30rem;
     }
-    @media (max-width: 500px) {
+    @media (min-width: 320px) {
       height: 20rem;
     }
   }
@@ -186,7 +176,7 @@ export default defineComponent({
   grid-template-columns: 2fr 1fr;
   gap: 1rem;
   padding: 2rem;
-  @media (max-width: 500px) {
+  @media (max-width: 767px) {
     display: flex;
     flex-flow: column;
     padding: 0;
@@ -204,6 +194,10 @@ export default defineComponent({
       &__item {
         display: flex;
         flex-flow: row nowrap;
+        margin-bottom: 1rem;
+        .el-avatar {
+          margin-right: 1rem;
+        }
         &__details {
           display: flex;
           flex-flow: column nowrap;
