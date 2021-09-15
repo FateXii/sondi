@@ -52,8 +52,9 @@ const routes: Array<RouteRecordRaw> = [
             },
           },
           {
-            path: "new_user",
-            component: NewProperty,
+            path: "new_user/:role",
+            component: NewUser,
+            props: true,
             meta: {
               requiresAuth: true,
               requiresAdmin: true,
