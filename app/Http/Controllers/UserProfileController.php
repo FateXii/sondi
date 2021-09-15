@@ -82,9 +82,9 @@ class UserProfileController extends Controller
         /**@var App\Models\User $user  */
         $user = Auth::user();
         $request->validate([
-            'agent_registration_number' => 'string',
             'is_admin' => 'boolean',
             'is_agent' => 'boolean',
+            'agent_registration_number' => 'string',
             'is_tenant' => 'boolean',
             'photo' => 'image',
             'bio' => 'string',
@@ -146,6 +146,10 @@ class UserProfileController extends Controller
         } else {
             $userProfile->delete();
         }
-        return Response::HTTP_NO_CONTENT;
+        if (!UserProfile::where('id', $userProfile)->first()) {
+            return Response::HTTP_NO_CONTENT;
+        } else {
+            return Response::HTTP_BAD_REQUEST;
+        }
     }
 }

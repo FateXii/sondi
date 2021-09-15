@@ -15,15 +15,14 @@ class UserProfile extends Model
      * @var array
      */
     protected $fillable = [
-        'agent_registration_number',
         'is_admin',
         'is_agent',
         'is_tenant',
         'photo',
         'bio',
         'phone_number',
-        'deleted_at',
-        'user_id'
+        'user_id',
+        'agent_registration_number',
     ];
 
     public function user()

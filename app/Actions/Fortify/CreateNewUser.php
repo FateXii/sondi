@@ -25,7 +25,6 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make(
             $input,
             [
-                'name' => ['required', 'string', 'max:255'],
                 'email' => [
                     'required',
                     'string',
@@ -36,23 +35,26 @@ class CreateNewUser implements CreatesNewUsers
                 ],
                 'password' => $this->passwordRules(),
             ],
-            ['exists' => 'The :attribute email is not registered contact Sondi admin']
+            ['exists' => 'This email, is not registered. Please contact Sondi admin.']
         )->validate();
 
 
+        $potentialUser = PotentialUser::where('email', $input['email'])->first();
         $user = User::create([
-            'name' => $input['name'],
-            'email' => $input['email'],
+            'name' => $potentialUser->email,
+            'email' => $potentialUser->name,
             'password' => Hash::make($input['password']),
         ]);
-        $potentialUser = PotentialUser::where('email', $input['email'])->first();
 
         UserProfile::create([
-            'email' => $input['email'],
             'user_id' => $user->id,
             'is_admin' => $potentialUser->is_admin,
             'is_agent' => $potentialUser->is_agent,
             'is_tenant' => $potentialUser->is_tenant,
+            'agent_registration_number' => $potentialUser->agent_registration_number,
+            'photo' => $potentialUser->photo,
+            'bio' => $potentialUser->bio,
+            'phone_number' => $potentialUser->phone_number,
         ]);
         $potentialUser->delete();
 
