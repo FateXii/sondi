@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\AddressController;
+use App\Http\Controllers\PotentialUserController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\SectionalsController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Resources\UserProfileResource;
+use App\Models\PotentialUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,13 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::post('/sanctum/token', TokenController::class);
+
+Route::post('/profiles/new', [PotentialUserController::class, 'store'])->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->get('/profiles/new', function () {
+  return PotentialUser::all();
+});
 
 Route::post('/sanctum/token', TokenController::class);
 
@@ -36,9 +44,4 @@ Route::apiResource(
 Route::apiResource(
   'sectionals',
   SectionalsController::class
-);
-
-Route::apiResource(
-  'address',
-  AddressController::class
 );

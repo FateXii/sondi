@@ -28,19 +28,20 @@ class PotentialUserController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        Validator::make($request, [
-            'email' => [
-                'required',
-                'string',
-                'email',
-            ],
-        ],
-        )->validate();
-
-        if ($user)
-        return PotentialUser::create([
-            'email' => $request['email'],
+        $request->validate([
+            'email' => 'required|email|unique:users,email|unique:potential_users,email',
+            'is_admin' => 'required|boolean',
+            'is_agent' => 'required|boolean',
+            'is_tenant' => 'required|boolean',
         ]);
+        $potentialUser = new PotentialUser();
+        if ($user) {
+            $potentialUser->email = $request->email;
+            $potentialUser->is_admin = $request->is_admin;
+            $potentialUser->is_agent = $request->is_agent;
+            $potentialUser->is_tenant = $request->is_tenant;
+            $potentialUser->save();
+        }
     }
 
     /**
@@ -63,15 +64,14 @@ class PotentialUserController extends Controller
      */
     public function update(Request $request, PotentialUser $potentialUser)
     {
-        Validator::make($request, [
-            'email' => [
-                'required',
-                'string',
-                'email',
-            ],
-        ],
-        )->validate();
-        $potentialUser->email = $request['email'];
+        $user = Auth::user();
+        $request->validate([
+            'email' => 'required|email|unique:users,email',
+
+        ]);
+        if ($user) {
+            $potentialUser->email = $request['email'];
+        }
     }
 
     /**
