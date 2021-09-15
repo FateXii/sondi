@@ -161,37 +161,18 @@ class PropertyController extends Controller
   /**
    * Display the specified property.
    *
-   * @param  \App\Models\Property  $property
+   * @param  integer  $property
    * @return \Illuminate\Http\Response
    */
   public function show(Property $property)
   {
+
     if (!$property) {
       return new Response([
         'message' => 'property not found',
       ], 404);
     }
-    $price = null;
-    if (!$property->rentals) {
-      $price = $property->sales->price;
-    } else {
-      $price = $property->rentals->price;
-    }
-
-    $images = Image::all()->where('property_id', $property->id)->map(
-      function ($image) {
-        return 'storage/' . $image->image->path;
-      }
-    );
-    return array_merge(
-      $property->toArray(),
-      [
-        'isSale' => !$property->rentals,
-        'price' => $price,
-        'address' => $property->address,
-        'images' => $images->toArray(),
-      ]
-    );
+    return new PropertyResource($property);
   }
 
   /**
