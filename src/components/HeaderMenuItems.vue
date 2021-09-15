@@ -1,14 +1,6 @@
 <template>
   <el-menu>
     <el-menu-item>
-      <a @click="setBuying(true)" class="info-link" href="#buying"> Buying </a>
-    </el-menu-item>
-    <el-menu-item>
-      <a @click="setBuying(false)" class="info-link" href="#renting">
-        Renting
-      </a>
-    </el-menu-item>
-    <el-menu-item>
       <el-button type="warning"> Contact </el-button>
     </el-menu-item>
     <el-menu-item>
@@ -22,10 +14,6 @@
             <el-dropdown-item @click="toggleLoggedIn"
               ><span>Logout</span></el-dropdown-item
             >
-            <el-dropdown-item>Action 2</el-dropdown-item>
-            <el-dropdown-item>Action 3</el-dropdown-item>
-            <el-dropdown-item>Action 4</el-dropdown-item>
-            <el-dropdown-item>Action 5</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -44,7 +32,7 @@ import useAuthStore from "@/store/auth";
 
 export default defineComponent({
   setup() {
-    const { loggedIn, logout, loggingOut, loggingIn } = AuthManager();
+    const { logout, loggingOut } = AuthManager();
     const router = useRouter();
     const { user } = useAuthStore();
     const toggleLoggedIn = () => {
@@ -58,8 +46,6 @@ export default defineComponent({
     return {
       toggleLoggedIn,
       loggingOut,
-      loggingIn,
-      loggedIn,
       user,
     };
   },
