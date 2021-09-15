@@ -27,6 +27,16 @@ const routes: Array<RouteRecordRaw> = [
     path: "/register",
     component: RegistrationForm,
   },
+
+  {
+    path: "/properties",
+    component: PropertyList,
+  },
+  {
+    path: "/properties/:id",
+    component: PropertyDetails,
+    props: true,
+  },
   {
     path: "/dashboard",
     name: "Admin",

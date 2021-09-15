@@ -5,30 +5,30 @@
       :property="property"
       v-if="summary"
     />
-    <property-detail v-else :property="property" />
-    <el-button @click="showDetail" icon="el-icon-arrow-down" circle></el-button>
+    <el-button @click="showDetail">See More</el-button>
   </el-container>
 </template>
 
 <script lang="ts">
 import { IProperty } from "@/interfaces/Property";
-import { defineComponent, PropType, ref } from "vue";
-import PropertyDetail from "./PropertyDetail.vue";
+import { defineComponent, PropType, ref, toRefs } from "vue";
+import { useRouter } from "vue-router";
 import PropertyItemSummary from "./PropertyItemSummary.vue";
 
 export default defineComponent({
-  components: { PropertyItemSummary, PropertyDetail },
+  components: { PropertyItemSummary },
   props: {
     property: {
       type: Object as PropType<IProperty>,
       required: true,
     },
   },
-  setup() {
+  setup(props) {
+    const { property } = toRefs(props);
+    const router = useRouter();
     const summary = ref(true);
     function showDetail() {
-      summary.value = !summary.value;
-      return;
+      router.push(`/properties/${property.value.id}`);
     }
     return {
       summary,

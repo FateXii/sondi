@@ -121,19 +121,13 @@ export default defineComponent({
 .el-container {
   flex-flow: column nowrap;
   width: 100%;
-  h2 {
-    align-self: center;
-  }
+  text-align: center;
 }
 .user-list__item {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
-  @media (min-width: 992px) {
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-  }
   &__summary {
     display: flex;
     flex-flow: column nowrap;

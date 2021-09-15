@@ -1,6 +1,8 @@
 <template>
   <el-container>
-    <el-image :src="require('@/assets/logo.svg')"></el-image>
+    <router-link to="/">
+      <el-image :src="require('@/assets/logo.svg')"></el-image>
+    </router-link>
     <el-form
       label-position="top"
       label-width="100px"

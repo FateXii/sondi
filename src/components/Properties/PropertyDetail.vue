@@ -1,6 +1,10 @@
 <template>
-  <div class="property-detail" id="affix-container">
-    <div class="property">
+  <el-container
+    class="property-detail"
+    id="affix-container"
+    v-loading="!property"
+  >
+    <div class="property" :id="`prop${property.id}`" v-if="property">
       <h1 class="property__heading">
         <span class="property__heading__price">
           {{ currencyFormatter.format(property.price) }}
@@ -76,7 +80,10 @@
         </div>
       </div>
     </div>
-    <div :class="['contact', 'property-item']">
+    <div
+      :id="`prop${property && property.id}contact`"
+      :class="['contact', 'property-item']"
+    >
       <el-form class="contact__form">
         <el-form-item>
           <el-input placeholder="Name"> </el-input>
@@ -95,15 +102,24 @@
         </el-form-item>
       </el-form>
     </div>
-  </div>
+  </el-container>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, PropType } from "vue";
+import {
+  defineComponent,
+  onMounted,
+  onUnmounted,
+  PropType,
+  ref,
+  toRefs,
+  watchEffect,
+} from "vue";
 import { IProperty } from "@/interfaces/Property";
 import { onWindowScroll } from "@/Helpers/General";
 import GetScreenWidth from "@/Helpers/GetScreenWidth";
 import Carousel from "./Carousel.vue";
+import PropertyService from "@/services/PropertyService";
 
 const currencyFormatter = new Intl.NumberFormat("en-ZA", {
   currency: "ZAR",
@@ -116,16 +132,71 @@ export default defineComponent({
     // FeatureIcon,
   },
   props: {
-    property: {
-      type: Object as PropType<IProperty>,
+    // property: {
+    //   type: Object as PropType<IProperty>,
+    //   required: true,
+    // },
+    id: {
+      type: String,
       required: true,
     },
   },
-  setup() {
+  setup(props) {
+    const { id } = toRefs(props);
+    const property = ref<IProperty | undefined>();
+    const loading = ref(false);
+    function onWindowScroll(e: any) {
+      let contactWidth = Number();
+      const propertyDetailContainer = document.getElementById(
+        `prop${property.value?.id}`
+      );
+      const propertyContactInfo = document.getElementById(
+        `prop${property.value?.id}contact`
+      );
+      if (propertyContactInfo && propertyDetailContainer) {
+        const {
+          width,
+          top: contactTop,
+          bottom: contactBottom,
+        } = propertyContactInfo.getBoundingClientRect();
+        const {
+          top,
+          right,
+          bottom: propertyBottom,
+        } = propertyDetailContainer.getBoundingClientRect();
+        contactWidth = Math.max(width, contactWidth);
+        const fixedPos = 200;
+        if (
+          top <= fixedPos &&
+          Math.round(contactBottom) < Math.round(propertyBottom) &&
+          contactTop >= fixedPos
+        ) {
+          if (propertyContactInfo) {
+            propertyContactInfo.setAttribute(
+              "style",
+              `top:${fixedPos}px;` +
+                `position:fixed;` +
+                `left:calc(1rem + ${right}px);` +
+                `width:${contactWidth}px;`
+            );
+          }
+        } else if (top <= fixedPos && contactTop < fixedPos) {
+          propertyContactInfo &&
+            propertyContactInfo.setAttribute("style", `align-self:end;`);
+        } else {
+          propertyContactInfo && propertyContactInfo.setAttribute("style", ``);
+        }
+      }
+    }
     onUnmounted(() => {
       if (GetScreenWidth.value > 992) {
         window.removeEventListener("scroll", onWindowScroll);
       }
+    });
+    watchEffect(() => {
+      PropertyService.get(Number(id.value)).then((response) => {
+        property.value = response.data.data;
+      });
     });
     onMounted(() => {
       if (GetScreenWidth.value > 992) {
@@ -142,6 +213,7 @@ export default defineComponent({
       currencyFormatter,
       GetScreenWidth,
       getPropertyFeaturesMap,
+      property,
     };
   },
 });

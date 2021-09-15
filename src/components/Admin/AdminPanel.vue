@@ -142,12 +142,8 @@ export default defineComponent({
   align-items: center;
   padding: 1rem 0;
   @media (min-width: 767px) {
-    // padding: 0 10%;
   }
   @media (min-width: 1023px) {
-    // padding: 0 20%;s
-    // width: 60%;
-    margin-top: 5vh;
   }
 }
 .router-link {

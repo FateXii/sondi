@@ -54,13 +54,11 @@ export default defineComponent({
   border-radius: 5rem;
 }
 .icon-row {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  padding: 3rem 8.375rem;
-
-  @media (max-width: 375px) {
-    padding: 3rem 1rem;
-  }
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  justify-content: center;
+  justify-items: center;
+  width: 90vw;
+  max-width: 950px;
 }
 </style>

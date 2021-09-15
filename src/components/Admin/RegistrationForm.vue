@@ -1,6 +1,8 @@
 <template>
   <el-container>
-    <el-image :src="require('@/assets/logo.svg')"></el-image>
+    <router-link to="/">
+      <el-image :src="require('@/assets/logo.svg')"></el-image>
+    </router-link>
     <el-form
       label-position="top"
       label-width="100px"
@@ -24,9 +26,6 @@
         show-icon
         v-if="validationError"
       ></el-alert>
-      <el-form-item label="Name" prop="name">
-        <el-input type="text" v-model="registrationForm.name"></el-input>
-      </el-form-item>
       <el-form-item label="Email" prop="email">
         <el-input type="email" v-model="registrationForm.email"></el-input>
       </el-form-item>

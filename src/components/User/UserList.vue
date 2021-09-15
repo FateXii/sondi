@@ -58,10 +58,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .user-list {
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
-  @media (min-width: 767px) {
-  }
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  max-width: 1024px;
 }
 </style>

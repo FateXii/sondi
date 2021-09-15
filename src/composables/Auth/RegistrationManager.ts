@@ -27,13 +27,6 @@ export function RegistrationManager() {
     callback();
   };
   const registrationValidator = reactive({
-    name: [
-      {
-        required: true,
-        message: "Name is required",
-        trigger: ["blur"],
-      },
-    ],
     email: [
       {
         type: "email",

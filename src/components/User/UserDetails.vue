@@ -1,15 +1,15 @@
 <template>
   <el-container v-if="user" v-loading="pageLoading && user">
     <h2>{{ user && user.name }}</h2>
-    <div class="user-list__item">
-      <div class="user-list__item__summary">
+    <div class="user-details">
+      <div class="user-details__summary">
         <user-avatar
           :editing="editing"
           :user="user"
           @userAvatarEdited="handleAvatarEdited"
           :screenWidth="ScreenWidth"
         />
-        <el-button-group class="user-list__item__summary__buttons">
+        <el-button-group class="user-details__summary__buttons">
           <el-button
             type="primary"
             icon="el-icon-edit"
@@ -34,35 +34,33 @@
           </el-popconfirm>
         </el-button-group>
       </div>
-      <div class="user-list__item__description">
-        <el-collapse-transition>
-          <div class="user-list__item__description__container">
-            <user-item-description
-              :user="user"
-              :screenWidth="ScreenWidth"
-              :editing="editing"
-              @userEdited="handleUserDescriptionEdited"
-            />
-            <el-button-group
-              v-if="editing"
-              class="user-list__item__description__container__buttons"
-            >
-              <el-popconfirm
-                confirmButtonText="Yes"
-                cancelButtonText="No"
-                icon="el-icon-info"
-                iconColor="red"
-                title="Are you sure to edit this?"
-                @confirm="handleEditUser"
-              >
-                <template #reference>
-                  <el-button type="success"> Submit Changes </el-button>
-                </template>
-              </el-popconfirm>
-              <el-button type="info" @click="editing = false">Cancel</el-button>
-            </el-button-group>
-          </div>
-        </el-collapse-transition>
+      <div class="user-details__description">
+        <div class="user-details__description__container">
+          <user-item-description
+            :user="user"
+            :screenWidth="ScreenWidth"
+            :editing="editing"
+            @userEdited="handleUserDescriptionEdited"
+          />
+        </div>
+        <el-button-group
+          v-if="editing"
+          class="user-details__description__buttons"
+        >
+          <el-popconfirm
+            confirmButtonText="Yes"
+            cancelButtonText="No"
+            icon="el-icon-info"
+            iconColor="red"
+            title="Are you sure to edit this?"
+            @confirm="handleEditUser"
+          >
+            <template #reference>
+              <el-button type="success"> Update </el-button>
+            </template>
+          </el-popconfirm>
+          <el-button type="info" @click="editing = false">Cancel</el-button>
+        </el-button-group>
       </div>
     </div>
   </el-container>
@@ -71,23 +69,13 @@
 <script lang="ts">
 import GetError, { ResponseError } from "@/Helpers/GetError";
 import UsersService from "@/services/UsersService";
-import useAuthStore, { IUserDataType } from "@/store/auth";
-import { ElMessage, ElMessageBox, ElNotification } from "element-plus";
-import {
-  computed,
-  defineComponent,
-  onMounted,
-  reactive,
-  ref,
-  toRefs,
-} from "vue";
+import useAuthStore from "@/store/auth";
+import { ElMessageBox, ElNotification } from "element-plus";
+import { computed, defineComponent, onMounted, toRefs } from "vue";
 import ScreenWidth from "@/Helpers/GetScreenWidth";
-import UserItemDescription, {
-  IAbreviatedUser,
-} from "./UserItemDescription.vue";
+import UserItemDescription from "./UserItemDescription.vue";
 import UserAvatar from "./UserAvatar.vue";
 import { useRouter } from "vue-router";
-import { IUserRoles } from "@/interfaces/User";
 import { ManageUsers } from "@/composables/Users/ManageUsers";
 
 type NotificationType = "success" | "warning" | "info" | "error" | "";
@@ -107,7 +95,7 @@ export default defineComponent({
       return (id && true) || false;
     },
   },
-  setup(props, { emit }) {
+  setup(props) {
     const { id } = toRefs(props);
     const numId = computed(() => Number(id.value));
     const router = useRouter();
@@ -214,41 +202,27 @@ export default defineComponent({
 }
 .el-container {
   flex-flow: column nowrap;
-  width: 100%;
+  max-width: 992px;
   h2 {
     align-self: center;
   }
-}
-.user-list__item {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  justify-content: center;
-  @media (min-width: 992px) {
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-  }
-  &__summary {
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
-    @media (min-width: 992px) {
-      margin-right: 1rem;
-    }
-    &__buttons {
-      margin: 1rem 0;
-    }
-  }
-  &__description {
-    width: 100%;
-    &__container {
+  .user-details {
+    &__summary {
+      display: flex;
+      flex-flow: column nowrap;
+      align-items: center;
       &__buttons {
-        margin-top: 1rem;
+        margin: 1rem 0;
       }
     }
-  }
-  &__info-hide-button {
-    margin: 1rem 0;
+    &__description {
+      display: flex;
+      flex-flow: column nowrap;
+      align-items: center;
+      &__buttons {
+        margin: 1rem 0;
+      }
+    }
   }
 }
 </style>
