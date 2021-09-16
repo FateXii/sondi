@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BasicFeatureResource;
 use App\Models\Features;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,11 +24,12 @@ class FeaturesController extends Controller
         $user = Auth::user();
 
         $request->validate([
-            'feature' => 'required|string|unique',
+            'feature' => 'required|string|unique:features,feature',
         ]);
         if ($user && ($user->isAdmin() || $user->isAgent())) {
             $feature = new Features();
             $feature->feature = $request->feature;
+            $feature->save();
             return response()->json([], Response::HTTP_CREATED);
         }
         return response()->json([], Response::HTTP_UNAUTHORIZED);
@@ -40,6 +42,6 @@ class FeaturesController extends Controller
      */
     public function index()
     {
-        return Features::all();
+        return BasicFeatureResource::collection(Features::all());
     }
 }

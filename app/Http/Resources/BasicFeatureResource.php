@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FeaturesResources extends JsonResource
+class BasicFeatureResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,7 +17,6 @@ class FeaturesResources extends JsonResource
         return [
             'id' => $this->id,
             'feature' => $this->feature,
-            'value' => $this->pivot->value,
         ];
     }
 }

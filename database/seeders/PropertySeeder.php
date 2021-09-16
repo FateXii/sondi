@@ -3,9 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Address;
+use App\Models\Features;
 use App\Models\Image;
 use App\Models\Property;
 use App\Models\PropertyAgent;
+use App\Models\PropertyFeatures;
 use App\Models\Sectionals;
 use App\Models\SectionalUnit;
 use App\Models\UserProfile;
@@ -20,6 +22,27 @@ class PropertySeeder extends Seeder
      */
     public function run()
     {
+        $feature = [
+            'bedrooms',
+            'bathrooms',
+            'interior space',
+            'plot size',
+            'swimming pool',
+            'electric fence',
+            'generator',
+            'office',
+            'scullary',
+            'gym',
+        ];
+        $features = [];
+        foreach ($feature as $feat) {
+            array_push(
+                $features,
+                Features::factory()->state([
+                    'feature' => $feat,
+                ])->create()
+            );
+        }
         $agents = UserProfile::factory()->state([
             'is_agent' => true
         ])->count(10)->create();
@@ -32,8 +55,9 @@ class PropertySeeder extends Seeder
                 ->count(rand(5, 15))
                 ->create();
             $rand = rand(0, 9);
+            $agents_visited = [];
+            $featuresUsed = [];
             for ($i = 0; $i < 5; $i++) {
-                $agents_visited = [];
                 $rand1 = rand(0, 9);
                 while (in_array($rand1, $agents_visited)) {
                     $rand1 = rand(0, 9);
@@ -43,6 +67,16 @@ class PropertySeeder extends Seeder
                     'property_id' => $property->id,
                     'agent_id' => $agents[$rand1]->id,
                 ])->create();
+                while (in_array($rand1, $featuresUsed)) {
+                    $rand1 = rand(0, 9);
+                }
+                array_push($featuresUsed, $rand1);
+                PropertyFeatures::factory()->state(
+                    [
+                        'feature_id' => $features[$rand1]->id,
+                        'property_id' => $property->id
+                    ]
+                )->create();
             }
             if ($rand < 5) {
                 $sectional = $sectionals[$rand];

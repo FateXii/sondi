@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FeaturesController;
 use App\Http\Controllers\PotentialUserController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\SectionalsController;
@@ -7,7 +8,6 @@ use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Resources\UserProfileResource;
 use App\Models\PotentialUser;
-use App\Models\PropertyFeatures;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,8 +29,8 @@ Route::get('/profiles/new', function () {
   return PotentialUser::all();
 })->middleware('auth:sanctum');
 
-Route::post('/property/features/new', [PropertyFeatures::class, 'store'])->middleware('auth:sanctum');
-Route::get('/property/features', [PropertyFeatures::class, 'index'])->middleware('auth:sanctum');
+Route::post('/property/features/new', [FeaturesController::class, 'store'])->middleware('auth:sanctum');
+Route::get('/property/features', [FeaturesController::class, 'index'])->middleware('auth:sanctum');
 
 Route::post('/sanctum/token', TokenController::class);
 

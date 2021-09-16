@@ -28,6 +28,7 @@ class Property extends Model
   }
   public function features()
   {
-    return $this->belongsToMany(Features::class, 'property_features', 'property_id', 'feature_id')->withPivot('value');
+    return $this->belongsToMany(Features::class, 'property_features', 'property_id', 'feature_id')
+      ->withPivot('value');
   }
 }

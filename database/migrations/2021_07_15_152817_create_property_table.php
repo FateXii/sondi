@@ -20,7 +20,6 @@ class CreatePropertyTable extends Migration
       $table->string('video_url')->nullable();
       $table->string('cover_image');
       $table->string('title');
-      $table->json('features');
       $table->boolean('is_rental');
       $table->unsignedBigInteger('price');
       $table->timestamps();
