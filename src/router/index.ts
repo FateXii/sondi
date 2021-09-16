@@ -11,6 +11,7 @@ import UserList from "@/components/User/UserList.vue";
 import UserDetails from "@/components/User/UserDetails.vue";
 import NewUser from "@/components/User/NewUser.vue";
 import NotFoundComponent from "@/components/NotFoundComponent.vue";
+import Properties from "@/views/Properties.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -30,12 +31,20 @@ const routes: Array<RouteRecordRaw> = [
 
   {
     path: "/properties",
-    component: PropertyList,
-  },
-  {
-    path: "/properties/:id",
-    component: PropertyDetails,
-    props: true,
+    name: "Properties",
+    component: Properties,
+    children: [
+      {
+        path: "",
+        component: PropertyList,
+        props: true,
+      },
+      {
+        path: ":id",
+        component: PropertyDetails,
+        props: true,
+      },
+    ],
   },
   {
     path: "/dashboard",

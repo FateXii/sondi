@@ -1,16 +1,41 @@
 <template>
-  <el-container
-    class="property-list"
-    v-if="properties && properties.length > 0"
-    v-loading="loadingProperties"
-  >
-    <div
-      class="property-list__item-container"
-      v-for="property in properties.slice(0, 5)"
-      :key="property.id"
+  <el-container class="property-list">
+    <el-skeleton
+      style="width: 50rem"
+      :loading="loadingProperties"
+      animated
+      count="3"
     >
-      <property-item :property="property" />
-    </div>
+      <template #template>
+        <el-skeleton-item variant="image" style="width: 50rem; height: 50rem" />
+        <div style="padding: 14px">
+          <el-skeleton-item variant="h3" style="width: 40%" />
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              flex-flow: column;
+              justify-items: space-between;
+              margin-top: 16px;
+              height: 16px;
+            "
+          >
+            <el-skeleton-item variant="text" />
+            <el-skeleton-item variant="text" />
+            <el-skeleton-item variant="text" />
+          </div>
+        </div>
+      </template>
+      <template #default v-if="properties">
+        <div
+          class="property-list__item-container"
+          v-for="property in properties.slice(0, 5)"
+          :key="property.id"
+        >
+          <property-item :property="property" />
+        </div>
+      </template>
+    </el-skeleton>
   </el-container>
 </template>
 

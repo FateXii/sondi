@@ -3,7 +3,9 @@
     <el-container class="footer">
       <div class="container">
         <span class="footer__logo">
-          <img :src="require(`@/assets/logo-light.svg`)" alt="light logo" />
+          <router-link to="/">
+            <img :src="require(`@/assets/logo-light.svg`)" alt="light logo" />
+          </router-link>
         </span>
         <div class="footer__address">
           <span class="footer__address__line">312 Susan Street</span>
