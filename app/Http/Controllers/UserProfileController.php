@@ -3,15 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserProfileResource;
-use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use Ramsey\Uuid\Type\Integer;
 
 class UserProfileController extends Controller
 {
@@ -23,7 +19,9 @@ class UserProfileController extends Controller
     public function index()
     {
 
-        /**@var App\Models\User $user  */
+        /**
+         * @var App\Models\User $user  
+         */
         $user = Auth::user();
         if (!$user && ($user->isTenant() && !$user->isAdmin())) {
             return response()->json(['message' => 'Unauthorized', 'user' => $user], Response::HTTP_UNAUTHORIZED);

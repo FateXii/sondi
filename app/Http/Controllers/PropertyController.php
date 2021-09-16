@@ -6,6 +6,7 @@ use App\Http\Resources\PropertyResource;
 use App\Models\Address;
 use App\Models\Image;
 use App\Models\Property;
+use App\Models\PropertyFeatures;
 use App\Models\PropertyImage;
 use App\Models\Sectionals;
 use App\Models\SectionalUnit;
@@ -23,7 +24,7 @@ class PropertyController extends Controller
   public function index()
   {
     return PropertyResource::collection(
-      Property::all()
+      (Property::orderByDesc('created_at')->paginate(10))
     );
   }
 
@@ -41,7 +42,6 @@ class PropertyController extends Controller
       'name' => 'required_if:isSectional,True|string',
       'unit' => 'required_if:isSectional,True|string|nullable',
 
-
       'description_title' => 'string',
       'description' => 'required|string',
       'is_rental' => 'required|boolean',
@@ -55,7 +55,8 @@ class PropertyController extends Controller
       'cover_image' => 'required|image',
       'title' => 'required|string',
       'video_url' => 'string',
-      'images' => 'required|array'
+      'images' => 'required|array',
+      'features' => 'required|json',
     ]);
     $cover_image = $request->file('cover_image')->store('images', 'public');
     $address_data = [
@@ -76,6 +77,7 @@ class PropertyController extends Controller
       'is_rental' => $request->is_rental,
     ];
     $property = $this->create_property($property_data, $request->isSectional);
+    $this->create_property_features($property->id, $request->features);
     if ($request->is_sectional) {
       $sectional_property_data = [
         'name' => $request->name,
@@ -104,7 +106,7 @@ class PropertyController extends Controller
         $image->save();
       }
     }
-    return $property;
+    return response()->json(['id' => $property->id], Response::HTTP_CREATED);
   }
 
   private function create_address($address_data, $property_id = null, $sectional_id = null)
@@ -141,6 +143,17 @@ class PropertyController extends Controller
 
     return $sectional;
   }
+  private function create_property_features($property_id, $features_json)
+  {
+    $features = json_decode($features_json);
+    foreach ($features as $feature) {
+      PropertyFeatures::create([
+        'feature_id' => $feature->feature_id,
+        'value' => $feature->value,
+        'property_id' => $feature->property_id
+      ]);
+    }
+  }
   private function create_property($property_data)
   {
     $property = new Property();
@@ -149,7 +162,6 @@ class PropertyController extends Controller
     $property->video_url = $property_data['video_url'];
     $property->title = $property_data['title'];
     $property->addresses_id = $property_data['address'];
-    $property->addresses_id = $property_data['features'];
     $property->addresses_id = $property_data['is_rental'];
     $property->addresses_id = $property_data['price'];
     $property->cover_image = $property_data['cover_image'];
@@ -187,11 +199,8 @@ class PropertyController extends Controller
     Property $property
   ) {
     $request->validate([
-      'bedrooms' => 'sometimes|required|integer',
-      'bathrooms' => 'sometimes|required|integer',
       'video_url' => 'sometimes|required|string',
       'title' => 'sometimes|required|string',
-      'garages' => 'sometimes|required|integer',
       'description' => 'sometimes|require|string'
     ]);
     if (!$property) {
@@ -201,9 +210,6 @@ class PropertyController extends Controller
     }
 
     $fields = [
-      'bedrooms',
-      'bathrooms',
-      'garages',
       'description',
       'video_url',
       'title',
@@ -223,7 +229,7 @@ class PropertyController extends Controller
   /**
    * Remove the specified property from storage.
    *
-   * @param  \App\Models\Property  $property
+   * @param  integer  $property
    * @return \Illuminate\Http\Response
    */
   public function destroy($property)

@@ -26,4 +26,8 @@ class Property extends Model
   {
     return $this->belongsToMany(UserProfile::class, 'property_agents', 'property_id', 'agent_id');
   }
+  public function features()
+  {
+    return $this->belongsToMany(Features::class, 'property_features', 'property_id', 'feature_id')->withPivot('value');
+  }
 }

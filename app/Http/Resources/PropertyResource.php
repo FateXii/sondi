@@ -32,7 +32,8 @@ class PropertyResource extends JsonResource
             'images' => ImageResource::collection($this->images),
             'address' => new AddressResource($address),
             'is_sectional' => $this->sectional_unit !== null,
-            'agents' => AgentResource::collection($this->agents)
+            'agents' => AgentResource::collection($this->agents),
+            'features' => FeaturesResources::collection($this->features)
         ];
     }
 }
