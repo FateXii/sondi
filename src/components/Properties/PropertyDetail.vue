@@ -36,14 +36,14 @@
         <span class="property__features__heading"> Features </span>
         <div
           class="property__feature__item"
-          v-for="(feature, i) in getPropertyFeaturesMap(property)"
+          v-for="(feature, i) in property.features"
           :key="i"
         >
           <span class="property__feature__item__name">
-            {{ feature[0] }}: {{ " " }}
+            {{ feature.feature }}: {{ " " }}
           </span>
           <span class="property__feature__item__value">
-            {{ feature[1] }}
+            {{ feature.value }}
           </span>
         </div>
       </div>
@@ -129,13 +129,8 @@ const currencyFormatter = new Intl.NumberFormat("en-ZA", {
 export default defineComponent({
   components: {
     Carousel,
-    // FeatureIcon,
   },
   props: {
-    // property: {
-    //   type: Object as PropType<IProperty>,
-    //   required: true,
-    // },
     id: {
       type: String,
       required: true,
@@ -189,7 +184,7 @@ export default defineComponent({
       }
     }
     onUnmounted(() => {
-      if (GetScreenWidth.value > 992) {
+      if (GetScreenWidth.value > 767) {
         window.removeEventListener("scroll", onWindowScroll);
       }
     });
@@ -199,20 +194,14 @@ export default defineComponent({
       });
     });
     onMounted(() => {
-      if (GetScreenWidth.value > 992) {
+      if (GetScreenWidth.value > 767) {
         window.addEventListener("scroll", onWindowScroll);
       }
     });
 
-    function getPropertyFeaturesMap(property: IProperty) {
-      const features = JSON.parse(property.features);
-      return Object.entries(features);
-    }
-
     return {
       currencyFormatter,
       GetScreenWidth,
-      getPropertyFeaturesMap,
       property,
     };
   },
@@ -261,16 +250,23 @@ export default defineComponent({
     height: fit-content;
     flex: 2;
     &__agents {
-      display: flex;
-      flex-flow: column nowrap;
+      font-size: 0.825rem;
+      // display: flex;
+      // flex-flow: column nowrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
       &__item {
         display: flex;
         flex-flow: row nowrap;
         margin-bottom: 1rem;
         .el-avatar {
           margin-right: 1rem;
+          flex: 1;
+          min-width: 5rem;
+          max-width: 5rem;
         }
         &__details {
+          flex: 3;
           display: flex;
           flex-flow: column nowrap;
         }

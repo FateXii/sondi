@@ -36,4 +36,12 @@ export default {
   delete(id: number) {
     return requestClient.delete(`/api/properties/${id}`);
   },
+  getFeatures() {
+    return requestClient.get("api/property/features");
+  },
+  createFeature(feature: string) {
+    return requestClient.post("api/property/features/new", {
+      feature,
+    });
+  },
 };

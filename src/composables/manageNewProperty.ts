@@ -1,7 +1,7 @@
 import { ElFile } from "@/interfaces";
 import { ElUpload } from "element-plus/lib/el-upload/src/upload.type";
 import { reactive, ref, watch, watchEffect } from "vue";
-import propertyApi from "@/services/PropertyService";
+import PropertyService from "@/services/PropertyService";
 import { AxiosResponse } from "axios";
 import { useRouter } from "vue-router";
 
@@ -45,6 +45,11 @@ enum Bool {
   false = "0",
   true = "1",
 }
+
+interface IFeatures {
+  feature_id: number;
+  value: string;
+}
 interface IPropertyForm {
   type: PropertyType;
   //if type is Sectional
@@ -64,14 +69,9 @@ interface IPropertyForm {
   city: string;
   province: string;
   postal_code: string;
-  //features
-  bedrooms: number;
-  size: number;
-  bathrooms: number;
-  garages: number;
-  plot_size: number;
 
   images: ElFile[];
+  features: IFeatures[];
 }
 
 function createFormData(property: IPropertyForm, isSectional: Bool): FormData {
@@ -82,13 +82,11 @@ function createFormData(property: IPropertyForm, isSectional: Bool): FormData {
   propertyFormData.append("title", property.title);
   propertyFormData.append("name", property.name);
 
-  propertyFormData.append("bedrooms", property.bedrooms.toString());
-  propertyFormData.append("bathrooms", property.bathrooms.toString());
-  propertyFormData.append("garages", property.garages.toString());
+  propertyFormData.append("features", JSON.stringify(property.features));
   propertyFormData.append("video_url", property.video_url);
 
   propertyFormData.append("description", property.description);
-  propertyFormData.append("sale", property.sale);
+  propertyFormData.append("is_rental", property.sale);
   propertyFormData.append("price", property.price.toString());
 
   propertyFormData.append("street", property.street);
@@ -109,13 +107,14 @@ function createFormData(property: IPropertyForm, isSectional: Bool): FormData {
 export const manageNewProperty = (): any => {
   const uploadedImages = ref<ElUpload>();
   const uploadedCoverImage = ref<ElUpload>();
+  const newFeature = ref("");
   const property = reactive<IPropertyForm>({
     type: PropertyType.StandAlone,
     //if type is Sectional
     sectionalType: SectionalType.Apartment,
     unit: "",
     //description
-    sale: Bool.true,
+    sale: Bool.false,
     price: 1,
     description: "",
     video_url: "Youtube video link",
@@ -128,14 +127,14 @@ export const manageNewProperty = (): any => {
     city: "",
     province: "",
     postal_code: "",
-    //features
-    bedrooms: 0,
-    size: 0,
-    bathrooms: 0,
-    garages: 0,
-    plot_size: 0,
 
     images: [],
+    features: [
+      {
+        feature_id: Number(),
+        value: "",
+      },
+    ],
   });
   const isSectional = ref<Bool>(Bool.false);
   watchEffect(() => {
@@ -160,11 +159,19 @@ export const manageNewProperty = (): any => {
   });
   const creatingProperty = ref(false);
   const router = useRouter();
+  function addFeature() {
+    property.features.push({
+      feature_id: Number(),
+      value: "yes",
+    });
+  }
+  function removeFeature() {
+    property.features.pop();
+  }
   function onSubmit() {
     creatingProperty.value = true;
     const propertyFormData = createFormData(property, isSectional.value);
-    propertyApi
-      .create(propertyFormData)
+    PropertyService.create(propertyFormData)
       .then((response: AxiosResponse) => {
         if (response.status == 201) {
           const { data } = response;
@@ -182,6 +189,9 @@ export const manageNewProperty = (): any => {
     uploadedImages,
     property,
     isSectional,
+    addFeature,
     onSubmit,
+    removeFeature,
+    newFeature,
   };
 };

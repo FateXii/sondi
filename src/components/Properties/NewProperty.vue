@@ -3,11 +3,18 @@
     <el-form :model="property" label-position="top" class="property-form">
       <h1>Create New Property</h1>
       <el-collapse v-model="activeFormItem" accordion>
-        <el-collapse-item title="Description" name="type">
-          <el-form-item label="Title">
+        <el-collapse-item
+          class="property-form__description"
+          title="Description"
+          name="type"
+        >
+          <el-form-item class="property-form__description__title" label="Title">
             <el-input v-model="property.title"></el-input>
           </el-form-item>
-          <el-form-item label="Property Type">
+          <el-form-item
+            class="property-form__description__property-type"
+            label="Property Type"
+          >
             <el-select v-model="property.type" placeholder="Property Type">
               <el-option
                 v-for="item in DATA.propertyTypes"
@@ -17,7 +24,11 @@
               ></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item v-if="isSectional === '1'" label="Sectional Type">
+          <el-form-item
+            class="property-form__description__sectional-type"
+            v-if="isSectional === '1'"
+            label="Sectional Type"
+          >
             <el-select
               v-model="property.sectionalTypes"
               placeholder="Sectional Type"
@@ -30,7 +41,10 @@
               ></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item :label="property.sale === '1' ? 'Price' : 'Rent'">
+          <el-form-item
+            class="property-form__description__price"
+            :label="property.sale === '1' ? 'Price' : 'Rent'"
+          >
             <el-row>
               <el-col :sm="11">
                 <el-select v-model="property.sale">
@@ -47,10 +61,16 @@
               </el-col>
             </el-row>
           </el-form-item>
-          <el-form-item label="Description">
+          <el-form-item
+            class="property-form__description__text"
+            label="Description"
+          >
             <el-input v-model="property.description" type="textarea"></el-input>
           </el-form-item>
-          <el-form-item label="Property Cover Image">
+          <el-form-item
+            class="property-form__description__images"
+            label="Property Cover Image"
+          >
             <el-upload
               action="#"
               list-type="picture-card"
@@ -99,17 +119,28 @@
             </el-dialog>
           </el-form-item>
         </el-collapse-item>
-        <el-collapse-item title="Address" name="address">
-          <el-form-item v-if="isSectional" label="Unit">
+        <el-collapse-item
+          class="property-form__address"
+          title="Address"
+          name="address"
+        >
+          <el-form-item
+            class="property-form__address__unit"
+            v-if="isSectional"
+            label="Unit"
+          >
             <el-input v-model="property.unit"></el-input>
           </el-form-item>
-          <el-form-item label="Street">
+          <el-form-item class="property-form__address__street" label="Street">
             <el-input v-model="property.street"></el-input>
           </el-form-item>
-          <el-form-item label="City">
+          <el-form-item class="property-form__address__city" label="City">
             <el-input v-model="property.city"></el-input>
           </el-form-item>
-          <el-form-item label="Province">
+          <el-form-item
+            class="property-form__address__province"
+            label="Province"
+          >
             <el-select v-model="property.province" placeholder="Select">
               <el-option
                 v-for="item in DATA.provinces"
@@ -120,23 +151,77 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="Postal Code">
+          <el-form-item
+            class="property-form__address__code"
+            label="Postal Code"
+          >
             <el-input v-model="property.postal_code"></el-input>
           </el-form-item>
         </el-collapse-item>
-
-        <el-collapse-item title="Features" name="features">
+        <el-collapse-item
+          class="property-form__features"
+          title="Features"
+          name="features"
+        >
           <el-form-item label="Property Features">
-            <div class="feature_inputs">
-              <el-form-item label="Bedrooms">
-                <el-input-number v-model="property.bedrooms"></el-input-number>
-              </el-form-item>
-              <el-form-item label="Bathrooms">
-                <el-input-number v-model="property.bathrooms"></el-input-number>
-              </el-form-item>
-              <el-form-item label="Garages">
-                <el-input-number v-model="property.garages"></el-input-number>
-              </el-form-item>
+            <div class="property-form__features__list">
+              <div
+                class="property-form__features__list__inputs"
+                v-for="(feature, i) in property.features"
+                :key="i"
+              >
+                <div class="property-form__features__list__inputs__feature">
+                  <el-select
+                    v-model="feature.feature_id"
+                    placeholder="Sectional Type"
+                    filterable
+                  >
+                    <el-option
+                      v-for="item in features"
+                      :label="titleCase(item.feature) || 'None'"
+                      :value="item.id"
+                      :key="item.id"
+                    ></el-option>
+                  </el-select>
+                  <el-popover
+                    :placement="displayWidth < 767 ? 'left' : 'right'"
+                    :width="400"
+                    trigger="click"
+                  >
+                    <template #reference>
+                      <el-button
+                        circle
+                        class="el-icon-plus"
+                        @click="createNewFeature"
+                      />
+                    </template>
+                    <h3>Create a new feature</h3>
+                    <el-input v-model="newFeature" />
+                    <el-button
+                      class="el-icon-plus"
+                      @click="handleCreateNewFeature"
+                      :loading="creatingFeature"
+                    />
+                  </el-popover>
+                </div>
+                <el-form-item
+                  class="property-form__features__list__inputs__value"
+                >
+                  <el-input
+                    v-model="feature.value"
+                    placeholder="value"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item
+                  class="property-form__features__list__inputs__add"
+                >
+                  <el-button
+                    :class="i === 0 ? 'el-icon-plus' : 'el-icon-minus'"
+                    :type="i !== 0 ? 'error' : ''"
+                    @click="i === 0 ? addFeature() : removeFeature()"
+                  />
+                </el-form-item>
+              </div>
             </div>
           </el-form-item>
           <el-form-item label="Property Images">
@@ -187,9 +272,17 @@
 </template>
 <script lang="ts">
 import { ElFile } from "@/interfaces";
-import { defineComponent, ref } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import { manageNewProperty, DATA } from "@/composables/manageNewProperty";
-
+import PropertyService from "@/services/PropertyService";
+import { capitalize, titleCase } from "@/Helpers";
+import displayWidth from "@/Helpers/GetScreenWidth";
+import { ElNotification } from "element-plus";
+import GetError, { ResponseError } from "@/Helpers/GetError";
+interface IFeature {
+  id: number;
+  feature: string;
+}
 export default defineComponent({
   setup() {
     const activeFormItem = ref(["type"]);
@@ -199,11 +292,47 @@ export default defineComponent({
       onSubmit,
       property,
       isSectional,
+      addFeature,
+      removeFeature,
+      newFeature,
     } = manageNewProperty();
     const dialogImageUrl = ref("");
     const dialogVisible = ref(false);
     const disabled = ref(false);
+    const features = ref<IFeature[]>([]);
+    const creatingFeature = ref(false);
 
+    function setFeatures() {
+      PropertyService.getFeatures().then((response) => {
+        features.value = response.data.data;
+      });
+    }
+
+    function handleCreateNewFeature() {
+      creatingFeature.value = true;
+      PropertyService.createFeature(newFeature.value.toLowerCase())
+        .then(() => {
+          setFeatures();
+          newFeature.value = "";
+          creatingFeature.value = false;
+        })
+        .catch((error) => {
+          GetError(error as ResponseError).feature.forEach(
+            (featureError: string) => {
+              ElNotification({
+                message: featureError,
+                type: "error",
+              });
+            }
+          );
+          newFeature.value = "";
+          creatingFeature.value = false;
+        });
+    }
+
+    onMounted(() => {
+      setFeatures();
+    });
     function handlePictureCardPreview(file: string) {
       dialogImageUrl.value = file;
       dialogVisible.value = true;
@@ -245,6 +374,14 @@ export default defineComponent({
       handleRemoveMulti,
       handlePictureCardPreview,
       onSubmit,
+      addFeature,
+      features,
+      titleCase,
+      removeFeature,
+      displayWidth,
+      newFeature,
+      handleCreateNewFeature,
+      creatingFeature,
     };
   },
 });
@@ -257,14 +394,9 @@ export default defineComponent({
   flex-direction: column;
   justify-content: center;
   .el-upload-list__item-thumbnail {
-    width: 100%;
+    width: 80%;
     height: fit-content;
   }
-}
-.feature_inputs {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  grid-column-gap: 2rem;
 }
 .el-form-item {
   padding: 0 2rem;
@@ -275,7 +407,54 @@ export default defineComponent({
 .el-select {
   width: 100%;
 }
-
+.property-form {
+  &__features {
+    &__list {
+      display: flex;
+      flex-flow: column nowrap;
+      align-items: center;
+      &__inputs {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        padding: 0;
+        @media (min-width: 767px) {
+          display: flex;
+          flex-flow: row nowrap;
+          width: 100%;
+        }
+        &__feature {
+          @media (min-width: 767px) {
+            width: 50%;
+            padding-right: 1rem;
+            margin: 0;
+          }
+          display: flex;
+          flex-flow: row nowrap;
+          margin-bottom: 1rem;
+          .el-select {
+            margin-right: 0.5rem;
+          }
+        }
+        &__value {
+          width: 100%;
+          padding: 0;
+          margin-bottom: 1rem;
+          @media (min-width: 767px) {
+            width: 50%;
+            margin: 0;
+          }
+        }
+        &__add {
+          margin-top: 1rem;
+          @media (min-width: 767px) {
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+}
 .el-container {
   flex-flow: row nowrap;
   justify-content: center;

@@ -5,5 +5,5 @@ export function capitalize(word: string) {
 
 export function titleCase(sentence: string) {
   const words = sentence.split(" ");
-  return words.map((word) => capitalize(word));
+  return words.map((word) => capitalize(word)).join(" ");
 }
