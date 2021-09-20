@@ -15,17 +15,51 @@ class FeaturesSeeder extends Seeder
     public function run()
     {
         $feature = [
-            'bedrooms',
-            'bathrooms',
-            'interior space',
-            'plot size',
-            'swimming pool',
-            'electric fencte',
-            'generator',
+            [
+                'name' => 'bedrooms',
+                'type' => 'number',
+            ],
+            [
+                'name' => 'bathrooms',
+                'type' => 'number',
+            ],
+            [
+                'name' => 'interior space',
+                'type' => 'number',
+            ],
+            [
+                'name' => 'plot size',
+                'type' => 'number',
+            ],
+            [
+                'name' => 'swimming pool',
+                'type' => 'boolean',
+            ],
+            [
+                'name' => 'electric fence',
+                'type' => 'boolean',
+            ],
+            [
+                'name' => 'generator',
+                'type' => 'boolean',
+            ],
+            [
+                'name' => 'office',
+                'type' => 'boolean',
+            ],
+            [
+                'name' => 'scullary',
+                'type' => 'boolean',
+            ],
+            [
+                'name' => 'gym',
+                'type' => 'boolean',
+            ],
         ];
         foreach ($feature as $feat) {
             Features::factory()->state([
-                'feature' => $feat,
+                'name' => $feat['name'],
+                'type' => $feat['type'],
             ])->create();
         }
     }

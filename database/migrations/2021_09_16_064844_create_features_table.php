@@ -17,7 +17,8 @@ class CreateFeaturesTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->string('feature')->unique();
+            $table->string('name')->unique();
+            $table->string('type');
         });
     }
 

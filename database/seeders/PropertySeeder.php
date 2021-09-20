@@ -23,23 +23,54 @@ class PropertySeeder extends Seeder
     public function run()
     {
         $feature = [
-            'bedrooms',
-            'bathrooms',
-            'interior space',
-            'plot size',
-            'swimming pool',
-            'electric fence',
-            'generator',
-            'office',
-            'scullary',
-            'gym',
+            [
+                'name' => 'bedrooms',
+                'type' => 'number',
+            ],
+            [
+                'name' => 'bathrooms',
+                'type' => 'number',
+            ],
+            [
+                'name' => 'interior space',
+                'type' => 'number',
+            ],
+            [
+                'name' => 'plot size',
+                'type' => 'number',
+            ],
+            [
+                'name' => 'swimming pool',
+                'type' => 'boolean',
+            ],
+            [
+                'name' => 'electric fence',
+                'type' => 'boolean',
+            ],
+            [
+                'name' => 'generator',
+                'type' => 'boolean',
+            ],
+            [
+                'name' => 'office',
+                'type' => 'boolean',
+            ],
+            [
+                'name' => 'scullary',
+                'type' => 'boolean',
+            ],
+            [
+                'name' => 'gym',
+                'type' => 'boolean',
+            ],
         ];
         $features = [];
         foreach ($feature as $feat) {
             array_push(
                 $features,
                 Features::factory()->state([
-                    'feature' => $feat,
+                    'name' => $feat['name'],
+                    'type' => $feat['type'],
                 ])->create()
             );
         }
@@ -59,6 +90,7 @@ class PropertySeeder extends Seeder
             $featuresUsed = [];
             for ($i = 0; $i < 5; $i++) {
                 $rand1 = rand(0, 9);
+                //Property Agent
                 while (in_array($rand1, $agents_visited)) {
                     $rand1 = rand(0, 9);
                 }
@@ -67,6 +99,8 @@ class PropertySeeder extends Seeder
                     'property_id' => $property->id,
                     'agent_id' => $agents[$rand1]->id,
                 ])->create();
+
+                // Property Feature
                 while (in_array($rand1, $featuresUsed)) {
                     $rand1 = rand(0, 9);
                 }
@@ -78,7 +112,9 @@ class PropertySeeder extends Seeder
                     ]
                 )->create();
             }
+
             if ($rand < 5) {
+                // Sectionals
                 $sectional = $sectionals[$rand];
                 if (!$visited[$rand]) {
                     Address::factory()
@@ -94,6 +130,7 @@ class PropertySeeder extends Seeder
                         'property_id' => $property->id
                     ])->createOne();
             } else {
+                //Stand Alones
                 Address::factory()
                     ->state([
                         'property_id' => $property->id,

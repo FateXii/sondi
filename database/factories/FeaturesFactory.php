@@ -22,7 +22,8 @@ class FeaturesFactory extends Factory
     public function definition()
     {
         return [
-            'feature' => $this->faker->word,
+            'name' => $this->faker->domainWord,
+            'type' => $this->faker->randomElement(Features::$acceptedFeatureTypes)
         ];
     }
 }

@@ -26,7 +26,7 @@ class PropertyFeaturesFactory extends Factory
         return [
             'feature_id' => Features::factory(),
             'property_id' => Property::factory(),
-            'value' => $this->faker->word,
+            // 'value' => ,
         ];
     }
 }

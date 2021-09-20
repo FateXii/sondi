@@ -24,11 +24,13 @@ class FeaturesController extends Controller
         $user = Auth::user();
 
         $request->validate([
-            'feature' => 'required|string|unique:features,feature',
+            'name' => 'required|string|unique:features,feature',
+            'type' => 'required|string|in:' . join(',', Features::$acceptedFeatureTypes),
         ]);
         if ($user && ($user->isAdmin() || $user->isAgent())) {
             $feature = new Features();
-            $feature->feature = $request->feature;
+            $feature->name = $request->name;
+            $feature->type = $request->type;
             $feature->save();
             return response()->json([], Response::HTTP_CREATED);
         }

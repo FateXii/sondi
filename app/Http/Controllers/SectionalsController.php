@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SectionalResource;
 use App\Models\Sectionals;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,7 +16,7 @@ class SectionalsController extends Controller
    */
   public function index()
   {
-    return Sectionals::all();
+    return SectionalResource::collection(Sectionals::all());
   }
 
   /**
@@ -27,8 +28,8 @@ class SectionalsController extends Controller
   public function store(Request $request)
   {
     $request->validate([
-      'name' => 'required|string|unique',
-      'type' => 'string|string'
+      'name' => 'required|string|unique:sectionals,name',
+      'type' => 'required|string'
     ]);
     $sectional = new Sectionals();
     $sectional->name = $request['name'];
