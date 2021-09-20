@@ -8,17 +8,15 @@
       :model="user"
     >
       <h1>Add New {{ capitalize(role) }}</h1>
-      <div v-if="errors && errors.email">
-        <el-alert
-          title="Invalid Credentials"
-          type="error"
-          show-icon
-          v-for="(error, i) in errors.email"
-          :key="i"
-        >
-          {{ error }}
-        </el-alert>
-      </div>
+      <el-alert
+        title="Invalid Credentials"
+        type="error"
+        show-icon
+        v-for="(error, i) in validationErrors"
+        :key="i"
+      >
+        {{ error }}
+      </el-alert>
       <el-alert
         title="Invalid input"
         type="error"
@@ -81,12 +79,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, toRefs, watchEffect } from "vue";
+import { defineComponent, ref, toRefs, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import { capitalize } from "@/Helpers";
 import { manageNewUser } from "@/composables/Users/NewUser";
 import GetError, { ResponseError } from "@/Helpers/GetError";
-import { ElForm, ElNotification } from "element-plus";
+import { ElMessage, ElNotification } from "element-plus";
 import ScreenWidth from "@/Helpers/GetScreenWidth";
 
 export default defineComponent({
@@ -100,6 +98,8 @@ export default defineComponent({
     const router = useRouter();
     const { role } = toRefs(props);
     const errors = ref();
+    //TODO {Thendo} :Error Types
+    const validationErrors = ref<any[]>([]);
     const userCreationForm = ref();
     const {
       user,
@@ -135,10 +135,27 @@ export default defineComponent({
               message: "User created",
               type: "success",
             });
-            // Object.assign(user, getEmptyUser());
+            Object.assign(user, getEmptyUser());
           }
         } catch (error) {
           errors.value = GetError(error as ResponseError);
+          validationErrors.value = [];
+          if (errors.value.validationError !== "API Error, please try again.") {
+            for (const key in errors.value) {
+              if (Object.prototype.hasOwnProperty.call(errors.value, key)) {
+                validationErrors.value.push(...errors.value[key]);
+              }
+            }
+          }
+          for (let index = 0; index < validationErrors.value.length; index++) {
+            const validationError = validationErrors.value[index];
+            ElMessage({
+              showClose: true,
+              type: "error",
+              message: validationError,
+            });
+          }
+          //TODO {Thendo}: Add server error
         }
       }
       return;
@@ -155,6 +172,7 @@ export default defineComponent({
       creatingUser,
       userCreationForm,
       validForm,
+      validationErrors,
     };
   },
 });

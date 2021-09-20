@@ -65,7 +65,7 @@ export function manageNewUser() {
     creatingUser.value = true;
     try {
       const response = await UsersService.create(user);
-      if (response.status === 204) {
+      if (response.status === 201) {
         creatingUser.value = false;
         return true;
       } else throw new Error("Failed to create user");
