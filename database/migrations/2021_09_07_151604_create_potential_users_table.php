@@ -26,7 +26,7 @@ class CreatePotentialUsersTable extends Migration
             $table->string('photo')->nullable();
             $table->string('bio')->nullable();
             $table->string('email')->unique();
-            $table->string('name')->unique();
+            $table->string('name');
         });
     }
 

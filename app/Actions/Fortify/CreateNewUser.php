@@ -41,8 +41,8 @@ class CreateNewUser implements CreatesNewUsers
 
         $potentialUser = PotentialUser::where('email', $input['email'])->first();
         $user = User::create([
-            'name' => $potentialUser->email,
-            'email' => $potentialUser->name,
+            'name' => $potentialUser->name,
+            'email' => $potentialUser->email,
             'password' => Hash::make($input['password']),
         ]);
 
@@ -52,7 +52,6 @@ class CreateNewUser implements CreatesNewUsers
             'is_agent' => $potentialUser->is_agent,
             'is_tenant' => $potentialUser->is_tenant,
             'agent_registration_number' => $potentialUser->agent_registration_number,
-            'photo' => $potentialUser->photo,
             'bio' => $potentialUser->bio,
             'phone_number' => $potentialUser->phone_number,
         ]);

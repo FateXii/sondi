@@ -35,7 +35,7 @@ class SectionalsController extends Controller
     $sectional->type = $request['type'];
     $sectional->save();
 
-    return $sectional;
+    return response()->json([], Response::HTTP_CREATED);
   }
 
   /**
