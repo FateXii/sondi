@@ -11,18 +11,8 @@
           <el-form-item class="property-form__description__title" label="Title">
             <el-input v-model="property.title"></el-input>
           </el-form-item>
-          <el-form-item
-            class="property-form__description__property-type"
-            label="Property Type"
-          >
-            <el-select v-model="property.type" placeholder="Property Type">
-              <el-option
-                v-for="item in DATA.propertyTypes"
-                :label="item.label"
-                :value="item.value"
-                :key="item.value"
-              ></el-option>
-            </el-select>
+          <el-form-item label="Cover Image">
+            <single-image-upload @onImageChange="handleCoverImageChange" />
           </el-form-item>
           <el-form-item
             class="property-form__description__sectional-type"
