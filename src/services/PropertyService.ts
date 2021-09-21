@@ -1,7 +1,7 @@
 import axios from "axios";
 import { AxiosApiResponse } from "@/interfaces/Requests";
 import { IUserDataType } from "@/store/auth";
-import { IProperty } from "@/interfaces/Property";
+import { IProperty, IPropertyFeature } from "@/interfaces/Property";
 
 export const requestClient = axios.create({
   baseURL: process.env.VUE_APP_API_HOST,
@@ -36,7 +36,7 @@ export default {
   delete(id: number) {
     return requestClient.delete(`/api/properties/${id}`);
   },
-  getFeatures() {
+  getFeatures(): Promise<AxiosApiResponse<IPropertyFeature[]>> {
     return requestClient.get("api/property/features");
   },
   createFeature(feature: string) {

@@ -122,41 +122,10 @@
                 </el-form-item>
               </div>
             </div>
+        <div class="property__features property-item">
+          <el-form-item label="Features">
+            <property-feature-list />
           </el-form-item>
-          <el-form-item label="Property Images">
-            <el-upload
-              action="#"
-              list-type="picture-card"
-              :auto-upload="false"
-              accept="image/*"
-              ref="uploadedImages"
-              multiple
-            >
-              <template #default>
-                <i class="el-icon-plus"></i>
-              </template>
-              <template #file="{ file }">
-                <div class="upload-thumbnail-container">
-                  <img
-                    class="el-upload-list__item-thumbnail"
-                    :src="file.url"
-                    alt=""
-                  />
-                  <span class="el-upload-list__item-actions">
-                    <span
-                      class="el-upload-list__item-preview"
-                      @click="handlePictureCardPreview(file.url)"
-                    >
-                      <i class="el-icon-zoom-in"></i>
-                    </span>
-                    <span
-                      v-if="!disabled"
-                      class="el-upload-list__item-delete"
-                      @click="handleRemoveMulti(file)"
-                    >
-                      <i class="el-icon-delete"></i>
-                    </span>
-                  </span>
                 </div>
               </template>
             </el-upload>
