@@ -18,31 +18,7 @@
           <!-- <carousel /> -->
         </div>
         <div class="property__description property-item">
-          <div class="property__description__title">
-            <el-form-item label="Description Title">
-              <el-input />
-            </el-form-item>
-          </div>
-          <div class="property__decription__price">
-            <el-form-item label="Price">
-              <el-input />
-            </el-form-item>
-          </div>
-          <div class="property__decription_address">
-            <el-form-item label="Address">
-              <property-address />
-            </el-form-item>
-          </div>
-          <h3 class="property__description__heading">
-            <el-form-item label="Description Heading">
-              <el-input />
-            </el-form-item>
-          </h3>
-          <div class="property__description__text">
-            <el-form-item label="Description">
-              <el-input type="textarea" />
-            </el-form-item>
-          </div>
+        <property-description-form />
         </div>
         <div class="property__features property-item">
           <el-form-item label="Features">
@@ -64,6 +40,7 @@ import { NewProperty } from "@/composables/Properties/NewProperty";
 import SingleImageUpload from "@/components/Properties/NewProperty/SingleImageUpload.vue";
 import PropertyAddress from "@/components/Properties/NewProperty/PropertyAddress.vue";
 import PropertyFeatureList from "./NewProperty/PropertyFeatures/PropertyFeatureList.vue";
+import PropertyDescriptionForm from "./NewProperty/PropertyDescriptionForm.vue";
 import { titleCase } from "@/Helpers";
 
 const currencyFormatter = new Intl.NumberFormat("en-ZA", {
@@ -74,7 +51,7 @@ const currencyFormatter = new Intl.NumberFormat("en-ZA", {
 export default defineComponent({
   components: {
     SingleImageUpload,
-    PropertyAddress,
+    PropertyDescriptionForm,
     PropertyFeatureList,
   },
   setup() {
