@@ -98,101 +98,10 @@
                     </span>
                   </span>
                 </div>
-              </template>
-            </el-upload>
-            <el-dialog v-model="dialogVisible">
-              <img
-                style="width: 100%; height: auto"
-                :src="dialogImageUrl"
-                alt=""
-              />
-            </el-dialog>
+          <div class="property__decription_address">
+            <el-form-item label="Address">
+              <property-address />
           </el-form-item>
-        </el-collapse-item>
-        <el-collapse-item
-          class="property-form__address"
-          title="Address"
-          name="address"
-        >
-          <el-form-item
-            class="property-form__address__unit"
-            v-if="isSectional"
-            label="Unit"
-          >
-            <el-input v-model="property.unit"></el-input>
-          </el-form-item>
-          <el-form-item class="property-form__address__street" label="Street">
-            <el-input v-model="property.street"></el-input>
-          </el-form-item>
-          <el-form-item class="property-form__address__city" label="City">
-            <el-input v-model="property.city"></el-input>
-          </el-form-item>
-          <el-form-item
-            class="property-form__address__province"
-            label="Province"
-          >
-            <el-select v-model="property.province" placeholder="Select">
-              <el-option
-                v-for="item in DATA.provinces"
-                :key="item"
-                :label="item"
-                :value="item"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item
-            class="property-form__address__code"
-            label="Postal Code"
-          >
-            <el-input v-model="property.postal_code"></el-input>
-          </el-form-item>
-        </el-collapse-item>
-        <el-collapse-item
-          class="property-form__features"
-          title="Features"
-          name="features"
-        >
-          <el-form-item label="Property Features">
-            <div class="property-form__features__list">
-              <div
-                class="property-form__features__list__inputs"
-                v-for="(feature, i) in property.features"
-                :key="i"
-              >
-                <div class="property-form__features__list__inputs__feature">
-                  <el-select
-                    v-model="feature.feature_id"
-                    placeholder="Sectional Type"
-                    filterable
-                  >
-                    <el-option
-                      v-for="item in features"
-                      :label="titleCase(item.feature) || 'None'"
-                      :value="item.id"
-                      :key="item.id"
-                    ></el-option>
-                  </el-select>
-                  <el-popover
-                    :placement="displayWidth < 767 ? 'left' : 'right'"
-                    :width="400"
-                    trigger="click"
-                  >
-                    <template #reference>
-                      <el-button
-                        circle
-                        class="el-icon-plus"
-                        @click="createNewFeature"
-                      />
-                    </template>
-                    <h3>Create a new feature</h3>
-                    <el-input v-model="newFeature" />
-                    <el-button
-                      class="el-icon-plus"
-                      @click="handleCreateNewFeature"
-                      :loading="creatingFeature"
-                    />
-                  </el-popover>
                 </div>
                 <el-form-item
                   class="property-form__features__list__inputs__value"

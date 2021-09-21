@@ -9,7 +9,7 @@ export interface IProperty {
   is_rental: number;
   price: number;
   images: IImage[];
-  address: IAddress;
+  address: IPropertyAddress;
   is_sectional: boolean;
   agents: IAgent[];
 }
@@ -22,12 +22,7 @@ interface IAgent {
   email: string;
 }
 
-interface IAddress {
-  id: number;
-  street: string;
-  city: string;
-  province: string;
-  postal_code: string;
+export interface IPropertyAddress extends IAddress {
   unit?: string;
 }
 
