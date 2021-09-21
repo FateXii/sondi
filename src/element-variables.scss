@@ -1,0 +1,44 @@
+/*
+Write your variables here. All available variables can be
+found in element-plus/packages/theme-chalk/src/common/var.scss.
+For example, to overwrite the theme color:
+*/
+$--color-primary: #e6a23c;
+
+/* icon font path, required */
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap");
+$--font-path: "~element-plus/lib/theme-chalk/fonts";
+@import "~element-plus/lib/theme-chalk/display.css";
+@import "~element-plus/packages/theme-chalk/src/index";
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  // font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+  //   "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-family: "Roboto", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+.el-overlay {
+  width: 100vw;
+  .el-message-box {
+    width: 100%;
+  }
+}
+.el-popover {
+  @media (max-width: 767px) {
+    width: 50vw !important;
+  }
+}
