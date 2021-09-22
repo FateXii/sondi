@@ -1,41 +1,44 @@
 <template>
   <div class="property-feature-input">
-    <el-select-v2
-      v-model="selectedFeature"
+    <el-select
+      v-model="currentFeature.id"
       class="property-feature-input__feature-select"
-      :options="options"
       filterable
     >
-      <template #default="{ item }">
-        <span>{{ item.label }}</span> | <span>{{ item.type }}</span>
-      </template>
-      <template #empty>
-        <el-button style="width: 100%">Create New</el-button>
-      </template>
-    </el-select-v2>
+      <el-option
+        v-for="feature in features"
+        :key="feature.id"
+        :value="feature.id"
+        :label="feature.name"
+      >
+        <span>{{ feature.name }}</span> | <span>{{ feature.type }}</span>
+        <template #empty>
+          <el-button style="width: 100%">Create New</el-button>
+        </template>
+      </el-option>
+    </el-select>
     <div class="property-feature-input__value-input">
       <el-input
         class="property-feature-input__value-input__field"
-        v-model="featureValue"
+        v-model="currentFeature.value"
         v-if="currentFeature && currentFeature.type === 'string'"
       />
       <el-input
         class="property-feature-input__value-input__field"
         type="number"
-        v-model="featureValue"
+        v-model="currentFeature.value"
         v-else-if="currentFeature && currentFeature.type === 'number'"
         min="1"
         placeholder="1"
       />
       <el-checkbox-button
         class="property-feature-input__value-input__field"
-        v-model="featureValue"
+        v-model="currentFeature.value"
         true-label="yes"
         false-label="no"
-        :checked="false"
         v-else-if="currentFeature && currentFeature.type === 'boolean'"
       >
-        {{ featureValue === "yes" ? "Yes" : "No" }}
+        {{ currentFeature.value === "yes" ? "Yes" : "No" }}
       </el-checkbox-button>
     </div>
   </div>
@@ -48,6 +51,7 @@ import {
   nextTick,
   onMounted,
   PropType,
+  reactive,
   ref,
   toRefs,
   watch,
@@ -64,49 +68,37 @@ export default defineComponent({
       type: Object as PropType<IPropertyFeature[]>,
       required: true,
     },
-    index: {
-      type: Number,
-      required: true,
-    },
   },
   emits: {
     "update:feature": null,
   },
   setup(props, { emit }) {
-    const { features, index } = toRefs(props);
-    const options = ref<{ value: number; label: string; type: string }[]>([]);
-    watchEffect(() => {
-      options.value = features.value.map((feature) => ({
-        value: feature.id,
-        label: titleCase(feature.name),
-        type: feature.type,
-      }));
-    });
-    const selectedFeature = ref(1);
-    const currentFeature = ref<IPropertyFeature>();
+    const { features, feature } = toRefs(props);
+    const currentFeature = reactive<ICurrentFeature>(feature.value);
     const featureValue = ref<string>("");
-    onMounted(() => {
-      nextTick(() => {
-        selectedFeature.value = features.value && features.value[0].id;
-      });
+
+    onMounted(async () => {
+      await nextTick();
+      await nextTick();
+      Object.assign(currentFeature, feature.value);
     });
-    watch(selectedFeature, (id) => {
-      currentFeature.value = features.value.find(
-        (feature) => feature.id === id
+    watch(currentFeature, (newFeature) => {
+      const { id } = newFeature;
+      Object.assign(
+        currentFeature,
+        features.value.find((feature) => feature.id === id)
       );
-    });
-    watch([selectedFeature, featureValue], ([id, value]) => {
+      const { value, type } = currentFeature;
       emit("update:feature", {
-        id: id,
-        value: value,
+        id,
+        value,
+        type,
       });
     });
 
     return {
-      selectedFeature,
       currentFeature,
       featureValue,
-      options,
     };
   },
 });

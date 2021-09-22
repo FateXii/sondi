@@ -26,6 +26,7 @@ export interface IPropertyFeature {
 export interface ICurrentFeature {
   id: number;
   value: string;
+  type: string;
 }
 
 interface IAgent {
