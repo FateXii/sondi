@@ -8,7 +8,7 @@
         <span class="header-menu__icon" @click="drawer = true">
           <img src="@/assets/icons/menu-icon.svg" alt="Hamburger Icon" />
         </span>
-        <el-drawer v-model="drawer" :size="ScreenWidth < 400 ? '60%' : '40%'">
+        <el-drawer v-model="drawer" :size="ScreenWidth < 767 ? '80%' : '60%'">
           <HeaderMenuItems class="header-menu__items drawer" />
         </el-drawer>
         <HeaderMenuItems class="header-menu__items lg" />
