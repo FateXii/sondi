@@ -6,8 +6,10 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\SectionalsController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Resources\AgentResource;
 use App\Http\Resources\UserProfileResource;
 use App\Models\PotentialUser;
+use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +33,9 @@ Route::get('/profiles/new', function () {
 
 Route::post('/property/features/new', [FeaturesController::class, 'store'])->middleware('auth:sanctum');
 Route::get('/property/features', [FeaturesController::class, 'index'])->middleware('auth:sanctum');
+Route::get('/agents', function () {
+  return AgentResource::collection(UserProfile::all()->where('is_agent', true));
+})->middleware('auth:sanctum');
 
 Route::post('/sanctum/token', TokenController::class);
 
