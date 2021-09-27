@@ -7,7 +7,7 @@
     active-text-color="#ffd04b"
     :mode="displayWidth > 767 ? 'horizontal' : 'vertical'"
   >
-    <el-submenu v-if="isAdmin" index="1">
+    <el-sub-menu v-if="isAdmin" index="1">
       <template #title>
         <i class="el-icon-user"></i>
         <span>Manage Users</span>
@@ -18,7 +18,7 @@
           <span>View All Users</span>
         </template>
       </el-menu-item>
-      <el-submenu index="1-2">
+      <el-sub-menu index="1-2">
         <template #title>
           <i class="el-icon-plus"></i>
           <span>New Users</span>
@@ -39,10 +39,10 @@
             <span>Agent</span>
           </template>
         </el-menu-item>
-      </el-submenu>
-    </el-submenu>
+      </el-sub-menu>
+    </el-sub-menu>
 
-    <el-submenu v-if="isAdmin || isAgent" index="2">
+    <el-sub-menu v-if="isAdmin || isAgent" index="2">
       <template #title>
         <i class="el-icon-s-custom"></i>
         <span>Manage Tenants</span>
@@ -64,9 +64,9 @@
           </template>
         </el-menu-item>
       </router-link>
-    </el-submenu>
+    </el-sub-menu>
 
-    <el-submenu index="3">
+    <el-sub-menu index="3">
       <template #title>
         <i class="el-icon-house"></i>
         <span>Manage Properties</span>
@@ -79,7 +79,7 @@
           </template>
         </el-menu-item>
       </router-link>
-      <el-submenu index="3-2">
+      <el-sub-menu index="3-2">
         <template #title>
           <i class="el-icon-view"></i>
           <span>View Properties</span>
@@ -89,8 +89,8 @@
         </router-link>
         <el-menu-item index="3-2-2"> View Sectional Properties</el-menu-item>
         <el-menu-item index="3-2-3"> View Stand Alone Properties</el-menu-item>
-      </el-submenu>
-    </el-submenu>
+      </el-sub-menu>
+    </el-sub-menu>
   </el-menu>
   <el-container class="admin-container">
     <el-main>
