@@ -1,13 +1,16 @@
 <template>
   <el-upload
-    class="avatar-uploader"
+    class="property-cover-image"
     action="#"
+    accept="image/*"
     :show-file-list="false"
     :auto-upload="false"
     :on-change="handleOnChange"
   >
-    <img v-if="imageUrl" :src="imageUrl" class="avatar" style="width: 100%" />
-    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+    <div v-if="imageUrl">
+      <img :src="imageUrl" class="avatar" style="width: 100%" />
+    </div>
+    <div v-else class="property-cover-image__icon">New Image</div>
   </el-upload>
 </template>
 <script lang="ts">
@@ -39,3 +42,18 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.property-cover-image {
+  &__icon {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    height: 9.25rem;
+    width: 9.25rem;
+    border-radius: 0.5rem;
+    border: 1px dashed lightblue;
+  }
+}
+</style>
