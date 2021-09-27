@@ -10,7 +10,9 @@
         </el-form-item>
       </div>
       <div class="property__images property-item">
-        <!-- <carousel /> -->
+        <el-form-item label="Image List">
+          <multi-image-upload />
+        </el-form-item>
       </div>
       <div class="property__description property-item">
         <property-description-form />
