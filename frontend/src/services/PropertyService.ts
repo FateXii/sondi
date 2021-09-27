@@ -1,7 +1,7 @@
 import axios from "axios";
 import { AxiosApiResponse } from "@/interfaces/Requests";
 import { IUserDataType } from "@/store/auth";
-import { IProperty, IPropertyFeature } from "@/interfaces/Property";
+import { IAgent, IProperty, IPropertyFeature } from "@/interfaces/Property";
 
 export const requestClient = axios.create({
   baseURL: process.env.VUE_APP_API_HOST,
@@ -43,5 +43,8 @@ export default {
     return requestClient.post("api/property/features/new", {
       feature,
     });
+  },
+  getAgents(): Promise<AxiosApiResponse<IAgent[]>> {
+    return requestClient.get("api/agents");
   },
 };

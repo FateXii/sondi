@@ -1,9 +1,9 @@
 import { ElFile } from "@/interfaces";
-import { ElUpload } from "element-plus/lib/el-upload/src/upload.type";
 import { reactive, ref, watch, watchEffect } from "vue";
 import PropertyService from "@/services/PropertyService";
 import { AxiosResponse } from "axios";
 import { useRouter } from "vue-router";
+import { ElUpload } from "element-plus";
 
 export enum PropertyType {
   Sectional,
@@ -105,8 +105,8 @@ function createFormData(property: IPropertyForm, isSectional: Bool): FormData {
 }
 
 export const NewProperty = (): any => {
-  const uploadedImages = ref<ElUpload>();
-  const uploadedCoverImage = ref<ElUpload>();
+  const uploadedImages = ref<typeof ElUpload>();
+  const uploadedCoverImage = ref<typeof ElUpload>();
   const newFeature = ref("");
   const property = reactive<IPropertyForm>({
     type: PropertyType.StandAlone,

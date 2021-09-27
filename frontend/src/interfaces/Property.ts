@@ -29,7 +29,7 @@ export interface ICurrentFeature {
   type: string;
 }
 
-interface IAgent {
+export interface IAgent {
   id: number;
   name: string;
   phone_number: string;
