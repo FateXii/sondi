@@ -1,104 +1,126 @@
 <template>
   <div class="property-feature-input">
     <el-select
-      v-model="currentFeature.id"
+      v-model="currentFeatureId"
       class="property-feature-input__feature-select"
       filterable
     >
       <el-option
-        v-for="feature in features"
+        v-for="feature in features.list"
         :key="feature.id"
         :value="feature.id"
-        :label="feature.name"
+        :label="titleCase(feature.name)"
       >
-        <span>{{ feature.name }}</span> | <span>{{ feature.type }}</span>
-        <template #empty>
-          <el-button style="width: 100%">Create New</el-button>
-        </template>
+        <span>{{ titleCase(feature.name) }}</span> &nbsp;
+        <span style="float: right; color: lightgrey"
+          >| &nbsp; {{ feature.type }}</span
+        >
       </el-option>
+      <template #empty>
+        <el-button style="width: 100%; height: 100%">Create New</el-button>
+      </template>
     </el-select>
     <div class="property-feature-input__value-input">
       <el-input
         class="property-feature-input__value-input__field"
-        v-model="currentFeature.value"
-        v-if="currentFeature && currentFeature.type === 'string'"
+        v-model="featureValue"
+        v-if="featureType === 'string'"
       />
       <el-input
         class="property-feature-input__value-input__field"
         type="number"
-        v-model="currentFeature.value"
-        v-else-if="currentFeature && currentFeature.type === 'number'"
+        v-model="featureValue"
+        v-else-if="featureType === 'number'"
         min="1"
         placeholder="1"
       />
       <el-checkbox-button
         class="property-feature-input__value-input__field"
-        v-model="currentFeature.value"
+        v-model="featureValue"
         true-label="yes"
         false-label="no"
-        v-else-if="currentFeature && currentFeature.type === 'boolean'"
+        v-else-if="featureType === 'boolean'"
       >
-        {{ currentFeature.value === "yes" ? "Yes" : "No" }}
+        {{ featureValue === "yes" ? "Yes" : "No" }}
       </el-checkbox-button>
     </div>
+    <el-button icon="el-icon-document-add" @click="addFeature" />
   </div>
 </template>
 <script lang="ts">
 import { titleCase } from "@/Helpers";
+import GetError, { ResponseError } from "@/Helpers/GetError";
 import { ICurrentFeature, IPropertyFeature } from "@/interfaces/Property";
+import PropertyService from "@/services/PropertyService";
 import {
   defineComponent,
   nextTick,
   onMounted,
-  PropType,
   reactive,
   ref,
-  toRefs,
   watch,
-  watchEffect,
 } from "vue";
 
 export default defineComponent({
-  props: {
-    feature: {
-      type: Object as PropType<ICurrentFeature>,
-      required: true,
-    },
-    features: {
-      type: Object as PropType<IPropertyFeature[]>,
-      required: true,
-    },
-  },
   emits: {
-    "update:feature": null,
+    addFeature: (feature: ICurrentFeature) => {
+      if (feature) {
+        return feature.id && feature.value && feature.type;
+      } else {
+        console.error("PropertyFeature-(Emit AddFeature): Feature Undefined");
+      }
+    },
   },
-  setup(props, { emit }) {
-    const { features, feature } = toRefs(props);
-    const currentFeature = reactive<ICurrentFeature>(feature.value);
+  setup(_, { emit }) {
+    const features = reactive<{ list: IPropertyFeature[] }>({ list: [] });
+    const currentFeatureId = ref(1);
     const featureValue = ref<string>("");
-
-    onMounted(async () => {
-      await nextTick();
-      await nextTick();
-      Object.assign(currentFeature, feature.value);
+    const featureType = ref("number");
+    const currentFeature = reactive<ICurrentFeature>({
+      id: 0,
+      value: "",
+      type: "",
     });
-    watch(currentFeature, (newFeature) => {
-      const { id } = newFeature;
-      Object.assign(
-        currentFeature,
-        features.value.find((feature) => feature.id === id)
+    onMounted(async () => {
+      try {
+        const response = await PropertyService.getFeatures();
+        features.list = response.data.data;
+        currentFeatureId.value = features.list[0].id;
+        featureType.value = features.list[0].type;
+        if (featureType.value === "number") {
+          featureValue.value = "1";
+        } else if (featureType.value === "boolean") {
+          featureValue.value = "no";
+        } else {
+          featureValue.value = "";
+        }
+      } catch (e) {
+        GetError(e as ResponseError);
+      }
+      await nextTick();
+    });
+    watch(currentFeatureId, (newFeature) => {
+      const feature = features.list.find(
+        (feature) => feature.id === newFeature
       );
-      const { value, type } = currentFeature;
-      emit("update:feature", {
-        id,
-        value,
-        type,
+      featureType.value = feature?.type || "string";
+      Object.assign(currentFeature, {
+        id: feature?.id,
+        value: featureValue,
+        type: feature?.type,
       });
     });
+    function addFeature() {
+      emit("addFeature", currentFeature);
+    }
 
     return {
-      currentFeature,
+      currentFeatureId,
       featureValue,
+      featureType,
+      features,
+      addFeature,
+      titleCase,
     };
   },
 });
