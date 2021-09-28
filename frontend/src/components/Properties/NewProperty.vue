@@ -23,19 +23,10 @@
         </el-form-item>
       </div>
       <div class="property__agents property-item">
-        <el-form-item label="Agents">
-          <el-select v-model="selectedAgents.list" multiple>
-            <el-option
-              v-for="agent in agents.list"
-              :key="agent.id"
-              :label="agent.name"
-              :value="agent.id"
-            />
-          </el-select>
-        </el-form-item>
+        <agents @agentListChange="handleAgentListChange" />
       </div>
       <el-form-item>
-        <el-button>Submit</el-button>
+        <el-button>Create Property</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -51,9 +42,10 @@ import PropertyDescriptionForm from "./NewProperty/PropertyDescriptionForm.vue";
 import { titleCase } from "@/Helpers";
 import MultiImageUpload from "./NewProperty/MultiImageUpload.vue";
 import { IAgent } from "@/interfaces/Property";
-import { List } from "@/interfaces";
+import { ElFile, List } from "@/interfaces";
 import PropertyService from "@/services/PropertyService";
 import GetError, { ResponseError } from "@/Helpers/GetError";
+import Agents from "./NewProperty/Agents.vue";
 
 const currencyFormatter = new Intl.NumberFormat("en-ZA", {
   currency: "ZAR",
@@ -66,6 +58,7 @@ export default defineComponent({
     PropertyDescriptionForm,
     PropertyFeatureList,
     MultiImageUpload,
+    Agents,
   },
   setup() {
     const { property } = NewProperty();
@@ -84,6 +77,9 @@ export default defineComponent({
     function handleCoverImageChange(image: any) {
       console.log(image);
     }
+    function handleAgentListChange(list: number[]) {
+      console.log(list);
+    }
 
     return {
       currencyFormatter,
@@ -91,6 +87,7 @@ export default defineComponent({
       property,
       editing,
       handleCoverImageChange,
+      handleAgentListChange,
       titleCase,
       agents,
       selectedAgents,
