@@ -15,7 +15,9 @@
         </el-form-item>
       </div>
       <div class="property__description property-item">
-        <property-description-form />
+        <property-description-form
+          @descriptionFormChange="handleDescriptionFormChange"
+        />
       </div>
       <div class="property__features property-item">
         <el-form-item label="Features">
@@ -42,10 +44,12 @@ import PropertyDescriptionForm from "./NewProperty/PropertyDescriptionForm.vue";
 import { titleCase } from "@/Helpers";
 import MultiImageUpload from "./NewProperty/MultiImageUpload.vue";
 import { IAgent } from "@/interfaces/Property";
-import { ElFile, List } from "@/interfaces";
+import { List } from "@/interfaces";
 import PropertyService from "@/services/PropertyService";
 import GetError, { ResponseError } from "@/Helpers/GetError";
 import Agents from "./NewProperty/Agents.vue";
+import { IPropertyDescriptionForm } from "@/interfaces/Forms";
+import { UploadFile } from "element-plus/lib/components/upload/src/upload.type";
 
 const currencyFormatter = new Intl.NumberFormat("en-ZA", {
   currency: "ZAR",
@@ -59,6 +63,9 @@ export default defineComponent({
     PropertyFeatureList,
     MultiImageUpload,
     Agents,
+  },
+  methods: {
+    titleCase,
   },
   setup() {
     const { property } = NewProperty();
@@ -75,16 +82,20 @@ export default defineComponent({
       }
     });
     const editing = ref(true);
-    function handleCoverImageChange(image: any) {
+    function handleCoverImageChange(image: UploadFile) {
       console.log(image);
     }
     function handleAgentListChange(list: number[]) {
       console.log(list);
     }
-    function handleImageListChange(list: ElFile[]) {
-      console.log(list);
+    function handleImageListChange(list: UploadFile[]) {
+      console.log("Image List: ", list);
     }
-
+    function handleDescriptionFormChange(
+      propertyDescription: IPropertyDescriptionForm
+    ) {
+      console.log("Property: ", propertyDescription);
+    }
     return {
       currencyFormatter,
       GetScreenWidth,
@@ -93,7 +104,7 @@ export default defineComponent({
       handleCoverImageChange,
       handleAgentListChange,
       handleImageListChange,
-      titleCase,
+      handleDescriptionFormChange,
       agents,
       selectedAgents,
       propertyTitle,
