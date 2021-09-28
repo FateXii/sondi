@@ -39,26 +39,26 @@
   </el-form>
 </template>
 <script lang="ts">
+import { IAddressForm } from "@/interfaces";
 import { IAddress } from "@/interfaces/Address";
 import { IPropertyAddress } from "@/interfaces/Property";
 import { ISectional } from "@/interfaces/Sectional";
 import SectionalService from "@/services/SectionalService";
 import { defineComponent, onMounted, reactive, ref, watch } from "vue";
-interface IAddressForm {
-  isSectional: boolean;
-  sectionalId: number;
-  address: IAddress | IPropertyAddress;
-}
 
 export default defineComponent({
   emits: {
-    addressChange: (newAddress: IAddressForm) => (newAddress && true) || false,
+    addressChange: (newAddress: IAddressForm) => {
+      if (newAddress.isSectional) {
+        return newAddress.address.unit !== "";
+      }
+    },
   },
   setup(_, { emit }) {
     const isSectional = ref(false);
     const sectionals = ref<ISectional[]>([]);
     const selectedSection = ref(1);
-    const address = reactive<IAddress | IPropertyAddress>({
+    const address = reactive<IAddress & IPropertyAddress>({
       unit: "",
       street: "",
       city: "",
@@ -90,12 +90,6 @@ export default defineComponent({
       assignSectionalAddressToAddressFieldOrClear(sectional, sectionalId);
     });
 
-    // watch(selectedSection, (sectionalId) => {
-    //   assignSectionalAddressToAddressFieldOrClear(
-    //     isSectional.value,
-    //     sectionalId
-    //   );
-    // });
     watch(address, (new_address) => {
       emit("addressChange", {
         isSectional: isSectional.value,

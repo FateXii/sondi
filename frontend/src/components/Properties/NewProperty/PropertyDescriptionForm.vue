@@ -11,7 +11,7 @@
   </div>
   <div class="property__decription_address">
     <el-form-item label="Address">
-      <property-address />
+      <property-address @addressChange="addressChange" />
     </el-form-item>
   </div>
   <h3 class="property__description__heading">
@@ -29,13 +29,19 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import PropertyAddress from "@/components/Properties/NewProperty/PropertyAddress.vue";
+import { IAddressForm } from "@/interfaces";
 
 export default defineComponent({
   components: {
     PropertyAddress,
   },
   setup() {
-    return {};
+    function addressChange(addressFormData: IAddressForm) {
+      console.log(addressFormData);
+    }
+    return {
+      addressChange,
+    };
   },
 });
 </script>

@@ -1,7 +1,7 @@
 import axios from "axios";
-import { IUserLoginData, IUserRegistrationData } from "@/interfaces/apiTypes";
 import Auth from "@/store/auth";
 import { AuthManager } from "@/composables/AuthManager";
+import { ILoginPayload, IRegistrationPayload } from "@/interfaces/Auth";
 
 export const authClient = axios.create({
   baseURL: process.env.VUE_APP_API_HOST,
@@ -34,7 +34,7 @@ authClient.interceptors.response.use(
 );
 
 export default {
-  async login(payload: IUserLoginData) {
+  async login(payload: ILoginPayload) {
     await authClient.get("/sanctum/csrf-cookie");
     return authClient.post("/login", payload);
   },
@@ -44,7 +44,7 @@ export default {
   getAuthUser() {
     return authClient.get("/api/user");
   },
-  async register(payload: IUserRegistrationData) {
+  async register(payload: IRegistrationPayload) {
     await authClient.get("/sanctum/csrf-cookie");
     return authClient.post("/register", payload);
   },
