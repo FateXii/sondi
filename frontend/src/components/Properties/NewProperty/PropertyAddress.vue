@@ -39,8 +39,8 @@
   </el-form>
 </template>
 <script lang="ts">
-import { IAddressForm } from "@/interfaces";
 import { IAddress } from "@/interfaces/Address";
+import { IAddressForm } from "@/interfaces/Forms";
 import { IPropertyAddress } from "@/interfaces/Property";
 import { ISectional } from "@/interfaces/Sectional";
 import SectionalService from "@/services/SectionalService";
@@ -51,6 +51,8 @@ export default defineComponent({
     addressChange: (newAddress: IAddressForm) => {
       if (newAddress.isSectional) {
         return newAddress.address.unit !== "";
+      } else {
+        return true;
       }
     },
   },
