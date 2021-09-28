@@ -1,9 +1,9 @@
-import { ElFile } from "@/interfaces";
 import { reactive, ref, watch, watchEffect } from "vue";
 import PropertyService from "@/services/PropertyService";
 import { AxiosResponse } from "axios";
 import { useRouter } from "vue-router";
 import { ElUpload } from "element-plus";
+import { ElFile } from "element-plus/lib/components/upload/src/upload.type";
 
 export enum PropertyType {
   Sectional,
