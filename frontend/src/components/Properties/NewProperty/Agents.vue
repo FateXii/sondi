@@ -20,15 +20,15 @@ import { defineComponent, onMounted, reactive, watch } from "vue";
 
 export default defineComponent({
   emits: {
-    agentListChange: (list:number[]) => {
-      return list && true || false
-    }
-  }
-  setup(_, {emit}) {
+    agentListChange: (list: number[]) => {
+      return (list && true) || false;
+    },
+  },
+  setup(_, { emit }) {
     const agents = reactive<List<IAgent>>({ list: [] });
     const selectedAgents = reactive<List<number>>({ list: [] });
     watch(selectedAgents, ({ list }) => {
-      emit('agentListChange', list)
+      emit("agentListChange", list);
     });
 
     onMounted(async () => {
