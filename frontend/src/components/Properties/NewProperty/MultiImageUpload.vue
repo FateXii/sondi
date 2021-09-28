@@ -36,10 +36,20 @@
 <script lang="ts">
 import { ElFile } from "@/interfaces";
 import { ElUpload } from "element-plus";
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, WatchEffect, watchEffect } from "vue";
 
+function flushedWatch(effect: WatchEffect) {
+  watchEffect(effect, {
+    flush: "post",
+  });
+}
 export default defineComponent({
-  setup() {
+  emits: {
+    uploadedImagesChange: (files: ElFile[]) => {
+      return true;
+    },
+  },
+  setup(_, { emit }) {
     const uploadedImages = ref<typeof ElUpload>();
     const dialogImageUrl = ref("");
     const dialogVisible = ref(false);
@@ -55,6 +65,12 @@ export default defineComponent({
           );
       }
     }
+    flushedWatch(() => {
+      if (uploadedImages.value) {
+        const { uploadFiles } = uploadedImages.value;
+        emit("uploadedImagesChange", uploadFiles);
+      }
+    });
     return {
       handleRemoveMulti,
       handlePictureCardPreview,

@@ -3,7 +3,7 @@
     <el-form label-position="top">
       <div class="property__heading property-item">
         <el-form-item label="Title">
-          <el-input />
+          <el-input v-model="propertyTitle" />
         </el-form-item>
         <el-form-item label="Cover Image">
           <single-image-upload @onImageChange="handleCoverImageChange" />
@@ -11,7 +11,7 @@
       </div>
       <div class="property__images property-item">
         <el-form-item label="Image List">
-          <multi-image-upload />
+          <multi-image-upload @uploadedImagesChange="handleImageListChange" />
         </el-form-item>
       </div>
       <div class="property__description property-item">
@@ -62,6 +62,7 @@ export default defineComponent({
   },
   setup() {
     const { property } = NewProperty();
+    const propertyTitle = ref("");
     const agents = reactive<List<IAgent>>({ list: [] });
     const selectedAgents = reactive<List<number>>({ list: [] });
 
@@ -80,6 +81,9 @@ export default defineComponent({
     function handleAgentListChange(list: number[]) {
       console.log(list);
     }
+    function handleImageListChange(list: ElFile[]) {
+      console.log(list);
+    }
 
     return {
       currencyFormatter,
@@ -88,9 +92,11 @@ export default defineComponent({
       editing,
       handleCoverImageChange,
       handleAgentListChange,
+      handleImageListChange,
       titleCase,
       agents,
       selectedAgents,
+      propertyTitle,
     };
   },
 });
