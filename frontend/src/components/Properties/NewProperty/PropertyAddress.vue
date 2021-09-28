@@ -22,7 +22,7 @@
       </el-select>
     </el-form-item>
     <el-form-item v-if="isSectional" label="Unit">
-      <el-input />
+      <el-input v-model="address.unit" />
     </el-form-item>
     <el-form-item label="Street">
       <el-input v-model="address.street" :disabled="isSectional" />
@@ -43,54 +43,65 @@ import { IAddress } from "@/interfaces/Address";
 import { IPropertyAddress } from "@/interfaces/Property";
 import { ISectional } from "@/interfaces/Sectional";
 import SectionalService from "@/services/SectionalService";
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { defineComponent, onMounted, reactive, ref, watch } from "vue";
+interface IAddressForm {
+  isSectional: boolean;
+  sectionalId: number;
+  address: IAddress | IPropertyAddress;
+}
 
 export default defineComponent({
-  setup() {
+  emits: {
+    addressChange: (newAddress: IAddressForm) => (newAddress && true) || false,
+  },
+  setup(_, { emit }) {
     const isSectional = ref(false);
     const sectionals = ref<ISectional[]>([]);
     const selectedSection = ref(1);
-    const address = ref<IAddress | IPropertyAddress>({
+    const address = reactive<IAddress | IPropertyAddress>({
+      unit: "",
       street: "",
       city: "",
       postal_code: "",
       province: "",
     });
-
-    watch(isSectional, (sectional) => {
-      if (!sectional) {
-        address.value = {
-          street: "",
-          city: "",
-          postal_code: "",
-          province: "",
-        };
-      } else {
-        const sect = sectionals.value.find(
-          (sectional) => sectional.id === selectedSection.value
-        );
-        if (sect) {
-          address.value = sect.address;
-        }
-      }
-    });
-
-    watch(selectedSection, (sectionalId) => {
-      if (isSectional.value) {
+    function assignSectionalAddressToAddressFieldOrClear(
+      is_sectional: boolean,
+      sectionalId: number
+    ) {
+      if (is_sectional) {
         const sect = sectionals.value.find(
           (sectional) => sectional.id === sectionalId
         );
         if (sect) {
-          address.value = sect.address;
+          Object.assign(address, sect.address);
         }
       } else {
-        address.value = {
+        Object.assign(address, {
           street: "",
           city: "",
           postal_code: "",
           province: "",
-        };
+        });
       }
+    }
+
+    watch([isSectional, selectedSection], ([sectional, sectionalId]) => {
+      assignSectionalAddressToAddressFieldOrClear(sectional, sectionalId);
+    });
+
+    // watch(selectedSection, (sectionalId) => {
+    //   assignSectionalAddressToAddressFieldOrClear(
+    //     isSectional.value,
+    //     sectionalId
+    //   );
+    // });
+    watch(address, (new_address) => {
+      emit("addressChange", {
+        isSectional: isSectional.value,
+        sectionalId: selectedSection.value,
+        address: new_address,
+      });
     });
     onMounted(() => {
       SectionalService.getAll().then((response) => {
