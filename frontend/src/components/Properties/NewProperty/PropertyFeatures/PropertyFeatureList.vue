@@ -38,6 +38,7 @@ import { titleCase } from "@/Helpers";
 
 export default defineComponent({
   components: { PropertyFeature },
+  methods: { titleCase },
   setup() {
     const features = ref<IPropertyFeature[]>([]);
     const duplicateFeature = ref(false);
@@ -49,12 +50,10 @@ export default defineComponent({
         features.value = response.data.data;
       });
     });
-    const selectedFeatures = ref<number[]>([]);
     const newFeature = ref<ICurrentFeature>();
-    watch(propertyFeatures, () => {
-      selectedFeatures.value = propertyFeatures.list.map(
-        (propFeat) => propFeat.id
-      );
+    watch(propertyFeatures, ({ list: newFeatures }) => {
+      //TODO {Thendo}: emit newFeatures
+      console.log("TODO: ", newFeatures);
     });
     function handleNewFeature(feature: ICurrentFeature) {
       const currentFeature = features.value.find(
@@ -83,12 +82,11 @@ export default defineComponent({
     return {
       handleNewFeature,
       refreshFeatureSelection,
+      deleteFeature,
       propertyFeatures,
       features,
       newFeature,
-      deleteFeature,
       duplicateFeature,
-      titleCase,
     };
   },
 });
