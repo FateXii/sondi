@@ -5,7 +5,7 @@
         {{ isSectional ? "Apartments/Complex" : "Stand Alone" }}
       </el-checkbox-button>
     </el-form-item>
-    <el-form-item v-if="isSectional" label="Choose Section">
+    <el-form-item style="width: 100%" v-if="isSectional" label="Choose Section">
       <el-select v-model="selectedSection" filterable>
         <el-option
           v-for="sectional in sectionals"
@@ -17,7 +17,15 @@
           <span>{{ sectional.type }}</span>
         </el-option>
         <template #empty>
-          <el-button style="width: 100%">Create New</el-button>
+          <el-button
+            style="width: 100%"
+            @click="newSectionalFormDialogeVisible = true"
+            >Create New</el-button
+          >
+          <new-sectional-form
+            v-model="newSectionalFormDialogeVisible"
+            @newSectionalPropertyCreated="reloadSectionals"
+          />
         </template>
       </el-select>
     </el-form-item>
@@ -28,17 +36,19 @@
   </el-form>
 </template>
 <script lang="ts">
-import { IAddress } from "@/interfaces/Address";
-import { IAddressForm } from "@/interfaces/Forms";
-import { IPropertyAddress } from "@/interfaces/Property";
-import { ISectional } from "@/interfaces/Sectional";
+import { IAddress } from "@/Types/Address";
+import { IAddressForm } from "@/Types/Forms";
+import { IPropertyAddress } from "@/Types/Property";
+import { ISectional } from "@/Types/Sectional";
 import SectionalService from "@/services/SectionalService";
 import { defineComponent, onMounted, reactive, ref, watch } from "vue";
 import AddressForm from "../AddressForm.vue";
+import NewSectionalForm from "./NewSectionalForm.vue";
 
 export default defineComponent({
   components: {
     AddressForm,
+    NewSectionalForm,
   },
   emits: {
     addressChange: (newAddress: IAddressForm) => {
@@ -54,6 +64,7 @@ export default defineComponent({
     const sectionals = ref<ISectional[]>([]);
     const selectedSection = ref(1);
     const address = reactive<IPropertyAddress>(new IAddress());
+    const newSectionalFormDialogeVisible = ref(false);
     function assignSectionalAddressToAddressFieldOrClear(
       is_sectional: boolean,
       sectionalId: number
@@ -81,18 +92,24 @@ export default defineComponent({
         address: new_address,
       });
     });
-    onMounted(() => {
+    function reloadSectionals() {
       SectionalService.getAll().then((response) => {
         sectionals.value = response.data.data;
         selectedSection.value = sectionals.value[0].id;
       });
+    }
+    onMounted(() => {
+      reloadSectionals();
     });
     return {
       isSectional,
       sectionals,
       selectedSection,
       address,
+      newSectionalFormDialogeVisible,
+      reloadSectionals,
     };
   },
 });
 </script>
+<style lang="scss" scoped></style>
