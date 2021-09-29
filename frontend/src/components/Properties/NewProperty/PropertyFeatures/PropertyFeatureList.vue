@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { ICurrentFeature, IPropertyFeature } from "@/interfaces/Property";
+import { ICurrentFeature, IPropertyFeature } from "@/Types/Property";
 import PropertyService from "@/services/PropertyService";
 import { defineComponent, onMounted, reactive, ref, watch } from "vue";
 import PropertyFeature from "@/components/Properties/NewProperty/PropertyFeatures/PropertyFeature.vue";
@@ -39,7 +39,10 @@ import { titleCase } from "@/Helpers";
 export default defineComponent({
   components: { PropertyFeature },
   methods: { titleCase },
-  setup() {
+  emits: {
+    newFeatures: (list: IPropertyFeature[]) => (list && true) || false,
+  },
+  setup(_, { emit }) {
     const features = ref<IPropertyFeature[]>([]);
     const duplicateFeature = ref(false);
     const propertyFeatures = reactive<{ list: IPropertyFeature[] }>({
@@ -50,11 +53,10 @@ export default defineComponent({
         features.value = response.data.data;
       });
     });
-    const newFeature = ref<ICurrentFeature>();
     watch(propertyFeatures, ({ list: newFeatures }) => {
-      //TODO {Thendo}: emit newFeatures
-      console.log("TODO: ", newFeatures);
+      emit("newFeatures", newFeatures);
     });
+
     function handleNewFeature(feature: ICurrentFeature) {
       const currentFeature = features.value.find(
         (serchFeature) => serchFeature.id === feature.id
@@ -85,7 +87,6 @@ export default defineComponent({
       deleteFeature,
       propertyFeatures,
       features,
-      newFeature,
       duplicateFeature,
     };
   },

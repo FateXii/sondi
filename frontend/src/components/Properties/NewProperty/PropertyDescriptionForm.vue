@@ -29,7 +29,8 @@
 <script lang="ts">
 import { defineComponent, reactive, watch } from "vue";
 import PropertyAddress from "@/components/Properties/NewProperty/PropertyAddress.vue";
-import { IAddressForm, IPropertyDescriptionForm } from "@/interfaces/Forms";
+import { IAddressForm, IPropertyDescriptionForm } from "@/Types/Forms";
+import { IAddress } from "@/Types/Address";
 
 export default defineComponent({
   components: {
@@ -46,13 +47,7 @@ export default defineComponent({
       address: {
         isSectional: Boolean(),
         sectionalId: Number(),
-        address: {
-          unit: String(),
-          street: String(),
-          city: String(),
-          province: String(),
-          postal_code: String(),
-        },
+        address: new IAddress(),
       },
       description: {
         text: String(),

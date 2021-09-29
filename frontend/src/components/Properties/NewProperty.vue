@@ -21,7 +21,7 @@
       </div>
       <div class="property__features property-item">
         <el-form-item label="Features">
-          <property-feature-list />
+          <property-feature-list @newFeatures="handleFeatureChange" />
         </el-form-item>
       </div>
       <div class="property__agents property-item">
@@ -43,12 +43,12 @@ import PropertyFeatureList from "./NewProperty/PropertyFeatures/PropertyFeatureL
 import PropertyDescriptionForm from "./NewProperty/PropertyDescriptionForm.vue";
 import { titleCase } from "@/Helpers";
 import MultiImageUpload from "./NewProperty/MultiImageUpload.vue";
-import { IAgent } from "@/interfaces/Property";
-import { List } from "@/interfaces";
+import { IAgent, IPropertyFeature } from "@/Types/Property";
+import { List } from "@/Types";
 import PropertyService from "@/services/PropertyService";
 import GetError, { ResponseError } from "@/Helpers/GetError";
 import Agents from "./NewProperty/Agents.vue";
-import { IPropertyDescriptionForm } from "@/interfaces/Forms";
+import { IPropertyDescriptionForm } from "@/Types/Forms";
 import { UploadFile } from "element-plus/lib/components/upload/src/upload.type";
 
 const currencyFormatter = new Intl.NumberFormat("en-ZA", {
@@ -68,6 +68,7 @@ export default defineComponent({
     titleCase,
   },
   setup() {
+    //TODO {Thendo} : Handle new feature creation api calls and composition
     const { property } = NewProperty();
     const propertyTitle = ref("");
     const agents = reactive<List<IAgent>>({ list: [] });
@@ -96,6 +97,9 @@ export default defineComponent({
     ) {
       console.log("Property: ", propertyDescription);
     }
+    function handleFeatureChange(features: IPropertyFeature[]) {
+      console.log(features);
+    }
     return {
       currencyFormatter,
       GetScreenWidth,
@@ -105,6 +109,7 @@ export default defineComponent({
       handleAgentListChange,
       handleImageListChange,
       handleDescriptionFormChange,
+      handleFeatureChange,
       agents,
       selectedAgents,
       propertyTitle,
