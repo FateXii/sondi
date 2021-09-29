@@ -24,18 +24,7 @@
     <el-form-item v-if="isSectional" label="Unit">
       <el-input v-model="address.unit" />
     </el-form-item>
-    <el-form-item label="Street">
-      <el-input v-model="address.street" :disabled="isSectional" />
-    </el-form-item>
-    <el-form-item label="City">
-      <el-input v-model="address.city" :disabled="isSectional" />
-    </el-form-item>
-    <el-form-item label="Province">
-      <el-input v-model="address.province" :disabled="isSectional" />
-    </el-form-item>
-    <el-form-item label="Code">
-      <el-input v-model="address.postal_code" :disabled="isSectional" />
-    </el-form-item>
+    <address-form v-model="address" :isSectional="isSectional" />
   </el-form>
 </template>
 <script lang="ts">
@@ -45,8 +34,12 @@ import { IPropertyAddress } from "@/interfaces/Property";
 import { ISectional } from "@/interfaces/Sectional";
 import SectionalService from "@/services/SectionalService";
 import { defineComponent, onMounted, reactive, ref, watch } from "vue";
+import AddressForm from "../AddressForm.vue";
 
 export default defineComponent({
+  components: {
+    AddressForm,
+  },
   emits: {
     addressChange: (newAddress: IAddressForm) => {
       if (newAddress.isSectional) {
@@ -60,13 +53,7 @@ export default defineComponent({
     const isSectional = ref(false);
     const sectionals = ref<ISectional[]>([]);
     const selectedSection = ref(1);
-    const address = reactive<IAddress & IPropertyAddress>({
-      unit: "",
-      street: "",
-      city: "",
-      postal_code: "",
-      province: "",
-    });
+    const address = reactive<IPropertyAddress>(new IAddress());
     function assignSectionalAddressToAddressFieldOrClear(
       is_sectional: boolean,
       sectionalId: number
@@ -79,12 +66,7 @@ export default defineComponent({
           Object.assign(address, sect.address);
         }
       } else {
-        Object.assign(address, {
-          street: "",
-          city: "",
-          postal_code: "",
-          province: "",
-        });
+        Object.assign(address, new IAddress());
       }
     }
 
