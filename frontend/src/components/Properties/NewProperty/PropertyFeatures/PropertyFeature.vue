@@ -17,7 +17,12 @@
         >
       </el-option>
       <template #empty>
-        <el-button style="width: 100%; height: 100%">Create New</el-button>
+        <el-button
+          style="width: 100%; height: 100%"
+          @click="newPropertyFeatureDialog = true"
+          >Create New</el-button
+        >
+        <new-property-feature v-model="newPropertyFeatureDialog" />
       </template>
     </el-select>
     <div class="property-feature-input__value-input">
@@ -60,8 +65,12 @@ import {
   ref,
   watch,
 } from "vue";
+import { Feature } from "@/Types/Feature";
+import { List } from "@/Types";
+import NewPropertyFeature from "./NewPropertyFeature.vue";
 
 export default defineComponent({
+  components: { NewPropertyFeature },
   emits: {
     addFeature: (feature: ICurrentFeature) => {
       if (feature) {
@@ -72,15 +81,15 @@ export default defineComponent({
     },
   },
   setup(_, { emit }) {
-    const features = reactive<{ list: IPropertyFeature[] }>({ list: [] });
+    const features = reactive<List<IPropertyFeature>>({ list: [] });
     const currentFeatureId = ref(1);
     const featureValue = ref<string>("");
     const featureType = ref("number");
     const currentFeature = reactive<ICurrentFeature>({
       id: 0,
-      value: "",
-      type: "",
+      ...new Feature(),
     });
+    const newPropertyFeatureDialog = ref(false);
     onMounted(async () => {
       try {
         const response = await PropertyService.getFeatures();
@@ -119,6 +128,7 @@ export default defineComponent({
       featureValue,
       featureType,
       features,
+      newPropertyFeatureDialog,
       addFeature,
       titleCase,
     };
