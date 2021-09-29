@@ -10,10 +10,10 @@
       "
     >
       <el-form-item label="Sectional Name">
-        <el-input></el-input>
+        <el-input v-model="sectionalName"></el-input>
       </el-form-item>
       <el-form-item label="Sectional Type">
-        <el-input></el-input>
+        <el-input v-model="sectionalType"></el-input>
       </el-form-item>
       <address-form v-model="address" :isSectional="false" />
     </el-form>
@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { IAddress } from "@/Types/Address";
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, ref } from "vue";
 import AddressForm from "../AddressForm.vue";
 
 export default defineComponent({
@@ -60,6 +60,8 @@ export default defineComponent({
   },
   setup(_, { emit }) {
     const address = reactive<IAddress>(new IAddress());
+    const sectionalName = ref("");
+    const sectionalType = ref("");
     function handleFormSubmit() {
       //TODO {Thendo}: Handle Sectional Property Creation Api Calls
       emit("newSectionalPropertyCreated");
@@ -68,6 +70,8 @@ export default defineComponent({
     return {
       address,
       handleFormSubmit,
+      sectionalName,
+      sectionalType,
     };
   },
 });
