@@ -2,8 +2,8 @@ import http from "@/services/http-service";
 import {
   IStandAloneProperty,
   IStandAlonePropertyModel,
-} from "@/interfaces/apiTypes";
-import IAxiosResponse from "@/interfaces/schemas";
+} from "@/Types/apiTypes";
+import IAxiosResponse from "@/Types/schemas";
 
 class StandAloneProperty {
   create(

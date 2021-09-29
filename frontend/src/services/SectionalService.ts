@@ -1,7 +1,7 @@
 import axios from "axios";
-import { AxiosApiResponse } from "@/interfaces/Requests";
-import { IProperty } from "@/interfaces/Property";
-import { ISectional } from "@/interfaces/Sectional";
+import { AxiosApiResponse } from "@/Types/Requests";
+import { IProperty } from "@/Types/Property";
+import { ISectional } from "@/Types/Sectional";
 
 export const requestClient = axios.create({
   baseURL: process.env.VUE_APP_API_HOST,

@@ -5,8 +5,8 @@ import {
   IAddressModel,
   ISectionalPropertyModel,
   Province,
-} from "@/interfaces/apiTypes";
-import AxiosResponse from "@/interfaces/schemas";
+} from "@/Types/apiTypes";
+import AxiosResponse from "@/Types/schemas";
 
 const PROVINCE_LIST: Province[] = [
   "limpopo",

@@ -1,9 +1,6 @@
 import http from "@/services/http-service";
-import {
-  ISectionalProperty,
-  ISectionalPropertyModel,
-} from "@/interfaces/apiTypes";
-import IAxiosResponse from "@/interfaces/schemas";
+import { ISectionalProperty, ISectionalPropertyModel } from "@/Types/apiTypes";
+import IAxiosResponse from "@/Types/schemas";
 
 class SectionalProperty {
   create(data: FormData): Promise<IAxiosResponse<ISectionalPropertyModel>> {

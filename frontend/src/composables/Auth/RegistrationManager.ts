@@ -1,6 +1,6 @@
 import { reactive, ref } from "vue";
 import AuthService from "@/services/AuthService";
-import { IRegistrationPayload } from "@/interfaces/Auth";
+import { IRegistrationPayload } from "@/Types/Auth";
 import { useRouter } from "vue-router";
 import GetError, { ResponseError } from "@/Helpers/GetError";
 

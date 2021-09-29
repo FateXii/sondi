@@ -1,5 +1,5 @@
 import http from "@/services/http-service";
-import { IProperty, IRental } from "@/interfaces/apiTypes";
+import { IProperty, IRental } from "@/Types/apiTypes";
 
 class Rental {
   create(data: IRental): Promise<any> {

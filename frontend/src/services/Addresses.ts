@@ -1,5 +1,5 @@
 import http from "@/services/http-service";
-import { IAddress } from "@/interfaces/apiTypes";
+import { IAddress } from "@/Types/apiTypes";
 
 class Address {
   create(data: IAddress): Promise<any> {

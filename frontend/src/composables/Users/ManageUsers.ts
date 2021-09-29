@@ -2,7 +2,7 @@ import { useRouter } from "vue-router";
 import { reactive, ref } from "vue";
 import UsersService from "@/services/UsersService";
 import GetError, { ResponseError } from "@/Helpers/GetError";
-import { IAbreviatedUser, IUserRoles } from "@/interfaces/User";
+import { IAbreviatedUser, IUserRoles } from "@/Types/User";
 import { IUserDataType } from "@/store/auth";
 
 function diff(target: any, reference: any): any {

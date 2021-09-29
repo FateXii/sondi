@@ -1,7 +1,7 @@
 import axios from "axios";
-import { AxiosApiResponse } from "@/interfaces/Requests";
+import { AxiosApiResponse } from "@/Types/Requests";
 import { IUserDataType } from "@/store/auth";
-import { IAgent, IProperty, IPropertyFeature } from "@/interfaces/Property";
+import { IAgent, IProperty, IPropertyFeature } from "@/Types/Property";
 
 export const requestClient = axios.create({
   baseURL: process.env.VUE_APP_API_HOST,

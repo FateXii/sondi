@@ -42,7 +42,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
 import PropertyService from "@/services/PropertyService";
-import { IProperty } from "@/interfaces/Property";
+import { IProperty } from "@/Types/Property";
 import GetError, { ResponseError } from "@/Helpers/GetError";
 import PropertyItem from "./PropertyItem.vue";
 const currencyFormatter = new Intl.NumberFormat("en-ZA", {

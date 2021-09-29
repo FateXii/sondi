@@ -13,8 +13,8 @@
 
 <script lang="ts">
 import GetError, { ResponseError } from "@/Helpers/GetError";
-import { List } from "@/interfaces";
-import { IAgent } from "@/interfaces/Property";
+import { List } from "@/Types";
+import { IAgent } from "@/Types/Property";
 import PropertyService from "@/services/PropertyService";
 import { defineComponent, onMounted, reactive, watch } from "vue";
 

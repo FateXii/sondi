@@ -1,4 +1,4 @@
-import { List } from "@/interfaces";
+import { List } from "@/Types";
 
 export function capitalize(word: string) {
   const [firstLetter, ...restOfWord] = word.split("");

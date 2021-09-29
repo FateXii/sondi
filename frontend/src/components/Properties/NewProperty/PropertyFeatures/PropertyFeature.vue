@@ -50,7 +50,7 @@
 <script lang="ts">
 import { titleCase } from "@/Helpers";
 import GetError, { ResponseError } from "@/Helpers/GetError";
-import { ICurrentFeature, IPropertyFeature } from "@/interfaces/Property";
+import { ICurrentFeature, IPropertyFeature } from "@/Types/Property";
 import PropertyService from "@/services/PropertyService";
 import {
   defineComponent,

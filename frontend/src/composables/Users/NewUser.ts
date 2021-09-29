@@ -1,5 +1,5 @@
 import GetError, { ResponseError } from "@/Helpers/GetError";
-import { IPotentialUserData } from "@/interfaces/User";
+import { IPotentialUserData } from "@/Types/User";
 import UsersService from "@/services/UsersService";
 import { reactive, ref } from "vue";
 

@@ -23,7 +23,7 @@
 import { watchEffect, defineComponent, ref, computed, onMounted } from "vue";
 import { ElCarousel } from "element-plus";
 import PropertyCard from "@/components/PropertyCard.vue";
-import { Property } from "@/interfaces";
+import { Property } from "@/Types";
 import { manageProperties } from "@/composables/manageProperties";
 
 export default defineComponent({

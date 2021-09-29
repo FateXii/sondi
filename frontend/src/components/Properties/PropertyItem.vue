@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { IProperty } from "@/interfaces/Property";
+import { IProperty } from "@/Types/Property";
 import { defineComponent, PropType, ref, toRefs } from "vue";
 import { useRouter } from "vue-router";
 import PropertyItemSummary from "./PropertyItemSummary.vue";

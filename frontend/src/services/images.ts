@@ -1,5 +1,5 @@
 import http from "@/services/http-service";
-import { IImage } from "@/interfaces/apiTypes";
+import { IImage } from "@/Types/apiTypes";
 
 class Image {
   create(data: IImage): Promise<any> {

@@ -4,13 +4,13 @@ import sectionalUnitApi from "@/services/sectionalUnit";
 import propertyImage from "@/services/PropertyImage";
 import salesApi from "@/services/sale";
 import rentalsApi from "@/services/rental";
-import IAxiosResponse from "@/interfaces/schemas";
+import IAxiosResponse from "@/Types/schemas";
 import {
   IProperty,
   IPropertyModel,
   ISectionalPropertyModel,
   ISectionalUnitModel,
-} from "@/interfaces/apiTypes";
+} from "@/Types/apiTypes";
 import { newSectionalProperty } from "@/composables/newSectionalProperty";
 
 const sectionalUnit = ref("");

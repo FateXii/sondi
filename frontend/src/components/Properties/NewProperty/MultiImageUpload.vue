@@ -35,7 +35,7 @@
 
 <script lang="ts">
 import { NewList } from "@/Helpers";
-import { List } from "@/interfaces";
+import { List } from "@/Types";
 import { UploadFile } from "element-plus/lib/components/upload/src/upload.type";
 import { defineComponent, reactive, ref, watch } from "vue";
 

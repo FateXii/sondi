@@ -4,7 +4,7 @@ import useAuthStore, {
   GetAuthenticatedUser,
   IUserDataType,
 } from "@/store/auth";
-import { ILoginPayload, IRegistrationPayload } from "@/interfaces/Auth";
+import { ILoginPayload, IRegistrationPayload } from "@/Types/Auth";
 import { useRouter } from "vue-router";
 import GetError, { ResponseError } from "@/Helpers/GetError";
 

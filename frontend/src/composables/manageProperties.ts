@@ -1,8 +1,8 @@
-import { IRentalModel, ISaleModel } from "@/interfaces/apiTypes";
+import { IRentalModel, ISaleModel } from "@/Types/apiTypes";
 import { ref } from "vue";
 import saleApi from "@/services/sale";
 import rentApi from "@/services/rental";
-import { Property } from "@/interfaces";
+import { Property } from "@/Types";
 
 const propertiesForSale = ref<ISaleModel[]>([]);
 const propertiesForRent = ref<IRentalModel[]>([]);

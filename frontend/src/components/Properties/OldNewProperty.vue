@@ -210,7 +210,7 @@
   </el-container>
 </template>
 <script lang="ts">
-import { ElFile } from "@/interfaces";
+import { ElFile } from "@/Types";
 import { defineComponent, onMounted, ref } from "vue";
 import { manageNewProperty, DATA } from "@/composables/manageNewProperty";
 import PropertyService from "@/services/PropertyService";

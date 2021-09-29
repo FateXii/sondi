@@ -1,7 +1,7 @@
 import axios from "axios";
 import Auth from "@/store/auth";
 import { AuthManager } from "@/composables/AuthManager";
-import { ILoginPayload, IRegistrationPayload } from "@/interfaces/Auth";
+import { ILoginPayload, IRegistrationPayload } from "@/Types/Auth";
 
 export const authClient = axios.create({
   baseURL: process.env.VUE_APP_API_HOST,

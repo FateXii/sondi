@@ -58,10 +58,10 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref, onMounted, watchEffect } from "vue";
-import { Property } from "@/interfaces";
+import { Property } from "@/Types";
 import propertyImageApi from "@/services/PropertyImage";
 import propertyApi from "@/services/property";
-import { IImageModel } from "@/interfaces/apiTypes";
+import { IImageModel } from "@/Types/apiTypes";
 
 export default defineComponent({
   props: {

@@ -17,7 +17,7 @@
   </el-collapse-transition>
 </template>
 <script lang="ts">
-import { IProperty } from "@/interfaces/Property";
+import { IProperty } from "@/Types/Property";
 import { defineComponent, PropType } from "vue";
 const currencyFormatter = new Intl.NumberFormat("en-ZA", {
   currency: "ZAR",

@@ -1,6 +1,6 @@
 import http from "@/services/http-service";
-import { ISectionalUnit, ISectionalUnitModel } from "@/interfaces/apiTypes";
-import IAxiosResponse from "@/interfaces/schemas";
+import { ISectionalUnit, ISectionalUnitModel } from "@/Types/apiTypes";
+import IAxiosResponse from "@/Types/schemas";
 
 class SectionalUnit {
   create(

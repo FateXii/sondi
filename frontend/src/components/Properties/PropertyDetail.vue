@@ -115,7 +115,7 @@ import {
   toRefs,
   watchEffect,
 } from "vue";
-import { IProperty } from "@/interfaces/Property";
+import { IProperty } from "@/Types/Property";
 import { onWindowScroll } from "@/Helpers/General";
 import GetScreenWidth from "@/Helpers/GetScreenWidth";
 import Carousel from "./Carousel.vue";

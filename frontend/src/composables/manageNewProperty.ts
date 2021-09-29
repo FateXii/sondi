@@ -1,4 +1,4 @@
-import { ElFile } from "@/interfaces";
+import { ElFile } from "@/Types";
 import { ElUpload } from "element-plus/lib/el-upload/src/upload.type";
 import { reactive, ref, watch, watchEffect } from "vue";
 import PropertyService from "@/services/PropertyService";

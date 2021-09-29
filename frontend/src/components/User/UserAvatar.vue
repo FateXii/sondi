@@ -85,7 +85,7 @@
 import { IUserDataType } from "@/store/auth";
 import { defineComponent, PropType, reactive, ref, toRefs, watch } from "vue";
 import Auth from "@/store/auth";
-import { IUserRoles } from "@/interfaces/User";
+import { IUserRoles } from "@/Types/User";
 
 export default defineComponent({
   props: {

@@ -1,5 +1,5 @@
 import http from "@/services/http-service";
-import { IPropertyImage } from "@/interfaces/apiTypes";
+import { IPropertyImage } from "@/Types/apiTypes";
 
 class Property {
   create(property_id: number, data: FormData): Promise<any> {

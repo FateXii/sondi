@@ -29,9 +29,9 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, PropType, ref } from "vue";
-import { Property } from "@/interfaces";
+import { Property } from "@/Types";
 import propertyImageApi from "@/services/PropertyImage";
-import { IImageModel } from "@/interfaces/apiTypes";
+import { IImageModel } from "@/Types/apiTypes";
 export default defineComponent({
   props: {
     showInterest: Boolean,

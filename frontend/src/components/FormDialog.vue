@@ -27,7 +27,7 @@
   </el-dialog>
 </template>
 <script lang="ts">
-import { Property } from "@/interfaces";
+import { Property } from "@/Types";
 
 import { manageContactModal } from "@/composables/manageContactModal";
 import { defineComponent, PropType, toRef, watch } from "vue";
