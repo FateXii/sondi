@@ -37,23 +37,27 @@ class PropertyController extends Controller
   public function store(Request $request)
   {
     $request->validate([
-      'isSectional' => 'required|boolean',
-      'sectionalType' => 'required_if:isSectional,True|string',
-      'name' => 'required_if:isSectional,True|string',
-      'unit' => 'required_if:isSectional,True|string|nullable',
+      'cover_image' => 'required|image',
 
-      'description_title' => 'string',
-      'description' => 'required|string',
-      'is_rental' => 'required|boolean',
-      'price' => 'required|integer',
+      'agents' => 'array',
 
       'street' => 'required|string',
       'province' => 'required|string',
       'postal_code' => 'required|string',
       'city' => 'required|string',
 
-      'cover_image' => 'required|image',
+      'is_sectional' => 'required|boolean',
+      'unit' => 'required_if:is_sectional,True|string|nullable',
+      'sectional_id' => 'required_if:is_sectional,true|string|nullable',
+
+      'description_title' => 'string',
+      'description' => 'required|string',
+
+      'price' => 'required|integer',
+      'is_rental' => 'required|boolean',
+
       'title' => 'required|string',
+
       'video_url' => 'string',
       'images' => 'required|array',
       'features' => 'required|json',
@@ -67,28 +71,17 @@ class PropertyController extends Controller
     ];
 
     $property_data = [
-      'bedrooms' => $request->bedrooms,
-      'bathrooms' => $request->bathrooms,
-      'garages' => $request->garages,
-      'description' => $request->description,
-      'video_url' => $request->video_url,
       'title' => $request->title,
+      'description' => $request->description,
+      'description_title' => $request->description_title,
+      'video_url' => $request->video_url,
       'cover_image' => $cover_image,
       'is_rental' => $request->is_rental,
     ];
     $property = $this->create_property($property_data, $request->isSectional);
     $this->create_property_features($property->id, $request->features);
     if ($request->is_sectional) {
-      $sectional_property_data = [
-        'name' => $request->name,
-        'type' => $request->type,
-      ];
       $sectional_id = $request->sectional_id;
-      if (!$sectional_id) {
-        $sectional = $this->create_sectional_property($sectional_property_data);
-        $sectional_id = $sectional->id;
-        $this->create_address($address_data, null, $sectional_id);
-      }
       $this->create_sectional_unit(
         $request->unit,
         $sectional_id,
@@ -134,23 +127,14 @@ class PropertyController extends Controller
 
     return $unit;
   }
-  private function create_sectional_property($sectional_property_data)
-  {
-    $sectional = new Sectionals();
-    $sectional->name = $sectional_property_data['name'];
-    $sectional->type = $sectional_property_data['type'];
-    $sectional->save();
-
-    return $sectional;
-  }
   private function create_property_features($property_id, $features_json)
   {
     $features = json_decode($features_json);
     foreach ($features as $feature) {
       PropertyFeatures::create([
-        'feature_id' => $feature->feature_id,
+        'feature_id' => $feature->id,
         'value' => $feature->value,
-        'property_id' => $feature->property_id
+        'property_id' => $property_id
       ]);
     }
   }

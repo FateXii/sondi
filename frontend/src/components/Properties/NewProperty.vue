@@ -1,6 +1,6 @@
 <template>
   <div class="property">
-    <el-form label-position="top">
+    <el-form label-position="top" @submit="createNewProperties">
       <div class="property__heading property-item">
         <el-form-item label="Title">
           <el-input v-model="propertyTitle" />
@@ -28,7 +28,7 @@
         <agents @agentListChange="handleAgentListChange" />
       </div>
       <el-form-item>
-        <el-button>Create Property</el-button>
+        <el-button @click="createNewProperties">Create Property</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -73,6 +73,71 @@ export default defineComponent({
     const propertyTitle = ref("");
     const agents = reactive<List<IAgent>>({ list: [] });
     const selectedAgents = reactive<List<number>>({ list: [] });
+    interface INewPropertyForm {
+      cover_image: UploadFile;
+      image_list: UploadFile[];
+      agents: number[];
+      property_description: IPropertyDescriptionForm;
+      property_features: IPropertyFeature[];
+    }
+    const propertyForm = reactive<INewPropertyForm>(
+      Object() as INewPropertyForm
+    );
+
+    function createPropertyPayload(propertyForm: INewPropertyForm): FormData {
+      const form = new FormData();
+      form.append("cover_image", propertyForm.cover_image.raw);
+      for (let index = 0; index < propertyForm.agents.length; index++) {
+        const agent = propertyForm.agents[index];
+        form.append("agents[]", agent.toString());
+      }
+      for (let index = 0; index < propertyForm.image_list.length; index++) {
+        const image = propertyForm.image_list[index];
+        form.append("images[]", image.raw);
+      }
+      form.append(
+        "street",
+        propertyForm.property_description.address.address.street
+      );
+      form.append(
+        "province",
+        propertyForm.property_description.address.address.province
+      );
+      form.append(
+        "postal_code",
+        propertyForm.property_description.address.address.postal_code
+      );
+      form.append(
+        "city",
+        propertyForm.property_description.address.address.city
+      );
+
+      form.append("price", propertyForm.property_description.price.toString());
+      form.append(
+        "is_rental",
+        propertyForm.property_description.is_rental ? "1" : "0"
+      );
+
+      form.append(
+        "isSectional",
+        propertyForm.property_description.address.isSectional ? "1" : "0"
+      );
+      form.append(
+        "unit",
+        propertyForm.property_description.address.address.unit?.toString() || ""
+      );
+      form.append("title", propertyForm.property_description.title);
+      form.append(
+        "description_title",
+        propertyForm.property_description.description.heading
+      );
+      form.append(
+        "description",
+        propertyForm.property_description.description.text
+      );
+      form.append("features", JSON.stringify(propertyForm.property_features));
+      return form;
+    }
 
     onMounted(async () => {
       try {
@@ -83,23 +148,30 @@ export default defineComponent({
       }
     });
     const editing = ref(true);
-    function handleCoverImageChange(image: UploadFile) {
-      console.log(image);
+    function handleCoverImageChange(cover_image: UploadFile) {
+      Object.assign(propertyForm, { cover_image });
+      // console.log(image);
     }
-    function handleAgentListChange(list: number[]) {
-      console.log(list);
+    function handleAgentListChange(agent_list: number[]) {
+      Object.assign(propertyForm, { agent_list });
+      // console.log(list);
     }
-    function handleImageListChange(list: UploadFile[]) {
-      console.log("Image List: ", list);
+    function handleImageListChange(image_list: UploadFile[]) {
+      Object.assign(propertyForm, { image_list });
     }
     function handleDescriptionFormChange(
-      propertyDescription: IPropertyDescriptionForm
+      property_description: IPropertyDescriptionForm
     ) {
-      console.log("Property: ", propertyDescription);
+      Object.assign(propertyForm, { property_description });
     }
-    function handleFeatureChange(features: IPropertyFeature[]) {
-      console.log(features);
+    function handleFeatureChange(property_features: IPropertyFeature[]) {
+      Object.assign(propertyForm, { property_features });
     }
+
+    function createNewProperty() {
+      return;
+    }
+
     return {
       currencyFormatter,
       GetScreenWidth,

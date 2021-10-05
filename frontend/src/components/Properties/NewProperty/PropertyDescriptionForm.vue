@@ -6,7 +6,15 @@
   </div>
   <div class="property__decription__price">
     <el-form-item label="Price">
-      <el-input v-model="property.price" />
+      <el-form-item label="Type">
+        <el-checkbox
+          v-model="property.is_rental"
+          label="Is Rental"
+        ></el-checkbox>
+      </el-form-item>
+      <el-form-item label="Price">
+        <el-input v-model="property.price" />
+      </el-form-item>
     </el-form-item>
   </div>
   <div class="property__decription_address">
@@ -44,6 +52,7 @@ export default defineComponent({
     const property = reactive<IPropertyDescriptionForm>({
       title: String(),
       price: Number(),
+      is_rental: Boolean(),
       address: {
         isSectional: Boolean(),
         sectionalId: Number(),
