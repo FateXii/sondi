@@ -91,6 +91,7 @@ export default defineComponent({
     });
     const newPropertyFeatureDialog = ref(false);
     onMounted(async () => {
+      await nextTick();
       try {
         const response = await PropertyService.getFeatures();
         features.list = response.data.data;
@@ -106,7 +107,7 @@ export default defineComponent({
       } catch (e) {
         GetError(e as ResponseError);
       }
-      await nextTick();
+      // await nextTick();
     });
     watch(currentFeatureId, (newFeature) => {
       const feature = features.list.find(
@@ -117,6 +118,7 @@ export default defineComponent({
         id: feature?.id,
         value: featureValue,
         type: feature?.type,
+        name: feature?.name,
       });
     });
     function addFeature() {

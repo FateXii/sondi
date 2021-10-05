@@ -1,6 +1,6 @@
 <template>
   <el-form-item label="Agents">
-    <el-select v-model="selectedAgents.list" multiple>
+    <el-select v-model="selectedAgents.list" @click="listChanged([])" multiple>
       <el-option
         v-for="agent in agents.list"
         :key="agent.id"
@@ -27,8 +27,11 @@ export default defineComponent({
   setup(_, { emit }) {
     const agents = reactive<List<IAgent>>({ list: [] });
     const selectedAgents = reactive<List<number>>({ list: [] });
-    watch(selectedAgents, ({ list }) => {
+    function listChanged(list: number[]) {
       emit("agentListChange", list);
+    }
+    watch(selectedAgents, ({ list }) => {
+      listChanged(list);
     });
 
     onMounted(async () => {
@@ -42,6 +45,7 @@ export default defineComponent({
     return {
       agents,
       selectedAgents,
+      listChanged,
     };
   },
 });

@@ -1,6 +1,6 @@
 <template>
   <div class="property">
-    <el-form label-position="top" @submit="createNewProperties">
+    <el-form label-position="top" @submit="createNewProperty">
       <div class="property__heading property-item">
         <el-form-item label="Title">
           <el-input v-model="propertyTitle" />
@@ -28,7 +28,7 @@
         <agents @agentListChange="handleAgentListChange" />
       </div>
       <el-form-item>
-        <el-button @click="createNewProperties">Create Property</el-button>
+        <el-button @click="createNewProperty">Create Property</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -76,7 +76,7 @@ export default defineComponent({
     interface INewPropertyForm {
       cover_image: UploadFile;
       image_list: UploadFile[];
-      agents: number[];
+      agent_list: number[];
       property_description: IPropertyDescriptionForm;
       property_features: IPropertyFeature[];
     }
@@ -87,8 +87,8 @@ export default defineComponent({
     function createPropertyPayload(propertyForm: INewPropertyForm): FormData {
       const form = new FormData();
       form.append("cover_image", propertyForm.cover_image.raw);
-      for (let index = 0; index < propertyForm.agents.length; index++) {
-        const agent = propertyForm.agents[index];
+      for (let index = 0; index < propertyForm.agent_list.length; index++) {
+        const agent = propertyForm.agent_list[index];
         form.append("agents[]", agent.toString());
       }
       for (let index = 0; index < propertyForm.image_list.length; index++) {
@@ -119,8 +119,12 @@ export default defineComponent({
       );
 
       form.append(
-        "isSectional",
+        "is_sectional",
         propertyForm.property_description.address.isSectional ? "1" : "0"
+      );
+      form.append(
+        "sectional_id",
+        propertyForm.property_description.address.sectionalId.toString()
       );
       form.append(
         "unit",
@@ -169,7 +173,12 @@ export default defineComponent({
     }
 
     function createNewProperty() {
-      return;
+      PropertyService.create(createPropertyPayload(propertyForm))
+        .then(() => {
+          console.log("created");
+        })
+        .catch((e) => GetError(e as ResponseError));
+      // return;
     }
 
     return {
@@ -182,6 +191,7 @@ export default defineComponent({
       handleImageListChange,
       handleDescriptionFormChange,
       handleFeatureChange,
+      createNewProperty,
       agents,
       selectedAgents,
       propertyTitle,

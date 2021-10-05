@@ -30,7 +30,7 @@ export default {
   update(id: number, data: any) {
     return requestClient.put(`/api/properties/${id}`, data);
   },
-  create(data: any) {
+  create(data: FormData) {
     return requestClient.post("/api/properties", data);
   },
   delete(id: number) {

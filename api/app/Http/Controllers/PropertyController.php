@@ -6,6 +6,7 @@ use App\Http\Resources\PropertyResource;
 use App\Models\Address;
 use App\Models\Image;
 use App\Models\Property;
+use App\Models\PropertyAgent;
 use App\Models\PropertyFeatures;
 use App\Models\PropertyImage;
 use App\Models\Sectionals;
@@ -77,10 +78,14 @@ class PropertyController extends Controller
       'video_url' => $request->video_url,
       'cover_image' => $cover_image,
       'is_rental' => $request->is_rental,
+      'price' => $request->price,
     ];
     $property = $this->create_property($property_data, $request->isSectional);
     $this->create_property_features($property->id, $request->features);
-    if ($request->is_sectional) {
+    if ($request->agents) {
+      $this->create_property_agents($property->id, $request->agents);
+    }
+    if ($request->is_sectional != false) {
       $sectional_id = $request->sectional_id;
       $this->create_sectional_unit(
         $request->unit,
@@ -114,7 +119,7 @@ class PropertyController extends Controller
     } else {
       $address->sectionals_id = $sectional_id;
     }
-    $address->$address->save();
+    $address->save();
     return $address;
   }
   private function create_sectional_unit($unit_string, $sectional_id, $property_id)
@@ -126,6 +131,15 @@ class PropertyController extends Controller
     $unit->save();
 
     return $unit;
+  }
+  private function create_property_agents($property_id, $property_agents)
+  {
+    foreach ($property_agents as $agent) {
+      PropertyAgent::create([
+        'agent_id' => $agent,
+        'property_id' => $property_id
+      ]);
+    }
   }
   private function create_property_features($property_id, $features_json)
   {
@@ -141,14 +155,13 @@ class PropertyController extends Controller
   private function create_property($property_data)
   {
     $property = new Property();
-    $property->description = $property_data['description_title'];
+    $property->description_title = $property_data['description_title'];
     $property->description = $property_data['description'];
     $property->video_url = $property_data['video_url'];
     $property->title = $property_data['title'];
-    $property->addresses_id = $property_data['address'];
-    $property->addresses_id = $property_data['is_rental'];
-    $property->addresses_id = $property_data['price'];
     $property->cover_image = $property_data['cover_image'];
+    $property->is_rental = $property_data['is_rental'];
+    $property->price = $property_data['price'];
     $property->save();
 
     return $property;
@@ -160,9 +173,9 @@ class PropertyController extends Controller
    * @param  integer  $property
    * @return \Illuminate\Http\Response
    */
-  public function show(Property $property)
+  public function show($property)
   {
-
+    $property = Property::where('id', $property)->first();
     if (!$property) {
       return new Response([
         'message' => 'property not found',

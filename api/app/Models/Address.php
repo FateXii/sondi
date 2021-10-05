@@ -31,7 +31,7 @@ class Address extends Model
       ?
       $this->sectionals
       ->sectional_units
-      ->where('property_id', $this->property->id)
+      // ->where('property_id', $this->property->id)
       ->first()->unit
       : null;
   }

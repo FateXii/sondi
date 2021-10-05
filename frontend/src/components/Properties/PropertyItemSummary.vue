@@ -1,7 +1,7 @@
 <template>
   <el-collapse-transition>
     <el-container v-if="summary">
-      <el-image :src="property.cover_image" fit="fit"></el-image>
+      <el-image :src="image" fit="fit"></el-image>
       <div class="property-summary">
         <h3 class="property-summary__price">
           {{ currencyFormatter.format(property.price) }}
@@ -33,6 +33,11 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+  },
+  data() {
+    return {
+      image: `${process.env.VUE_APP_API_HOST}/storage/${this.property.cover_image}`,
+    };
   },
   setup(props) {
     return {

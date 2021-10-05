@@ -28,7 +28,7 @@ export default defineComponent({
     const router = useRouter();
     const summary = ref(true);
     function showDetail() {
-      router.push(`/properties/${property.value.id}`);
+      router.push(`properties/${property.value.id}`);
     }
     return {
       summary,

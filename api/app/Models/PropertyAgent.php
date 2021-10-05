@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class PropertyAgent extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'agent_id',
+        'property_id'
+    ];
 }

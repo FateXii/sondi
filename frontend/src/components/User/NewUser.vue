@@ -140,7 +140,7 @@ export default defineComponent({
         } catch (error) {
           errors.value = GetError(error as ResponseError);
           validationErrors.value = [];
-          if (errors.value.validationError !== "API Error, please try again.") {
+          if (errors.value !== "API Error, please try again.") {
             for (const key in errors.value) {
               if (Object.prototype.hasOwnProperty.call(errors.value, key)) {
                 validationErrors.value.push(...errors.value[key]);

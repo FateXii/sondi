@@ -64,7 +64,7 @@ export default defineComponent({
     const address = reactive<IAddress>(new IAddress());
     const sectionalName = ref("");
     const sectionalType = ref("");
-    function handleFormSubmit() {
+    function handleSubmit() {
       SectionalService.create({
         name: sectionalName.value,
         type: sectionalType.value,
@@ -78,7 +78,7 @@ export default defineComponent({
     }
     return {
       address,
-      handleFormSubmit,
+      handleSubmit,
       sectionalName,
       sectionalType,
     };

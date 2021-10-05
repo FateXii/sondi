@@ -15,7 +15,7 @@
       :key="index"
     >
       <span>
-        {{ `${titleCase(feature.name)} ${feature.value}` }}
+        {{ `${titleCase(feature.name)} ${titleCase(feature.value)}` }}
       </span>
       <el-button
         icon="el-icon-delete"

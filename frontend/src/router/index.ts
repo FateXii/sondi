@@ -76,6 +76,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: "properties/:id",
             component: PropertyDetails,
+            props: true,
           },
           {
             path: "new_property",

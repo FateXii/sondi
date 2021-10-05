@@ -13,7 +13,7 @@
         <span class="property__heading__title">{{ property.title }}</span>
       </h1>
       <div class="property__images property-item">
-        <carousel />
+        <carousel :images="images.list" />
       </div>
       <div class="property__description property-item">
         <h3 class="property__description__title">
@@ -40,7 +40,7 @@
           :key="i"
         >
           <span class="property__feature__item__name">
-            {{ feature.feature }}: {{ " " }}
+            {{ feature.name }}: {{ " " }}
           </span>
           <span class="property__feature__item__value">
             {{ feature.value }}
@@ -111,6 +111,7 @@ import {
   onMounted,
   onUnmounted,
   PropType,
+  reactive,
   ref,
   toRefs,
   watchEffect,
@@ -120,6 +121,7 @@ import { onWindowScroll } from "@/Helpers/General";
 import GetScreenWidth from "@/Helpers/GetScreenWidth";
 import Carousel from "./Carousel.vue";
 import PropertyService from "@/services/PropertyService";
+import { List } from "@/Types";
 
 const currencyFormatter = new Intl.NumberFormat("en-ZA", {
   currency: "ZAR",
@@ -188,21 +190,36 @@ export default defineComponent({
         window.removeEventListener("scroll", onWindowScroll);
       }
     });
+    const images = reactive<List<string>>({ list: [] });
     watchEffect(() => {
       PropertyService.get(Number(id.value)).then((response) => {
         property.value = response.data.data;
+        Object.assign(images, {
+          list: property.value.images.map(
+            (image) => `${process.env.VUE_APP_API_HOST}/storage/${image.path}`
+          ),
+        });
       });
     });
     onMounted(() => {
       if (GetScreenWidth.value > 767) {
         window.addEventListener("scroll", onWindowScroll);
       }
+      PropertyService.get(Number(id.value)).then((response) => {
+        property.value = response.data.data;
+        Object.assign(images, {
+          list: property.value.images.map(
+            (image) => `${process.env.VUE_APP_API_HOST}/storage/${image.path}`
+          ),
+        });
+      });
     });
 
     return {
       currencyFormatter,
       GetScreenWidth,
       property,
+      images,
     };
   },
 });
