@@ -1,7 +1,7 @@
 import axios from "axios";
 import { AxiosApiResponse } from "@/Types/Requests";
-import { IProperty } from "@/Types/Property";
 import { ISectional } from "@/Types/Sectional";
+import { ISectionalPayload } from "@/Types/SectionalTypes";
 
 export const requestClient = axios.create({
   baseURL: process.env.VUE_APP_API_HOST,
@@ -24,7 +24,7 @@ export default {
   getAll(): Promise<AxiosApiResponse<ISectional[]>> {
     return requestClient.get("/api/sectionals");
   },
-  create(data: { name: string; type: string }) {
+  create(data: ISectionalPayload) {
     return requestClient.post("/api/sectionals", data);
   },
   delete(id: number) {

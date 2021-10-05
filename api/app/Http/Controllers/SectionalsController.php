@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\SectionalResource;
+use App\Models\Address;
 use App\Models\Sectionals;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -29,12 +30,25 @@ class SectionalsController extends Controller
   {
     $request->validate([
       'name' => 'required|string|unique:sectionals,name',
-      'type' => 'required|string'
+      'type' => 'required|string',
+      'street' => 'required|string',
+      'city' => 'required|string',
+      'province' => 'required|string',
+      'postal_code' => 'required|string',
+
     ]);
     $sectional = new Sectionals();
     $sectional->name = $request['name'];
     $sectional->type = $request['type'];
     $sectional->save();
+
+    Address::create([
+      'street' => $request['street'],
+      'city' => $request['city'],
+      'province' => $request['province'],
+      'postal_code' => $request['postal_code'],
+      'sectionals_id' => $sectional->id,
+    ]);
 
     return response()->json([], Response::HTTP_CREATED);
   }

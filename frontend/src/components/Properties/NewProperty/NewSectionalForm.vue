@@ -37,6 +37,8 @@
 </template>
 
 <script lang="ts">
+import GetError, { ResponseError } from "@/Helpers/GetError";
+import SectionalService from "@/services/SectionalService";
 import { IAddress } from "@/Types/Address";
 import { defineComponent, reactive, ref } from "vue";
 import AddressForm from "../AddressForm.vue";
@@ -63,8 +65,15 @@ export default defineComponent({
     const sectionalName = ref("");
     const sectionalType = ref("");
     function handleFormSubmit() {
-      //TODO {Thendo}: Handle Sectional Property Creation Api Calls
-      emit("newSectionalPropertyCreated");
+      SectionalService.create({
+        name: sectionalName.value,
+        type: sectionalType.value,
+        ...address,
+      })
+        .then(() => {
+          emit("newSectionalPropertyCreated");
+        })
+        .catch((error) => GetError(error as ResponseError));
       return;
     }
     return {
