@@ -45,7 +45,7 @@
 
 <script lang="ts">
 import { IUserDataType } from "@/store/auth";
-import { defineComponent, PropType, reactive, toRef, toRefs, watch } from "vue";
+import { defineComponent, PropType, reactive, toRefs, watch } from "vue";
 
 export interface IAbreviatedUser {
   is_agent: boolean;
@@ -87,7 +87,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-.el-description {
-  width: stretch;
-}
+// .el-description {
+//   width: 100vw;
+// }
 </style>

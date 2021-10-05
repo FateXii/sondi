@@ -222,6 +222,9 @@ export default defineComponent({
       &__buttons {
         margin: 1rem 0;
       }
+      &__container {
+        width: 100%;
+      }
     }
   }
 }
