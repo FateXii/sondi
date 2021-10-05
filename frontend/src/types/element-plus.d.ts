@@ -1,8 +1,5 @@
-import { ElFile } from "@/interfaces";
-
 declare type UploadStatus = "ready" | "uploading" | "success" | "fail";
-
-declare type UploadFile = {
+export declare type UploadFile = {
   name: string;
   percentage?: number;
   status: UploadStatus;
@@ -12,5 +9,6 @@ declare type UploadFile = {
   url?: string;
   raw: ElFile;
 };
-
-export { UploadFile, UploadStatus };
+export interface ElFile extends File {
+  uid: number;
+}

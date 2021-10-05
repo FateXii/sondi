@@ -1,3 +1,6 @@
-import { UploadFile } from "./element-plus.d";
+type Optional<T> = T | undefined;
+interface List<T> {
+  list: T[];
+}
 
-export { UploadFile };
+export { Optional, List };
