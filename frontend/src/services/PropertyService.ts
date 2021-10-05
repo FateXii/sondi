@@ -39,10 +39,8 @@ export default {
   getFeatures(): Promise<AxiosApiResponse<IPropertyFeature[]>> {
     return requestClient.get("api/property/features");
   },
-  createFeature(feature: string) {
-    return requestClient.post("api/property/features/new", {
-      feature,
-    });
+  createFeature(feature: { name: string; type: string }) {
+    return requestClient.post("api/property/features/new", feature);
   },
   getAgents(): Promise<AxiosApiResponse<IAgent[]>> {
     return requestClient.get("api/agents");

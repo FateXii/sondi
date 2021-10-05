@@ -42,6 +42,8 @@
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
 import { Feature } from "@/Types/Feature";
+import PropertyService from "@/services/PropertyService";
+import GetError, { ResponseError } from "@/Helpers/GetError";
 
 export default defineComponent({
   props: { modelValue: { type: Boolean, required: true } },
@@ -62,8 +64,12 @@ export default defineComponent({
   setup(_, { emit }) {
     const feature = reactive<Feature>(new Feature());
     function handleFormSubmit() {
-      //TODO {Thendo}: Handle Sectional Property Creation Api Calls
-      emit("newPropertyFeatureCreated");
+      //TODO {Thendo}: Handle Property Feature Property Creation Api Calls
+      PropertyService.createFeature(feature)
+        .then(() => {
+          emit("newPropertyFeatureCreated");
+        })
+        .catch((error) => GetError(error as ResponseError));
       return;
     }
     return {
