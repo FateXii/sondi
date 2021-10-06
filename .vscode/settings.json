@@ -13,5 +13,8 @@
       "username": "root"
     }
   ],
-  "vetur.validation.interpolation": false
+  "vetur.validation.interpolation": false,
+  "npm.includeDirectories": [
+  "./frontend/"
+  ]
 }

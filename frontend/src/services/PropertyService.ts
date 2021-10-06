@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { AxiosApiResponse } from "@/Types/Requests";
 import { IUserDataType } from "@/store/auth";
 import { IAgent, IProperty, IPropertyFeature } from "@/Types/Property";
@@ -30,7 +30,7 @@ export default {
   update(id: number, data: any) {
     return requestClient.put(`/api/properties/${id}`, data);
   },
-  create(data: FormData) {
+  create(data: FormData): Promise<AxiosResponse<{ id: number }>> {
     return requestClient.post("/api/properties", data);
   },
   delete(id: number) {

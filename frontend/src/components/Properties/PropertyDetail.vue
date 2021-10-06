@@ -1,107 +1,109 @@
 <template>
-  <el-container
-    class="property-detail"
-    id="affix-container"
-    v-loading="!property"
-  >
-    <div class="property" :id="`prop${property.id}`" v-if="property">
-      <h1 class="property__heading">
-        <span class="property__heading__price">
-          {{ currencyFormatter.format(property.price) }}
-        </span>
-        |
-        <span class="property__heading__title">{{ property.title }}</span>
-      </h1>
-      <div class="property__images property-item">
-        <carousel :images="images.list" />
-      </div>
-      <div class="property__description property-item">
-        <h3 class="property__description__title">
-          {{ property.title }}
-        </h3>
-        <div class="property__decription__price">
-          {{ currencyFormatter.format(property.price) }}
-        </div>
-        <div class="property__decription_address">
-          {{ property.address.street }}
-        </div>
-        <h3 class="property__description__heading">
-          {{ property.description_title }}
-        </h3>
-        <p class="property__description__text">
-          {{ property.description }}
-        </p>
-      </div>
-      <div class="property__features property-item">
-        <span class="property__features__heading"> Features </span>
-        <div
-          class="property__feature__item"
-          v-for="(feature, i) in property.features"
-          :key="i"
-        >
-          <span class="property__feature__item__name">
-            {{ feature.name }}: {{ " " }}
+  <el-container v-loading="!property">
+    <div class="property__cover property-item" v-if="property">
+      <youtube-video v-if="property.video_url" :src="property.video_url" />
+      <el-image v-else :src="coverImage" :fit="fit"></el-image>
+    </div>
+    <main class="property-detail" id="affix-container">
+      <div class="property" :id="`prop${property.id}`" v-if="property">
+        <h1 class="property__heading">
+          <span class="property__heading__price">
+            {{ currencyFormatter.format(property.price) }}
           </span>
-          <span class="property__feature__item__value">
-            {{ feature.value }}
-          </span>
+          |
+          <span class="property__heading__title">{{ property.title }}</span>
+        </h1>
+        <div class="property__images property-item">
+          <carousel :images="images.list" />
         </div>
-      </div>
-      <div class="property__agents property-item">
-        <div
-          class="property__agents__item"
-          v-for="agent in property.agents"
-          :key="agent.id"
-        >
-          <el-avatar
-            shape="square"
-            :size="75"
-            fit="fill"
-            :src="agent.image"
-          ></el-avatar>
-
-          <div class="property__agents__item__details">
-            <span class="property__agents__item__details__name">
-              {{ agent.name }}
+        <div class="property__description property-item">
+          <h3 class="property__description__title">
+            {{ property.title }}
+          </h3>
+          <div class="property__decription__price">
+            {{ currencyFormatter.format(property.price) }}
+          </div>
+          <div class="property__decription_address">
+            {{ property.address.street }}
+          </div>
+          <h3 class="property__description__heading">
+            {{ property.description_title }}
+          </h3>
+          <p class="property__description__text">
+            {{ property.description }}
+          </p>
+        </div>
+        <div class="property__features property-item">
+          <span class="property__features__heading"> Features </span>
+          <div
+            class="property__feature__item"
+            v-for="(feature, i) in property.features"
+            :key="i"
+          >
+            <span class="property__feature__item__name">
+              {{ feature.name }}: {{ " " }}
             </span>
-            <span class="property__agents__item__details__number">
-              Call
-              <a href="tel:+">
-                {{ agent.phone_number }}
-              </a>
-            </span>
-            <span class="property__agents__item__details__email">
-              Email
-              <a href="Email:">
-                {{ agent.email }}
-              </a>
+            <span class="property__feature__item__value">
+              {{ feature.value }}
             </span>
           </div>
         </div>
+        <div class="property__agents property-item">
+          <div
+            class="property__agents__item"
+            v-for="agent in property.agents"
+            :key="agent.id"
+          >
+            <el-avatar
+              shape="square"
+              :size="75"
+              fit="fill"
+              :src="agent.image"
+            ></el-avatar>
+
+            <div class="property__agents__item__details">
+              <span class="property__agents__item__details__name">
+                {{ agent.name }}
+              </span>
+              <span class="property__agents__item__details__number">
+                Call
+                <a href="tel:+">
+                  {{ agent.phone_number }}
+                </a>
+              </span>
+              <span class="property__agents__item__details__email">
+                Email
+                <a href="Email:">
+                  {{ agent.email }}
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div
-      :id="`prop${property && property.id}contact`"
-      :class="['contact', 'property-item']"
-    >
-      <el-form class="contact__form">
-        <el-form-item>
-          <el-input placeholder="Name"> </el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-input placeholder="Contact Number"> </el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-input placeholder="Email Address"> </el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-input type="textarea" placeholder="Email Address"> </el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button> Send </el-button>
-        </el-form-item>
-      </el-form>
-    </div>
+      <div
+        :id="`prop${property && property.id}contact`"
+        :class="['contact', 'property-item']"
+      >
+        <el-form class="contact__form">
+          <el-form-item>
+            <el-input placeholder="Name"> </el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input placeholder="Contact Number"> </el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input placeholder="Email Address"> </el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input type="textarea" placeholder="Email Address"> </el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button> Send </el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </main>
   </el-container>
 </template>
 
@@ -122,6 +124,7 @@ import GetScreenWidth from "@/Helpers/GetScreenWidth";
 import Carousel from "./Carousel.vue";
 import PropertyService from "@/services/PropertyService";
 import { List } from "@/Types";
+import YoutubeVideo from "./YoutubeVideo.vue";
 
 const currencyFormatter = new Intl.NumberFormat("en-ZA", {
   currency: "ZAR",
@@ -131,6 +134,7 @@ const currencyFormatter = new Intl.NumberFormat("en-ZA", {
 export default defineComponent({
   components: {
     Carousel,
+    YoutubeVideo,
   },
   props: {
     id: {
@@ -191,6 +195,7 @@ export default defineComponent({
       }
     });
     const images = reactive<List<string>>({ list: [] });
+    const coverImage = ref("");
     watchEffect(() => {
       PropertyService.get(Number(id.value)).then((response) => {
         property.value = response.data.data;
@@ -199,6 +204,7 @@ export default defineComponent({
             (image) => `${process.env.VUE_APP_API_HOST}/storage/${image.path}`
           ),
         });
+        coverImage.value = `${process.env.VUE_APP_API_HOST}/storage/${property.value.cover_image}`;
       });
     });
     onMounted(() => {
@@ -220,35 +226,25 @@ export default defineComponent({
       GetScreenWidth,
       property,
       images,
+      coverImage,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-.el-carousel {
-  &__container {
-    height: fit-content;
-  }
-  &__item {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: center;
-    @media (min-width: 767px) {
-      height: 30rem;
-    }
-    @media (min-width: 320px) {
-      height: 20rem;
-    }
-  }
+.el-container {
+  display: flex;
+  flex-flow: column;
 }
 .property-item {
   border: 0.5px solid rgba($color: #888, $alpha: 0.5);
   margin-bottom: 2rem;
   padding: 1.75rem;
 }
-
+.property__cover {
+  padding: 0;
+}
 .property-detail {
   display: grid;
   grid-template-columns: 2fr 1fr;

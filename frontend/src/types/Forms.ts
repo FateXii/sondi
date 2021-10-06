@@ -10,6 +10,7 @@ export interface IAddressForm {
 export interface IPropertyDescriptionForm {
   title: string;
   price: number;
+  is_rental: boolean;
   address: {
     isSectional: boolean;
     sectionalId: number;

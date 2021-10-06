@@ -8,6 +8,9 @@
         <el-form-item label="Cover Image">
           <single-image-upload @onImageChange="handleCoverImageChange" />
         </el-form-item>
+        <el-form-item label="Youtube Video">
+          <el-input v-model="propertyForm.video_url" />
+        </el-form-item>
       </div>
       <div class="property__images property-item">
         <el-form-item label="Image List">
@@ -50,6 +53,7 @@ import GetError, { ResponseError } from "@/Helpers/GetError";
 import Agents from "./NewProperty/Agents.vue";
 import { IPropertyDescriptionForm } from "@/Types/Forms";
 import { UploadFile } from "element-plus/lib/components/upload/src/upload.type";
+import { useRouter } from "vue-router";
 
 const currencyFormatter = new Intl.NumberFormat("en-ZA", {
   currency: "ZAR",
@@ -77,12 +81,14 @@ export default defineComponent({
       cover_image: UploadFile;
       image_list: UploadFile[];
       agent_list: number[];
+      video_url: string;
       property_description: IPropertyDescriptionForm;
       property_features: IPropertyFeature[];
     }
     const propertyForm = reactive<INewPropertyForm>(
       Object() as INewPropertyForm
     );
+    const router = useRouter();
 
     function createPropertyPayload(propertyForm: INewPropertyForm): FormData {
       const form = new FormData();
@@ -118,6 +124,7 @@ export default defineComponent({
         propertyForm.property_description.is_rental ? "1" : "0"
       );
 
+      form.append("video_url", propertyForm.video_url);
       form.append(
         "is_sectional",
         propertyForm.property_description.address.isSectional ? "1" : "0"
@@ -174,9 +181,11 @@ export default defineComponent({
 
     function createNewProperty() {
       PropertyService.create(createPropertyPayload(propertyForm))
-        .then(() => {
-          console.log("created");
+        .then((response) => {
+          const id = response.data.id;
+          router.push(`/dashboard/properties/${id}`);
         })
+
         .catch((e) => GetError(e as ResponseError));
       // return;
     }
@@ -192,6 +201,7 @@ export default defineComponent({
       handleDescriptionFormChange,
       handleFeatureChange,
       createNewProperty,
+      propertyForm,
       agents,
       selectedAgents,
       propertyTitle,
