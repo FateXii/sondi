@@ -1,11 +1,7 @@
-import { computed, reactive, Ref, ref } from "vue";
+import { reactive, ref } from "vue";
 import AuthService from "@/services/AuthService";
-import useAuthStore, {
-  GetAuthenticatedUser,
-  IUserDataType,
-} from "@/store/auth";
-import { ILoginPayload, IRegistrationPayload } from "@/Types/Auth";
-import { useRouter } from "vue-router";
+import { GetAuthenticatedUser } from "@/store/auth";
+import { ILoginPayload } from "@/Types/Auth";
 import GetError, { ResponseError } from "@/Helpers/GetError";
 
 interface ILoginError {
@@ -15,8 +11,6 @@ interface ILoginError {
 
 export function LoginManager() {
   const loggingIn = ref(false);
-  const router = useRouter();
-  const Auth = useAuthStore();
 
   //Handle login
   const loginForm = reactive<ILoginPayload>({
