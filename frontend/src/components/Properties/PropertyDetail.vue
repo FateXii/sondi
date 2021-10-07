@@ -112,14 +112,12 @@ import {
   defineComponent,
   onMounted,
   onUnmounted,
-  PropType,
   reactive,
   ref,
   toRefs,
   watchEffect,
 } from "vue";
 import { IProperty } from "@/Types/Property";
-import { onWindowScroll } from "@/Helpers/General";
 import GetScreenWidth from "@/Helpers/GetScreenWidth";
 import Carousel from "./Carousel.vue";
 import PropertyService from "@/services/PropertyService";
@@ -145,8 +143,7 @@ export default defineComponent({
   setup(props) {
     const { id } = toRefs(props);
     const property = ref<IProperty | undefined>();
-    const loading = ref(false);
-    function onWindowScroll(e: any) {
+    function onWindowScroll() {
       let contactWidth = Number();
       const propertyDetailContainer = document.getElementById(
         `prop${property.value?.id}`

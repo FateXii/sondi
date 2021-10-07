@@ -40,7 +40,6 @@
 <script lang="ts">
 import { defineComponent, onMounted, reactive, ref } from "vue";
 import GetScreenWidth from "@/Helpers/GetScreenWidth";
-import { NewProperty } from "@/composables/Properties/NewProperty";
 import SingleImageUpload from "@/components/Properties/NewProperty/SingleImageUpload.vue";
 import PropertyFeatureList from "./NewProperty/PropertyFeatures/PropertyFeatureList.vue";
 import PropertyDescriptionForm from "./NewProperty/PropertyDescriptionForm.vue";
@@ -73,7 +72,6 @@ export default defineComponent({
   },
   setup() {
     //TODO {Thendo} : Handle new feature creation api calls and composition
-    const { property } = NewProperty();
     const propertyTitle = ref("");
     const agents = reactive<List<IAgent>>({ list: [] });
     const selectedAgents = reactive<List<number>>({ list: [] });
@@ -185,7 +183,6 @@ export default defineComponent({
           const id = response.data.id;
           router.push(`/dashboard/properties/${id}`);
         })
-
         .catch((e) => GetError(e as ResponseError));
       // return;
     }
@@ -193,7 +190,6 @@ export default defineComponent({
     return {
       currencyFormatter,
       GetScreenWidth,
-      property,
       editing,
       handleCoverImageChange,
       handleAgentListChange,

@@ -21,7 +21,7 @@
 import { defineComponent, ref } from "vue";
 import { AuthManager } from "@/composables/AuthManager";
 import { useRouter } from "vue-router";
-import HeaderMenuItems from "@/components/HeaderMenuItems.vue";
+import HeaderMenuItems from "@/components/Header/HeaderMenuItems.vue";
 import ScreenWidth from "@/Helpers/GetScreenWidth";
 
 export default defineComponent({

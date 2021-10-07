@@ -1,7 +1,6 @@
 <template>
   <div class="properties">
     <IconRow />
-    <h1>Featured</h1>
     <PropertyList />
   </div>
 </template>
