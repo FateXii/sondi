@@ -28,7 +28,14 @@ export default defineComponent({
     const router = useRouter();
     const summary = ref(true);
     function showDetail() {
-      router.push(`properties/${property.value.id}`);
+      if (
+        router.currentRoute.value.name &&
+        router.currentRoute.value.name === "Home"
+      ) {
+        router.push(`/properties/${property.value.id}`);
+      } else {
+        router.push(`properties/${property.value.id}`);
+      }
     }
     return {
       summary,
