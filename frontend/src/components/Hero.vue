@@ -1,24 +1,16 @@
-<template>
+<template lang="html">
   <el-container>
     <div class="hero">
+      <Header class="hero__header" />
       <div class="hero__text">
         <span>Everyone Can Afford Us.</span>
       </div>
       <div class="hero__cta">
         <span class="hero__cta__label">Find out more about</span>
         <div class="hero__cta__buttons">
-          <span
-            class="cta hero__cta__buttons__buying"
-            v-on:click="setBuyingFlag(true)"
-          >
-            <router-link to="#buying"> Buying </router-link>
-          </span>
-          <span
-            class="cta hero__cta__buttons__renting"
-            v-on:click="setBuyingFlag(false)"
-          >
-            <router-link to="#renting"> Renting </router-link>
-          </span>
+          <router-link to="#contact">
+            <el-button type="warning"> Contact Us</el-button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -28,52 +20,34 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
+import Header from "@/components/Header.vue";
 
 export default defineComponent({
+  components: {
+    Header,
+  },
   setup() {
     const router = useRouter();
-    const setBuyingFlag = (flag: boolean) => {
-      const route = flag ? "#buying" : "#renting";
-      router.push(route);
-    };
-    return {
-      setBuyingFlag,
-    };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-.cta {
-  background-color: #f5e1bf;
-  color: black;
-  text-align: center;
-  display: inline;
-  line-height: 1em;
-  border-radius: 6rem;
-  padding: 1.5rem 3.5rem;
-  cursor: pointer;
-}
 .hero {
   background-image: url("../assets/hero_background.jpg");
   width: 100%;
-  height: 56rem;
+  height: 100vh;
   display: grid;
-  background-position: 75rem 0;
   color: white;
-  animation: centerImage 1s;
-  @keyframes centerimage {
-    from {
-      background-position: 0;
-    }
-    to {
-      background-position: 75rem 0;
-    }
-  }
+  background-position: 75rem 0;
   @media (min-width: 767px) {
-    background-position: 0;
-    grid-template: 8.75rem / 8.75rem;
+    background-position: 0 -20rem;
+    grid-template-columns: [line1] 8.75rem [line2] 8.75rem [line3] auto [line4] 8.75rem [line5] 8.75rem [end];
+    grid-template-rows: [line1] 25% [line2] 100px [line3] auto [line4] 100px [line5] 25% [end];
     color: white;
+    &__header {
+      grid-column: 3 / span 1;
+    }
   }
   &__text {
     font-size: 3.4375em;
@@ -85,23 +59,27 @@ export default defineComponent({
     text-align: center;
     @media (min-width: 767px) {
       align-items: flex-start;
-      grid-column: 2 / span 2;
+      grid-column: 3 / span 1;
       text-align: left;
     }
   }
   &__cta {
     display: flex;
-    flex-direction: column;
+    flex-flow: column nowrap;
     align-items: center;
     grid-row: 5 / span 2;
     @media screen and (min-width: 767px) {
-      align-items: flex-start;
-      grid-column: 2 / span 2;
+      flex-flow: row nowrap;
+      align-items: center;
+      grid-column: 3 / span 1;
       grid-row: 4;
     }
     &__label {
       font-size: 1.5em;
       margin-bottom: 2.5rem;
+      @media screen and (min-width: 767px) {
+        margin: 0rem 1rem 0 0;
+      }
     }
     &__buttons {
       display: flex;
@@ -111,20 +89,7 @@ export default defineComponent({
       @media screen and (min-width: 767px) {
         flex-direction: row;
       }
-      &__renting,
-      &__buying {
-        margin: 0.5rem 0;
-        @media screen and (min-width: 767px) {
-          margin-right: 2.5rem;
-        }
-      }
     }
   }
-}
-</style>
-
-<style lang="scss">
-a {
-  text-decoration: none;
 }
 </style>

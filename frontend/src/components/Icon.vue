@@ -1,7 +1,7 @@
 <template>
   <div class="icon">
     <img :src="iconLocation" :alt="altIconDescription" class="icon__image" />
-    <div class="icon__label">{{ iconLabel }}</div>
+    <div class="icon__label" v-if="iconLabel">{{ iconLabel }}</div>
   </div>
 </template>
 
@@ -20,7 +20,7 @@ export default defineComponent({
     },
     iconLabel: {
       type: String,
-      required: true,
+      // required: true,
     },
   },
 });

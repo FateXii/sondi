@@ -1,9 +1,9 @@
 <template>
-  <el-menu>
-    <el-menu-item>
+  <el-menu class="header-menu">
+    <el-menu-item class="header-menu__item">
       <el-button type="warning"> Contact </el-button>
     </el-menu-item>
-    <el-menu-item>
+    <el-menu-item class="header-menu__item">
       <el-button type="warning" @click="toggleLoggedIn" v-if="!user">
         Login
       </el-button>
@@ -54,37 +54,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .header-menu {
-  &__icon {
-    display: flex;
-    width: 2.5rem;
-    img {
-      width: 100%;
-    }
-  }
-  &__items.drawer {
-    padding: 0 2rem;
-  }
-  .lg {
-    display: none;
-  }
-}
-
-@media (min-width: 767px) {
-  .header-menu {
-    .lg {
-      display: flex;
-      align-items: center;
-      a {
-        color: black;
-        font-weight: 600;
-      }
-      & > * {
-        margin-left: 1.5rem;
-      }
-    }
-    &__icon {
-      display: none;
-    }
+  padding: 0;
+  &__item {
+    padding: 0 !important;
   }
 }
 </style>

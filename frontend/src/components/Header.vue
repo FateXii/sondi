@@ -1,17 +1,26 @@
 <template>
   <el-container id="header-container">
     <header class="header">
-      <router-link to="/">
+      <router-link to="/" class="header__logo">
         <img class="logo" src="@/assets/logo.svg" />
       </router-link>
-      <div class="header-menu">
-        <span class="header-menu__icon" @click="drawer = true">
+      <div class="header__nav lg">
+        <router-link to="/"> Home </router-link>
+        <router-link to="#how-to"> How To </router-link>
+        <router-link to="#properties"> Properties </router-link>
+      </div>
+      <div class="header__menu">
+        <span class="header__menu__icon" @click="drawer = true">
           <img src="@/assets/icons/menu-icon.svg" alt="Hamburger Icon" />
         </span>
-        <el-drawer v-model="drawer" :size="ScreenWidth < 767 ? '80%' : '60%'">
-          <HeaderMenuItems class="header-menu__items drawer" />
+        <el-drawer v-model="drawer">
+          <div class="header__nav sm">
+            <router-link to="/"> Home </router-link>
+            <router-link to="#how-to"> How To </router-link>
+            <router-link to="#properties"> Properties </router-link>
+          </div>
+          <HeaderMenuItems class="header__menu__items" />
         </el-drawer>
-        <HeaderMenuItems class="header-menu__items lg" />
       </div>
     </header>
   </el-container>
@@ -47,78 +56,52 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.cta {
-  background-color: #f5e1bf;
-  color: black;
-  text-align: center;
-  display: inline;
-  line-height: 1em;
-  border-radius: 6rem;
-  padding: 1.25rem 2rem;
-  text-align: center;
-}
-#header-container {
-  height: fit-content;
-  flex-grow: 0;
-}
 .header {
-  font-size: 1.875em;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: fit-content;
-  a {
-    display: flex;
+  &__logo {
+    width: 10rem;
     .logo {
-      width: 10rem;
-    }
-  }
-  padding: 1rem 2rem;
-  @media (min-width: 1023px) {
-    padding: 1rem 5rem;
-  }
-  @media (min-width: 767px) {
-    padding: 1rem 1rem;
-    font-size: 1.5em;
-    .logo {
-      img {
-        width: 100%;
-      }
-    }
-  }
-}
-.header-menu {
-  &__icon {
-    display: flex;
-    width: 2.5rem;
-    img {
       width: 100%;
     }
   }
-  &__items.drawer {
-    padding: 0 2rem;
-  }
-  .lg {
-    display: none;
-  }
-}
 
-@media (min-width: 767px) {
-  .header-menu {
-    .lg {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  @media (min-width: 767px) {
+    padding: 1rem 0rem;
+  }
+
+  &__nav {
+    display: flex;
+    flex-flow: column nowrap;
+    &.lg {
+      display: none;
+    }
+    &.sm {
       display: flex;
-      align-items: center;
-      a {
-        color: black;
-        font-weight: 600;
+    }
+    @media (min-width: 767px) {
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      width: 25%;
+      &.lg {
+        display: flex;
       }
-      & > * {
-        margin-left: 1.5rem;
+      &.sm {
+        display: none;
       }
     }
+  }
+  &__menu {
     &__icon {
-      display: none;
+      display: flex;
+      width: 2.5rem;
+      img {
+        width: 100%;
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
-  <div class="properties">
+  <div class="properties" id="how-to">
     <IconRow />
-    <PropertyList />
+    <PropertyList id="properties" />
   </div>
 </template>
 

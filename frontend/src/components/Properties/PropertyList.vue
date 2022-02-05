@@ -1,13 +1,8 @@
 <template>
   <el-container class="property-list">
-    <el-skeleton
-      style="width: 50rem"
-      :loading="loadingProperties"
-      animated
-      count="3"
-    >
+    <el-skeleton :loading="loadingProperties" animated count="3">
       <template #template>
-        <el-skeleton-item variant="image" style="width: 50rem; height: 50rem" />
+        <el-skeleton-item variant="image" />
         <div style="padding: 14px">
           <el-skeleton-item variant="h3" style="width: 40%" />
           <div
@@ -53,7 +48,7 @@ export default defineComponent({
   components: { PropertyItem },
   setup() {
     const loadingProperties = ref(false);
-    const properties = ref<IProperty[]>();
+    const properties = ref<IProperty[]>([]);
     function loadProperties() {
       loadingProperties.value = true;
       PropertyService.getAll()
