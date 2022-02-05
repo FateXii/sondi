@@ -18,7 +18,7 @@ export interface IProperty {
 
 export interface IPropertyFeature {
   id: number;
-  value?: string;
+  value?: string | number;
   type: string;
   name: string;
 }

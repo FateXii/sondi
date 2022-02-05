@@ -1,6 +1,6 @@
 export class Feature {
   id?: number;
-  value: string;
+  value: string | number;
   type: string;
   name: string;
   constructor() {
