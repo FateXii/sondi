@@ -16,5 +16,6 @@
   "vetur.validation.interpolation": false,
   "npm.includeDirectories": [
   "./frontend/"
-  ]
+  ],
+  "npm.exclude": "^api**"
 }
