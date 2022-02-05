@@ -8,9 +8,9 @@
         <el-form-item label="Cover Image">
           <single-image-upload @onImageChange="handleCoverImageChange" />
         </el-form-item>
-        <el-form-item label="Youtube Video">
+        <!-- <el-form-item label="Youtube Video">
           <el-input v-model="propertyForm.video_url" />
-        </el-form-item>
+        </el-form-item> -->
       </div>
       <div class="property__images property-item">
         <el-form-item label="Image List">
@@ -24,7 +24,7 @@
       </div>
       <div class="property__features property-item">
         <el-form-item label="Features">
-          <property-feature-list @newFeatures="handleFeatureChange" />
+          <property-feature @newFeatures="handleFeatureChange" />
         </el-form-item>
       </div>
       <div class="property__agents property-item">
@@ -41,7 +41,7 @@
 import { defineComponent, onMounted, reactive, ref } from "vue";
 import GetScreenWidth from "@/Helpers/GetScreenWidth";
 import SingleImageUpload from "@/components/Properties/NewProperty/SingleImageUpload.vue";
-import PropertyFeatureList from "./NewProperty/PropertyFeatures/PropertyFeatureList.vue";
+import PropertyFeature from "./NewProperty/PropertyFeatures/PropertyFeature.vue";
 import PropertyDescriptionForm from "./NewProperty/PropertyDescriptionForm.vue";
 import { titleCase } from "@/Helpers";
 import MultiImageUpload from "./NewProperty/MultiImageUpload.vue";
@@ -63,7 +63,7 @@ export default defineComponent({
   components: {
     SingleImageUpload,
     PropertyDescriptionForm,
-    PropertyFeatureList,
+    PropertyFeature,
     MultiImageUpload,
     Agents,
   },
@@ -175,6 +175,7 @@ export default defineComponent({
     }
     function handleFeatureChange(property_features: IPropertyFeature[]) {
       Object.assign(propertyForm, { property_features });
+      console.log(property_features);
     }
 
     function createNewProperty() {
