@@ -21,23 +21,58 @@
         </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="warning"> Send </el-button>
+        <el-button type="warning" @click="sendMessage" v-loading="loading">
+          Send
+        </el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
+import GetError, { ResponseError } from "@/Helpers/GetError";
+import Messages from "@/services/Messages";
+import { IMessage } from "@/Types/Message";
+import { ElMessage } from "element-plus";
+import { defineComponent, reactive, ref } from "vue";
 export default defineComponent({
   setup() {
+    const loading = ref(false);
     const message = reactive({
       sender: "",
       email: "",
       message: "",
     });
-    // const contact
+    function sendMessage() {
+      loading.value = true;
+      let newMessage: IMessage = {
+        to: "info@sondi.co.za",
+        from: message.email,
+        message: message.message,
+        subject: `Request for information from website by ${message.sender}`,
+        type: "Enquiry",
+      };
+
+      Messages.create(newMessage)
+        .then(() => {
+          loading.value = false;
+          ElMessage({
+            message: "Message sent.",
+            type: "success",
+          });
+        })
+        .catch((e) => {
+          loading.value = false;
+          ElMessage({
+            message: "Failed.",
+            type: "error",
+          });
+          GetError(e as ResponseError);
+        });
+    }
     return {
       message,
+      loading,
+      sendMessage,
     };
   },
 });

@@ -14,10 +14,12 @@
     "axios": "^0.21.1",
     "core-js": "^3.21.0",
     "element-plus": "^1.1.0-beta.24",
+    "js-cookie": "^3.0.1",
     "vue": "^3.2.29",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "@vue/cli-plugin-babel": "^4.5.15",
