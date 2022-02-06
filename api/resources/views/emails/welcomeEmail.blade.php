@@ -22,6 +22,6 @@ with this email ({{$potentialUser->email}}).
 This service is created for your convinience 
 and should be used as often as possible.
 
-Thanks,<br>
+Thanks You,<br>
 {{ config('app.name') }}
 @endcomponent

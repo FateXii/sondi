@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FeaturesController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PotentialUserController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\SectionalsController;
@@ -48,6 +49,10 @@ Route::apiResource('profiles', UserProfileController::class)->middleware('auth:s
 Route::apiResource(
   'properties',
   PropertyController::class
+);
+Route::apiResource(
+  'messages',
+  MessageController::class
 );
 
 Route::apiResource(

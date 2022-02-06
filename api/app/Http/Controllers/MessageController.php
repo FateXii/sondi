@@ -32,12 +32,15 @@ class MessageController extends Controller
             'from' => 'required|string',
             'subject' => 'required|string',
             'message' => 'required|string',
+            'type' => 'required|string',
+
         ]);
         Message::create([
             'to' => $request['to'],
             'from' => $request['from'],
             'subject' => $request['subject'],
             'message' => $request['message'],
+            'type' => $request['type'],
         ]);
         return response()->json([], Response::HTTP_CREATED);
     }

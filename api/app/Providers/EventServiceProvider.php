@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\NewMessageCreated;
 use App\Events\NewUserCreated;
+use App\Listeners\DispatchMessageNotifications;
 use App\Listeners\SendNewUserNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,7 +24,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         NewUserCreated::class => [
             SendNewUserNotification::class
-        ]
+        ],
+        NewMessageCreated::class => [
+            DispatchMessageNotifications::class
+        ],
     ];
 
     /**
