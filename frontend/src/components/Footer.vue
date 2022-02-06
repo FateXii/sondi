@@ -8,10 +8,7 @@
           </router-link>
         </span>
         <div class="footer__address">
-          <span class="footer__address__line">312 Susan Street</span>
-          <span class="footer__address__line">Wierda Park</span>
-          <span class="footer__address__line">Centurion</span>
-          <span class="footer__address__line">0157</span>
+          <span class="footer__address__line">info@sondi.co.za</span>
         </div>
       </div>
     </el-container>
@@ -33,7 +30,7 @@
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  padding: 2rem 8.375rem;
+  padding: 2rem 8.75rem;
   width: 100%;
   height: 100%;
   overflow: hidden;

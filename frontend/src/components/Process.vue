@@ -19,7 +19,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import ProcessCards from "./ProcessCards.vue";
+import ProcessCards from "@/components/Process/ProcessCards.vue";
 export default defineComponent({
   components: {
     ProcessCards,
@@ -34,32 +34,34 @@ export default defineComponent({
   background-image: url("../assets/ProcessBackground.jpg");
   background-size: cover;
   background-position: 0 0;
-  height: 100vh;
   display: grid;
   padding: 1rem;
   &__description {
     padding: 1rem;
-  }
-  @media screen and (min-width: 767px) {
-    background-image: url("../assets/ProcessBackground.jpg");
-    background-position: 0 0;
-    background-size: cover;
-    grid-template-columns: [line1] 8.75rem [line2] auto [line3] 50vw [line4] 8.75rem[end];
-    grid-template-rows: [line1] 8.75rem [line2] auto [line3] 8.75rem [end];
-    &__description {
-      grid-column: 1 / span 2;
-      grid-row: 2;
+    text-align: center;
+    @media screen and (min-width: 1023px) {
+      grid-column: 2 / span 2;
+      grid-row: 1;
     }
-    &__cards {
+    &__heading {
+      font-size: 3rem;
+    }
+    &__text {
+      font-size: 1.5rem;
+    }
+  }
+  &__cards {
+    @media screen and (min-width: 1023px) {
       grid-column: 3;
       grid-row: 2;
     }
   }
   @media screen and (min-width: 1023px) {
-    &__description {
-      grid-column: 2;
-      grid-row: 2;
-    }
+    background-image: url("../assets/ProcessBackground.jpg");
+    background-position: 0 0;
+    background-size: cover;
+    grid-template-columns: [line1] 8.75rem [line2] auto [line3] 40vw [line4] 8.75rem[end];
+    grid-template-rows: [line1] auto [line2] auto [line3] 8.75rem [end];
   }
   @media screen and (min-width: 1440px) {
     background-position: 0 -40vh;

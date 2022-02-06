@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="248.17" height="174.02" viewBox="0 0 248.17 174.02">
+  <g id="garage" transform="translate(-188.5 -60.831)">
+    <rect id="Rectangle_1" data-name="Rectangle 1" width="247.17" height="173.02" transform="translate(189 61.331)" fill="#ccb286" stroke="#ccb286" stroke-width="1"/>
+    <rect id="Rectangle_2" data-name="Rectangle 2" width="214.22" height="115.35" transform="translate(205.02 119)" fill="#fff" stroke="#ccb286" stroke-width="1"/>
+    <g id="Group_2" data-name="Group 2">
+      <g id="Group_1" data-name="Group 1">
+        <path id="Path_1" data-name="Path 1" d="M347.05,147.88h54.908c4.514,0,4.514-7,0-7H347.05C342.54,140.88,342.54,147.88,347.05,147.88Z" fill="#ccb286"/>
+      </g>
+    </g>
+    <g id="Group_4" data-name="Group 4">
+      <g id="Group_3" data-name="Group 3">
+        <path id="Path_2" data-name="Path 2" d="M222.9,147.34h54.9c4.514,0,4.514-7,0-7H222.9c-4.52,0-4.52,7,0,7Z" fill="#ccb285"/>
+      </g>
+    </g>
+  </g>
+</svg>

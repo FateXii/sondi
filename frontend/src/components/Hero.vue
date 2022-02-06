@@ -40,14 +40,26 @@ export default defineComponent({
   display: grid;
   color: white;
   background-position: 75rem 0;
-  @media (min-width: 767px) {
-    background-position: 0 -20rem;
-    grid-template-columns: [line1] 8.75rem [line2] 8.75rem [line3] auto [line4] 8.75rem [line5] 8.75rem [end];
-    grid-template-rows: [line1] 25% [line2] 100px [line3] auto [line4] 100px [line5] 25% [end];
-    color: white;
-    &__header {
+  &__header {
+    @media (min-width: 767px) {
+      grid-column: 2 / span 1;
+    }
+    @media (min-width: 992px) {
+      grid-column: 2 / span 3;
+    }
+    @media (min-width: 1439px) {
       grid-column: 3 / span 1;
     }
+  }
+  @media (min-width: 767px) {
+    background-position: 0 -20rem;
+    grid-template-columns: [line1] 8.75rem [line2] auto [line3] 8.75rem [end];
+    grid-template-rows: [line1] 25% [line2] 100px [line3] auto [line4] 100px [line5] 25% [end];
+    color: white;
+  }
+  @media (min-width: 992px) {
+    grid-template-columns: [line1] 8.75rem [line2] 8.75rem [line3] auto [line4] 8.75rem [line5] 8.75rem [end];
+    grid-template-rows: [line1] 25% [line2] 100px [line3] auto [line4] 100px [line5] 25% [end];
   }
   &__text {
     font-size: 3.4375em;
@@ -55,12 +67,14 @@ export default defineComponent({
     align-items: center;
     flex-direction: column;
     grid-row: 3;
-
     text-align: center;
     @media (min-width: 767px) {
       align-items: flex-start;
-      grid-column: 3 / span 1;
+      grid-column: 2 / span 1;
       text-align: left;
+    }
+    @media (min-width: 992px) {
+      grid-column: 3 / span 1;
     }
   }
   &__cta {
@@ -71,8 +85,11 @@ export default defineComponent({
     @media screen and (min-width: 767px) {
       flex-flow: row nowrap;
       align-items: center;
-      grid-column: 3 / span 1;
+      grid-column: 2 / span 1;
       grid-row: 4;
+      @media (min-width: 992px) {
+        grid-column: 3 / span 1;
+      }
     }
     &__label {
       font-size: 1.5em;

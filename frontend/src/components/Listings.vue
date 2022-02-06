@@ -1,6 +1,6 @@
 <template>
   <div class="properties" id="how-to">
-    <IconRow />
+    <!-- <IconRow /> -->
     <PropertyList id="properties" />
   </div>
 </template>
@@ -8,11 +8,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import PropertyList from "@/components/Properties/PropertyList.vue";
-import IconRow from "@/components/Listings/IconRow.vue";
+// import IconRow from "@/components/Listings/IconRow.vue";
 export default defineComponent({
   components: {
     PropertyList,
-    IconRow,
+    // IconRow,
   },
   setup() {
     return;

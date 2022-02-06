@@ -83,7 +83,7 @@ export default defineComponent({
     &.sm {
       display: flex;
     }
-    @media (min-width: 767px) {
+    @media (min-width: 992px) {
       flex-flow: row nowrap;
       justify-content: space-between;
       width: 25%;
