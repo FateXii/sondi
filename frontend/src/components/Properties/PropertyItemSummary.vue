@@ -36,7 +36,8 @@ export default defineComponent({
   },
   data() {
     return {
-      image: `${process.env.VUE_APP_API_HOST}/storage/${this.property.cover_image}`,
+      // image: `${process.env.VUE_APP_API_HOST}/storage/${this.property.cover_image}`,
+      image: `${this.property.cover_image}`,
     };
   },
   setup(props) {

@@ -19,10 +19,6 @@
       </el-dropdown>
     </el-menu-item>
   </el-menu>
-  <!-- <div class="header-menu__items">
-    >
-    <a @click="setBuying(false)" class="info-link" href="#renting"> Renting </a>
-  </div> -->
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";

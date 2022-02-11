@@ -4,7 +4,6 @@
     v-loading="loading"
     element-loading-background="rgba(255, 255, 255, 1)"
   >
-    <!-- <Header /> -->
     <router-view></router-view>
     <Footer />
   </el-container>
@@ -12,13 +11,11 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
-// import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import { GetAuthenticatedUser } from "@/store/auth";
 import { useRouter } from "vue-router";
 export default defineComponent({
   components: {
-    // Header,
     Footer,
   },
   setup() {
