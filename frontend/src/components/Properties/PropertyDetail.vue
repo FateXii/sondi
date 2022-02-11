@@ -1,8 +1,16 @@
 <template>
   <el-container v-loading="!property">
     <div class="property__cover property-item" v-if="property">
-      <youtube-video v-if="property.video_url" :src="property.video_url" />
-      <el-image v-else :src="coverImage" :fit="fit"></el-image>
+      <youtube-video
+        v-if="property.video_url.length > 0"
+        :src="property.video_url"
+      />
+      <el-image
+        v-else
+        :src="coverImage"
+        fit="fill"
+        style="width: 100%"
+      ></el-image>
     </div>
     <main class="property-detail" id="affix-container">
       <div class="property" :id="`prop${property.id}`" v-if="property">
@@ -34,7 +42,9 @@
           </p>
         </div>
         <div class="property__features property-item">
-          <span class="property__features__heading"> Features </span>
+          <h2>
+            <span class="property__features__heading"> Features </span>
+          </h2>
           <div
             class="property__feature__item"
             v-for="(feature, i) in property.features"
@@ -49,34 +59,39 @@
           </div>
         </div>
         <div class="property__agents property-item">
-          <div
-            class="property__agents__item"
-            v-for="agent in property.agents"
-            :key="agent.id"
-          >
-            <el-avatar
-              shape="square"
-              :size="75"
-              fit="fill"
-              :src="agent.image"
-            ></el-avatar>
+          <h2>Agents</h2>
+          <div class="property__agents__container">
+            <div
+              class="property__agents__constainer__item"
+              v-for="agent in property.agents"
+              :key="agent.id"
+            >
+              <el-avatar
+                shape="square"
+                :size="75"
+                fit="fill"
+                :src="agent.image"
+              ></el-avatar>
 
-            <div class="property__agents__item__details">
-              <span class="property__agents__item__details__name">
-                {{ agent.name }}
-              </span>
-              <span class="property__agents__item__details__number">
-                Call
-                <a href="tel:+">
-                  {{ agent.phone_number }}
-                </a>
-              </span>
-              <span class="property__agents__item__details__email">
-                Email
-                <a href="Email:">
-                  {{ agent.email }}
-                </a>
-              </span>
+              <div class="property__agents__container__item__details">
+                <span class="property__agents__container__item__details__name">
+                  {{ agent.name }}
+                </span>
+                <span
+                  class="property__agents__container__item__details__number"
+                >
+                  Call
+                  <a href="tel:+">
+                    {{ agent.phone_number }}
+                  </a>
+                </span>
+                <span class="property__agents__container__item__details__email">
+                  Email
+                  <a href="Email:">
+                    {{ agent.email }}
+                  </a>
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -85,6 +100,7 @@
         :id="`prop${property && property.id}contact`"
         :class="['contact', 'property-item']"
       >
+        <h2>Contact Us</h2>
         <el-form class="contact__form">
           <el-form-item>
             <el-input placeholder="Name"> </el-input>
@@ -197,11 +213,9 @@ export default defineComponent({
       PropertyService.get(Number(id.value)).then((response) => {
         property.value = response.data.data;
         Object.assign(images, {
-          list: property.value.images.map(
-            (image) => `${process.env.VUE_APP_API_HOST}/storage/${image.path}`
-          ),
+          list: property.value.images.map((image) => `${image.path}`),
         });
-        coverImage.value = `${process.env.VUE_APP_API_HOST}/storage/${property.value.cover_image}`;
+        coverImage.value = `${property.value.cover_image}`;
       });
     });
     onMounted(() => {
@@ -211,9 +225,7 @@ export default defineComponent({
       PropertyService.get(Number(id.value)).then((response) => {
         property.value = response.data.data;
         Object.assign(images, {
-          list: property.value.images.map(
-            (image) => `${process.env.VUE_APP_API_HOST}/storage/${image.path}`
-          ),
+          list: property.value.images.map((image) => `${image.path}`),
         });
       });
     });
@@ -233,6 +245,9 @@ export default defineComponent({
 .el-container {
   display: flex;
   flex-flow: column;
+  @media (min-width: 992px) {
+    // padding: 0 17.5rem;
+  }
 }
 .property-item {
   border: 0.5px solid rgba($color: #888, $alpha: 0.5);
@@ -261,24 +276,26 @@ export default defineComponent({
     flex: 2;
     &__agents {
       font-size: 0.825rem;
-      // display: flex;
-      // flex-flow: column nowrap;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-      &__item {
-        display: flex;
-        flex-flow: row nowrap;
-        margin-bottom: 1rem;
-        .el-avatar {
-          margin-right: 1rem;
-          flex: 1;
-          min-width: 5rem;
-          max-width: 5rem;
-        }
-        &__details {
-          flex: 3;
+      display: flex;
+      flex-flow: column nowrap;
+      &__container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+        &__item {
           display: flex;
-          flex-flow: column nowrap;
+          flex-flow: row nowrap;
+          margin-bottom: 1rem;
+          .el-avatar {
+            margin-right: 1rem;
+            flex: 1;
+            min-width: 5rem;
+            max-width: 5rem;
+          }
+          &__details {
+            flex: 3;
+            display: flex;
+            flex-flow: column nowrap;
+          }
         }
       }
     }
