@@ -27,9 +27,9 @@ class DatabaseSeeder extends Seeder
             )->createOne();
 
         $this->call([
-            // PotentialUserSeeder::class,
-            // PropertySeeder::class,
-            FeaturesSeeder::class,
+            PotentialUserSeeder::class,
+            PropertySeeder::class,
+            // FeaturesSeeder::class,
         ]);
     }
 }
