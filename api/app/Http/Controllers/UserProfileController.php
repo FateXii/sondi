@@ -100,7 +100,7 @@ class UserProfileController extends Controller
                 if ($photo) {
                     Storage::delete($photo);
                 }
-                $photo = env('APP_URL') . '\/storage\/' . $request->file('photo')->store('images', 'public');
+                $photo = env('APP_URL') . '/' . 'storage' . '/' . $request->file('photo')->store('images', 'public');
             }
 
             $fields = [

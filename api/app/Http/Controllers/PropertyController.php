@@ -63,7 +63,7 @@ class PropertyController extends Controller
       'images' => 'required|array',
       'features' => 'required|json',
     ]);
-    $cover_image = $request->file('cover_image')->store('images', 'public');
+    $cover_image = env('APP_URL') . '/' . 'storage' . '/' . $request->file('cover_image')->store('images', 'public');
     $address_data = [
       'street'        => $request->street,
       'city'          => $request->city,
@@ -100,7 +100,8 @@ class PropertyController extends Controller
       foreach ($request->file('images') as $file) {
         $image = new Image;
         $image->property_id = $property->id;
-        $image->path = env('APP_URL') . '\/storage\/' . $file->store('images', 'public');
+        $path = $file->store('images', 'public');
+        $image->path = env('APP_URL') . '/' . 'storage' . '/' . $path;
         $image->save();
       }
     }
@@ -226,23 +227,39 @@ class PropertyController extends Controller
   /**
    * Remove the specified property from storage.
    *
-   * @param  integer  $property
+   * @param  int  $property_id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($property)
+  public function destroy($property_id)
   {
-    $property = Property::where('id', $property)->first();
-    Storage::delete($property->cover_image);
+    if (!Property::where('id', $property_id)->first()) {
+      return new Response("Item does not exist", Response::HTTP_BAD_REQUEST);
+    }
+    /**
+     * @var  \App\Models\Property  $property
+     */
+    $property = Property::where('id', $property_id)->first();
+    $uri_components = explode('/', $property->cover_image);
+    $image_path = array_pop($uri_components);
+    Storage::delete($image_path);
     $images = Image::all()->where('property_id', $property->id);
     foreach ($images as $image) {
       $currentImage = Image::all()->firstWhere('image_id', $image->image_id);
 
-      $image_path = last(str_split('/', $currentImage->path));
+      $uri_components = explode('/', $currentImage->path);
+      $image_path = array_pop($uri_components);
       Storage::delete($image_path);
     }
-    if ($property->sectionalUnit()) {
-      $property->sectionalUnit()->delete();
+    if ($property->sectional_unit() !== null) {
+      $property->sectional_unit()->delete();
     }
     $property->delete();
+    if (!Property::where('id', $property_id)->first()) {
+      return new Response([
+        'message' => 'property not found',
+      ], Response::HTTP_NO_CONTENT);
+    } else {
+      return new Response([], Response::HTTP_BAD_REQUEST);
+    }
   }
 }
