@@ -15,17 +15,25 @@
       </div>
     </div>
     <process-cards class="process__cards"></process-cards>
+    <div class="process__cta">
+      Find You Dream Home
+      <el-button type="warning" @click="router.push('/properties')"
+        >Properties</el-button
+      >
+    </div>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
 import ProcessCards from "@/components/Process/ProcessCards.vue";
+import { useRouter } from "vue-router";
 export default defineComponent({
   components: {
     ProcessCards,
   },
   setup() {
-    return {};
+    const router = useRouter();
+    return { router };
   },
 });
 </script>
@@ -52,11 +60,22 @@ export default defineComponent({
   }
   &__cards {
     @media screen and (min-width: 1023px) {
-      grid-column: 3;
+      grid-column: 2 / span 2;
       grid-row: 2;
+    }
+    @media screen and (min-width: 1439px) {
+      grid-column: 3;
+    }
+  }
+  &__cta {
+    @media screen and (min-width: 1023px) {
+      grid-column: 2 / span 2;
+      text-align: center;
+      margin-top: 4rem;
     }
   }
   @media screen and (min-width: 1023px) {
+    min-height: 50vw;
     background-image: url("../assets/ProcessBackground.jpg");
     background-position: 0 0;
     background-size: cover;
@@ -64,7 +83,7 @@ export default defineComponent({
     grid-template-rows: [line1] auto [line2] auto [line3] 8.75rem [end];
   }
   @media screen and (min-width: 1440px) {
-    background-position: 0 -40vh;
+    background-position: 0 -25vh;
   }
   @media screen and (min-width: 1919px) {
     background-image: url("../assets/background-2462430.jpg");

@@ -20,7 +20,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .contact {
   background-image: url("../assets/contact.png");
-  height: 87vh;
+  height: 90vh;
   background-position: 6rem -51vh;
   display: grid;
   @media screen and (min-width: 767px) {

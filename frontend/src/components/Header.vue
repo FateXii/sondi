@@ -6,8 +6,8 @@
       </router-link>
       <div class="header__nav lg">
         <router-link to="/"> Home </router-link>
-        <router-link to="#how-to"> How To </router-link>
-        <router-link to="#properties"> Properties </router-link>
+        <router-link to="/#how-to"> How To </router-link>
+        <router-link to="/properties"> Properties </router-link>
       </div>
       <div class="header__menu">
         <span class="header__menu__icon" @click="drawer = true">
@@ -16,8 +16,8 @@
         <el-drawer v-model="drawer">
           <div class="header__nav sm">
             <router-link to="/"> Home </router-link>
-            <router-link to="#how-to"> How To </router-link>
-            <router-link to="#properties"> Properties </router-link>
+            <router-link to="/#how-to"> How To </router-link>
+            <router-link to="/properties"> Properties </router-link>
           </div>
           <HeaderMenuItems class="header__menu__items" />
         </el-drawer>

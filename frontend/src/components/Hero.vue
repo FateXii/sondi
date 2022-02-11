@@ -6,7 +6,7 @@
         <span>Everyone Can Afford Us.</span>
       </div>
       <div class="hero__cta">
-        <span class="hero__cta__label">Find out more about</span>
+        <span class="hero__cta__label">Find out more</span>
         <div class="hero__cta__buttons">
           <router-link to="#contact">
             <el-button type="warning"> Contact Us</el-button>
