@@ -7,25 +7,41 @@
     active-text-color="#ffd04b"
     :mode="displayWidth > 767 ? 'horizontal' : 'vertical'"
   >
-    <el-sub-menu v-if="isAdmin" index="1">
+    <el-menu-item>
+      <Icon
+        icon-location="./icons/logo-light.svg"
+        alt-icon-description="sondi logo"
+      />
+    </el-menu-item>
+    <el-sub-menu index="1">
+      <template #title>
+        <span>{{ Auth.user.value?.name }}</span>
+      </template>
+      <el-menu-item @click="logout()" index="1-1">
+        <template #title>
+          <span>Logout</span>
+        </template>
+      </el-menu-item>
+    </el-sub-menu>
+    <el-sub-menu v-if="isAdmin" index="2">
       <template #title>
         <i class="el-icon-user"></i>
         <span>Manage Users</span>
       </template>
-      <el-menu-item @click="router.push('/dashboard/users')" index="1-1">
+      <el-menu-item @click="router.push('/dashboard/users')" index="2-1">
         <template #title>
           <i class="el-icon-view"></i>
           <span>View All Users</span>
         </template>
       </el-menu-item>
-      <el-sub-menu index="1-2">
+      <el-sub-menu index="2-2">
         <template #title>
           <i class="el-icon-plus"></i>
           <span>New Users</span>
         </template>
         <el-menu-item
           @click="router.push('/dashboard/new_user/admin')"
-          index="1-2-1"
+          index="2-2-1"
         >
           <template #title>
             <span>Admin</span>
@@ -33,7 +49,7 @@
         </el-menu-item>
         <el-menu-item
           @click="router.push('/dashboard/new_user/agent')"
-          index="1-2-2"
+          index="2-2-2"
         >
           <template #title>
             <span>Agent</span>
@@ -42,13 +58,13 @@
       </el-sub-menu>
     </el-sub-menu>
 
-    <el-sub-menu v-if="isAdmin || isAgent" index="2">
+    <el-sub-menu v-if="isAdmin || isAgent" index="3">
       <template #title>
         <i class="el-icon-s-custom"></i>
         <span>Manage Tenants</span>
       </template>
       <el-menu-item
-        index="2-1"
+        index="3-1"
         @click="router.push('/dashboard/new_user/tenant')"
       >
         <template #title>
@@ -57,7 +73,7 @@
         </template>
       </el-menu-item>
       <router-link to="/dashboard/users">
-        <el-menu-item index="2-2">
+        <el-menu-item index="3-2">
           <template #title>
             <i class="el-icon-view"></i>
             <span>View All Tenants</span>
@@ -66,29 +82,29 @@
       </router-link>
     </el-sub-menu>
 
-    <el-sub-menu index="3">
+    <el-sub-menu index="4">
       <template #title>
         <i class="el-icon-house"></i>
         <span>Manage Properties</span>
       </template>
       <router-link to="/dashboard/new_property">
-        <el-menu-item index="3-1">
+        <el-menu-item index="4-1">
           <template #title>
             <i class="el-icon-plus"></i>
             <span>New Property</span>
           </template>
         </el-menu-item>
       </router-link>
-      <el-sub-menu index="3-2">
+      <el-sub-menu index="4-2">
         <template #title>
           <i class="el-icon-view"></i>
           <span>View Properties</span>
         </template>
         <router-link to="/dashboard/properties">
-          <el-menu-item index="3-2-1"> View All Properties </el-menu-item>
+          <el-menu-item index="4-2-1"> View All Properties </el-menu-item>
         </router-link>
-        <el-menu-item index="3-2-2"> View Sectional Properties</el-menu-item>
-        <el-menu-item index="3-2-3"> View Stand Alone Properties</el-menu-item>
+        <el-menu-item index="4-2-2"> View Sectional Properties</el-menu-item>
+        <el-menu-item index="4-2-3"> View Stand Alone Properties</el-menu-item>
       </el-sub-menu>
     </el-sub-menu>
   </el-menu>
@@ -103,13 +119,16 @@
 import { computed, defineComponent, onUnmounted, ref } from "vue";
 import useAuthStore from "@/store/auth";
 import { useRouter } from "vue-router";
+import Icon from "../Icon.vue";
+import { AuthManager } from "@/composables/AuthManager";
 
 export default defineComponent({
-  components: {},
+  components: { Icon },
   setup() {
     const router = useRouter();
     const Auth = useAuthStore();
     const isLoggedIn = Auth.IsAthenticated.value;
+    const { logout, loggingOut } = AuthManager();
 
     const isAdmin = computed(() => Auth.IsAdmin());
     const isAgent = computed(() => Auth.IsAgent());
@@ -129,6 +148,7 @@ export default defineComponent({
       Auth,
       displayWidth,
       router,
+      logout,
     };
   },
 });
