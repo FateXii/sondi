@@ -100,7 +100,7 @@ class PropertyController extends Controller
       foreach ($request->file('images') as $file) {
         $image = new Image;
         $image->property_id = $property->id;
-        $image->path = $file->store('images', 'public');
+        $image->path = env('APP_URL') . '\/storage\/' . $file->store('images', 'public');
         $image->save();
       }
     }
@@ -236,7 +236,9 @@ class PropertyController extends Controller
     $images = Image::all()->where('property_id', $property->id);
     foreach ($images as $image) {
       $currentImage = Image::all()->firstWhere('image_id', $image->image_id);
-      Storage::delete($currentImage->path);
+
+      $image_path = last(str_split('/', $currentImage->path));
+      Storage::delete($image_path);
     }
     if ($property->sectionalUnit()) {
       $property->sectionalUnit()->delete();
