@@ -8,7 +8,7 @@
       <div class="hero__cta">
         <span class="hero__cta__label">Find out more</span>
         <div class="hero__cta__buttons">
-          <router-link to="#contact">
+          <router-link to="\#contact">
             <el-button type="warning"> Contact Us</el-button>
           </router-link>
         </div>
@@ -19,16 +19,13 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useRouter } from "vue-router";
 import Header from "@/components/Header.vue";
 
 export default defineComponent({
   components: {
     Header,
   },
-  setup() {
-    const router = useRouter();
-  },
+  setup() {},
 });
 </script>
 

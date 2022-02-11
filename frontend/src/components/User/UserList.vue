@@ -7,8 +7,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, ref } from "vue";
-import useAuthStore, { IUserDataType } from "@/store/auth";
+import { defineComponent, onMounted, ref } from "vue";
+import { IUserDataType } from "@/store/auth";
 import UserItem from "@/components/User/UserItem.vue";
 import UserService from "@/services/UsersService";
 
@@ -17,7 +17,6 @@ export default defineComponent({
     UserItem,
   },
   setup() {
-    const Auth = useAuthStore();
     const loading = ref(false);
     const photo = ref("");
     const users = ref<IUserDataType[]>([]);

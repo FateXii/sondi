@@ -1,4 +1,3 @@
-import { useRouter } from "vue-router";
 import { reactive, ref } from "vue";
 import UsersService from "@/services/UsersService";
 import GetError, { ResponseError } from "@/Helpers/GetError";

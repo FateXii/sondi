@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, watchEffect } from "vue";
+import { defineComponent, ref } from "vue";
 import { LoginManager } from "@/composables/Auth/LoginManager";
 import GetError, { ResponseError } from "@/Helpers/GetError";
 import { useRouter } from "vue-router";

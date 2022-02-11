@@ -9,6 +9,7 @@ interface ILoginError {
   password?: string[];
 }
 
+//TODO: Missing return type on function
 export function LoginManager() {
   const loggingIn = ref(false);
 

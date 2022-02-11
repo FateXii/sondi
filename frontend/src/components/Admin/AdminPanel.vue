@@ -128,7 +128,7 @@ export default defineComponent({
     const router = useRouter();
     const Auth = useAuthStore();
     const isLoggedIn = Auth.IsAthenticated.value;
-    const { logout, loggingOut } = AuthManager();
+    const { logout } = AuthManager();
 
     const isAdmin = computed(() => Auth.IsAdmin());
     const isAgent = computed(() => Auth.IsAgent());

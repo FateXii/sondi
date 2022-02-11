@@ -8,7 +8,9 @@
       v-for="(image, i) in images"
       :key="i"
     >
-      <div class="numbertext">{{ `${i + 1} / ${images.length}` }}</div>
+      <div v-if="images" class="numbertext">
+        {{ `${i + 1} / ${images.length}` }}
+      </div>
       <img :src="image" style="width: 100%" />
     </div>
 
@@ -30,14 +32,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  onMounted,
-  PropType,
-  ref,
-  watch,
-  watchEffect,
-} from "vue";
+import { defineComponent, PropType, ref, watchEffect } from "vue";
 
 export default defineComponent({
   props: {

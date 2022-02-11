@@ -29,7 +29,7 @@
 <script lang="ts">
 import { titleCase } from "@/Helpers";
 import GetError, { ResponseError } from "@/Helpers/GetError";
-import { ICurrentFeature, IPropertyFeature } from "@/Types/Property";
+import { IPropertyFeature } from "@/Types/Property";
 import PropertyService from "@/services/PropertyService";
 import {
   defineComponent,
@@ -38,9 +38,7 @@ import {
   reactive,
   ref,
   watch,
-  watchEffect,
 } from "vue";
-import { Feature } from "@/Types/Feature";
 import { List } from "@/Types";
 import NewPropertyFeature from "./NewPropertyFeature.vue";
 
@@ -48,7 +46,7 @@ export default defineComponent({
   components: { NewPropertyFeature },
   emits: {
     newFeatures: (features: IPropertyFeature[]) => {
-      return true;
+      return features !== undefined;
     },
   },
   setup(_, { emit }) {

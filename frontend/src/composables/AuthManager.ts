@@ -3,6 +3,7 @@ import AuthService from "@/services/AuthService";
 import useAuthStore from "@/store/auth";
 import GetError, { ResponseError } from "@/Helpers/GetError";
 
+//TODO: Missing return type on function
 export function AuthManager() {
   const loggingOut = ref(false);
   const Auth = useAuthStore();

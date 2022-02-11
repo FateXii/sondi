@@ -11,8 +11,8 @@ interface IRegistrationError {
   password_confirmation?: string[];
 }
 
+//TODO: Missing return type on function
 export function RegistrationManager() {
-  const router = useRouter();
   const registrationForm = reactive<IRegistrationPayload>({
     name: "",
     email: "",
@@ -20,7 +20,6 @@ export function RegistrationManager() {
     password_confirmation: "",
   });
   const validator = (rule: any, value: string, callback: any) => {
-    const errors: Error[] = [];
     if (value !== registrationForm.password) {
       callback(new Error("Passwords must match"));
     }
