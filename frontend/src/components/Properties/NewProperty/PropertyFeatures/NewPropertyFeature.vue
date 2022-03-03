@@ -1,11 +1,11 @@
-<template>
-  <el-dialog v-model="isOpen" title="Warning" width="100%" center>
+<template lang="html">
+  <el-dialog v-model="isOpen" title="Warning" width="70%" center>
     <el-form
       label-position="top"
       v-model="feature"
       @submit="
         () => {
-          handleSubmit();
+          handleFormSubmit();
           isOpen = false;
         }
       "
@@ -13,11 +13,20 @@
       <el-form-item label="Feature Name">
         <el-input v-model="feature.name"></el-input>
       </el-form-item>
-      <el-form-item label="Feature Value">
-        <el-input v-model="feature.value"></el-input>
-      </el-form-item>
       <el-form-item label="Feature Type">
-        <el-input v-model="feature.type"></el-input>
+        <el-select
+          v-model="feature.type"
+          placeholder="Feature Type"
+          size="small"
+        >
+          <el-option
+            v-for="type in types"
+            :key="type.name"
+            :label="titleCase(type.name)"
+            :value="type.type"
+          >
+          </el-option>
+        </el-select>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -27,7 +36,7 @@
           type="primary"
           @click="
             () => {
-              handleSubmit();
+              handleFormSubmit();
               isOpen = false;
             }
           "
@@ -44,6 +53,7 @@ import { defineComponent, reactive } from "vue";
 import { Feature } from "@/Types/Feature";
 import PropertyService from "@/services/PropertyService";
 import GetError, { ResponseError } from "@/Helpers/GetError";
+import { titleCase } from "@/Helpers";
 
 export default defineComponent({
   props: { modelValue: { type: Boolean, required: true } },
@@ -72,9 +82,25 @@ export default defineComponent({
         .catch((error) => GetError(error as ResponseError));
       return;
     }
+    const types = [
+      {
+        name: "True/False",
+        type: "boolean",
+      },
+      {
+        name: "Word",
+        type: "string",
+      },
+      {
+        name: "Number",
+        type: "number",
+      },
+    ];
     return {
       feature,
       handleFormSubmit,
+      titleCase,
+      types,
     };
   },
 });

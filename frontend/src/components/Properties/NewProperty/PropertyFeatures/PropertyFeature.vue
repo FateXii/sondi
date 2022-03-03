@@ -1,6 +1,6 @@
 <template>
   <div class="property-feature-input">
-    <el-form label-width="150px" label-position="left">
+    <el-form label-width="150px" label-position="left" :loading="loading">
       <el-form-item
         v-for="feature in features.list"
         :label="titleCase(feature.name)"
@@ -23,7 +23,10 @@
       @click="newPropertyFeatureDialog = true"
       >Create New</el-button
     >
-    <new-property-feature v-model="newPropertyFeatureDialog" />
+    <new-property-feature
+      v-model="newPropertyFeatureDialog"
+      @new-property-feature-created="refreshFeatures"
+    />
   </div>
 </template>
 <script lang="ts">
@@ -51,18 +54,14 @@ export default defineComponent({
   },
   setup(_, { emit }) {
     const features = reactive<List<IPropertyFeature>>({ list: [] });
-    // const currentFeatureId = ref(-1);
-    // const featureValue = ref<string>("");
-    // const featureType = ref("number");
-    // const currentFeature = reactive<ICurrentFeature>({
-    //   id: 0,
-    //   ...new Feature(),
-    // });
     const newPropertyFeatureDialog = ref(false);
+    async function getFeatures() {
+      return await PropertyService.getFeatures();
+    }
     onMounted(async () => {
       await nextTick();
       try {
-        const response = await PropertyService.getFeatures();
+        const response = await getFeatures();
         features.list = response.data.data;
         features.list.map((feature) => {
           if (feature.type === "number") {
@@ -81,11 +80,28 @@ export default defineComponent({
     watch(features, () => {
       emit("newFeatures", features.list);
     });
-
+    const loading = ref(false);
+    function refreshFeatures() {
+      let tempFeatures = features.list;
+      getFeatures().then((_features) => {
+        loading.value = true;
+        for (let index = 0; index < _features.data.data.length; index++) {
+          const _feature = _features.data.data[index];
+          if (!tempFeatures.find((feat) => feat.id === _feature.id)) {
+            tempFeatures.push(_feature);
+          }
+        }
+        features.list = [];
+        features.list = [...tempFeatures];
+        loading.value = false;
+      });
+    }
     return {
       features,
       newPropertyFeatureDialog,
       titleCase,
+      refreshFeatures,
+      loading,
     };
   },
 });
