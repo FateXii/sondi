@@ -25,7 +25,6 @@ export default defineComponent({
   components: {
     Header,
   },
-  setup() {},
 });
 </script>
 
