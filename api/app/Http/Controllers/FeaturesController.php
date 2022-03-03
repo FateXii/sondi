@@ -24,7 +24,7 @@ class FeaturesController extends Controller
         $user = Auth::user();
 
         $request->validate([
-            'name' => 'required|string|unique:features,feature',
+            'name' => 'required|string|unique:features,name',
             'type' => 'required|string|in:' . join(',', Features::$acceptedFeatureTypes),
         ]);
         if ($user && ($user->isAdmin() || $user->isAgent())) {
