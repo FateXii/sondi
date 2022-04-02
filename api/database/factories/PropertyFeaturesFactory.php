@@ -26,7 +26,10 @@ class PropertyFeaturesFactory extends Factory
         return [
             'feature_id' => Features::factory(),
             'property_id' => Property::factory(),
-            // 'value' => ,
+            'value' => function (array $features) {
+                $type = Features::find($features['feature_id'])->type;
+                return $type == 'number' || $type == 'area' ? strval($this->faker->randomNumber(8)) : $this->faker->randomElement(['yes', 'no']);
+            }
         ];
     }
 }

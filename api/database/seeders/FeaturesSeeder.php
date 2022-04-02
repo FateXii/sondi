@@ -25,11 +25,11 @@ class FeaturesSeeder extends Seeder
             ],
             [
                 'name' => 'interior space',
-                'type' => 'number',
+                'type' => 'area',
             ],
             [
                 'name' => 'plot size',
-                'type' => 'number',
+                'type' => 'area',
             ],
             [
                 'name' => 'swimming pool',

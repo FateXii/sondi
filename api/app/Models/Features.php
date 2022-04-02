@@ -19,6 +19,7 @@ class Features extends Model
         'number',
         'string',
         'boolean',
+        'area'
     ];
     public function property()
     {
