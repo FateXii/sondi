@@ -10,6 +10,15 @@ export function titleCase(sentence: string) {
   return words.map((word) => capitalize(word)).join(" ");
 }
 
+const currencyFormatter = new Intl.NumberFormat("en-ZA", {
+  currency: "ZAR",
+  style: "currency",
+});
+
+export function getPrice(price: number) {
+  return currencyFormatter.format(price);
+}
+
 export function NewList<T>(): List<T> {
   return { list: [] };
 }

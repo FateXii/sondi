@@ -4,7 +4,7 @@
   </el-container>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, onMounted, onUnmounted } from "vue";
 import { onResize } from "./Helpers/GetScreenWidth";
 
@@ -24,7 +24,7 @@ export default defineComponent({
 
 <style scoped>
 .el-container {
-  justify-content: center;
+  /* justify-content: center; */
   flex-flow: column nowrap;
 }
 #app-container {

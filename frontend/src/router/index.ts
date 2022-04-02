@@ -1,17 +1,18 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "../views/Home.vue";
 import Admin from "../views/Admin.vue";
+import PropertyDetail from "@/views/PropertyDetail.vue";
+
 import LoginForm from "@/components/Admin/LoginForm.vue";
 import RegistrationForm from "@/components/Admin/RegistrationForm.vue";
 import AdminPanel from "@/components/Admin/AdminPanel.vue";
 import NewProperty from "@/components/Properties/NewProperty.vue";
 import PropertyList from "@/components/Properties/PropertyList.vue";
-import PropertyDetails from "@/components/Properties/PropertyDetail.vue";
+import Properties from "@/views/Properties.vue";
 import UserList from "@/components/User/UserList.vue";
 import UserDetails from "@/components/User/UserDetails.vue";
 import NewUser from "@/components/User/NewUser.vue";
 import NotFoundComponent from "@/components/NotFoundComponent.vue";
-import Properties from "@/views/Properties.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -41,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: ":id",
-        component: PropertyDetails,
+        component: PropertyDetail,
         props: true,
       },
     ],
@@ -75,7 +76,7 @@ const routes: Array<RouteRecordRaw> = [
           },
           {
             path: "properties/:id",
-            component: PropertyDetails,
+            component: PropertyDetail,
             props: true,
           },
           {

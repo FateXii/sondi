@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
   <el-container id="header-container">
     <header class="header">
       <router-link to="/" class="header__logo">
@@ -28,28 +28,16 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { AuthManager } from "@/composables/AuthManager";
-import { useRouter } from "vue-router";
 import HeaderMenuItems from "@/components/Header/HeaderMenuItems.vue";
-import ScreenWidth from "@/Helpers/GetScreenWidth";
 
 export default defineComponent({
   components: {
     HeaderMenuItems,
   },
   setup() {
-    const { loggedIn, user } = AuthManager();
     const drawer = ref(false);
-    const router = useRouter();
-    const goToDashboard = () => {
-      router.push("/dashboard");
-    };
     return {
-      goToDashboard,
       drawer,
-      loggedIn,
-      user,
-      ScreenWidth,
     };
   },
 });
@@ -57,6 +45,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .header {
+  top: 0;
   &__logo {
     width: 10rem;
     .logo {
